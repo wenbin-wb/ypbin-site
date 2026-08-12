@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useData } from 'vitepress'
+
+const { isDark } = useData()
 
 const screenshots = [
   { id: 'dashboard', label: '运行概览', description: '用户、角色、菜单与在线会话的真实统计。' },
@@ -35,7 +38,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           @click="active = { id: item.id, label: item.label }"
         >
           <img
-            :src="`/screenshots/admin-ui/${item.id}.webp`"
+            :src="isDark ? `/screenshots/admin-ui/${item.id}-dark.webp` : `/screenshots/admin-ui/${item.id}.webp`"
             :alt="`ypbin-admin ${item.label}真实运行截图`"
             width="1440"
             height="900"
@@ -62,7 +65,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         <button type="button" class="lightbox__close" aria-label="关闭" @click="active = null">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
         </button>
-        <img :src="`/screenshots/admin-ui/${active.id}.png`" :alt="`ypbin-admin ${active.label} 放大预览`" />
+        <img :src="isDark ? `/screenshots/admin-ui/${active.id}-dark.png` : `/screenshots/admin-ui/${active.id}.png`" :alt="`ypbin-admin ${active.label} 放大预览`" />
       </div>
     </Teleport>
   </section>

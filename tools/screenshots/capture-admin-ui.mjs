@@ -20,75 +20,85 @@ const scenes = [
   { id: 'licenses', route: '/system/license', ready: '.vxe-grid' }
 ]
 
-async function optimizeImage(id, pngBytes) {
-  const webpFile = resolve(outputDir, `${id}.webp`)
+async function optimizeImage(id, suffix, pngBytes) {
+  const webpFile = resolve(outputDir, `${id}${suffix}.webp`)
   await sharp(pngBytes).webp({ effort: 6, quality: 82 }).toFile(webpFile)
   const webpBytes = await readFile(webpFile)
   return {
-    webpPath: `screenshots/admin-ui/${id}.webp`,
+    webpPath: `screenshots/admin-ui/${id}${suffix}.webp`,
     webpSha256: createHash('sha256').update(webpBytes).digest('hex'),
     webpSize: webpBytes.length
   }
 }
 
-await mkdir(outputDir, { recursive: true })
-const browser = await chromium.launch({ channel: 'chrome', headless: true })
-const context = await browser.newContext({
-  colorScheme: 'light',
-  deviceScaleFactor: 1,
-  locale: 'zh-CN',
-  reducedMotion: 'reduce',
-  timezoneId: 'Asia/Shanghai',
-  viewport: { width: 1440, height: 900 }
-})
-const page = await context.newPage()
-await page.route('**/*', async (route) => {
-  const url = new URL(route.request().url())
-  if (['localhost', '127.0.0.1'].includes(url.hostname)) return route.continue()
-  return route.abort()
-})
-
-await page.goto(`${baseUrl}/auth/login`, { waitUntil: 'domcontentloaded' })
-await page.getByTestId('login-username').waitFor({ state: 'visible' })
-const loginFile = resolve(outputDir, 'login.png')
-await page.screenshot({ path: loginFile, fullPage: false })
-const loginBytes = await readFile(loginFile)
-const loginOptimized = await optimizeImage('login', loginBytes)
-const images = [{
-  id: 'login',
-  path: 'screenshots/admin-ui/login.png',
-  route: '/auth/login',
-  sha256: createHash('sha256').update(loginBytes).digest('hex'),
-  size: loginBytes.length,
-  viewport: { width: 1440, height: 900 },
-  ...loginOptimized
-}]
-await page.getByTestId('login-username').fill(username)
-await page.getByTestId('login-password').fill(password)
-await page.getByRole('button', { name: 'login' }).click()
-await page.waitForURL((url) => !url.pathname.includes('/auth/login'), { timeout: 30_000 })
-
-for (const scene of scenes) {
-  await page.goto(`${baseUrl}${scene.route}`, { waitUntil: 'domcontentloaded' })
-  await page.locator(scene.ready).first().waitFor({ state: 'visible', timeout: 30_000 })
-  await page.evaluate(() => document.fonts.ready)
-  await page.waitForTimeout(800)
-  const file = resolve(outputDir, `${scene.id}.png`)
-  await page.screenshot({ path: file, fullPage: false })
-  const bytes = await readFile(file)
-  const optimized = await optimizeImage(scene.id, bytes)
-  images.push({
-    id: scene.id,
-    path: `screenshots/admin-ui/${scene.id}.png`,
-    route: scene.route,
-    sha256: createHash('sha256').update(bytes).digest('hex'),
-    size: bytes.length,
-    viewport: { width: 1440, height: 900 },
-    ...optimized
+async function captureTheme(browser, suffix, colorScheme) {
+  const context = await browser.newContext({
+    colorScheme,
+    deviceScaleFactor: 1,
+    locale: 'zh-CN',
+    reducedMotion: 'reduce',
+    timezoneId: 'Asia/Shanghai',
+    viewport: { width: 1440, height: 900 }
   })
+  const page = await context.newPage()
+  await page.route('**/*', async (route) => {
+    const url = new URL(route.request().url())
+    if (['localhost', '127.0.0.1'].includes(url.hostname)) return route.continue()
+    return route.abort()
+  })
+
+  await page.goto(`${baseUrl}/auth/login`, { waitUntil: 'domcontentloaded' })
+  await page.getByTestId('login-username').waitFor({ state: 'visible' })
+  const loginFile = resolve(outputDir, `login${suffix}.png`)
+  await page.screenshot({ path: loginFile, fullPage: false })
+  const loginBytes = await readFile(loginFile)
+  const loginOptimized = await optimizeImage('login', suffix, loginBytes)
+  const images = [{
+    id: `login${suffix}`,
+    path: `screenshots/admin-ui/login${suffix}.png`,
+    route: '/auth/login',
+    theme: colorScheme,
+    sha256: createHash('sha256').update(loginBytes).digest('hex'),
+    size: loginBytes.length,
+    viewport: { width: 1440, height: 900 },
+    ...loginOptimized
+  }]
+  await page.getByTestId('login-username').fill(username)
+  await page.getByTestId('login-password').fill(password)
+  await page.getByRole('button', { name: 'login' }).click()
+  await page.waitForURL((url) => !url.pathname.includes('/auth/login'), { timeout: 30_000 })
+
+  for (const scene of scenes) {
+    await page.goto(`${baseUrl}${scene.route}`, { waitUntil: 'domcontentloaded' })
+    await page.locator(scene.ready).first().waitFor({ state: 'visible', timeout: 30_000 })
+    await page.evaluate(() => document.fonts.ready)
+    await page.waitForTimeout(800)
+    const file = resolve(outputDir, `${scene.id}${suffix}.png`)
+    await page.screenshot({ path: file, fullPage: false })
+    const bytes = await readFile(file)
+    const optimized = await optimizeImage(scene.id, suffix, bytes)
+    images.push({
+      id: `${scene.id}${suffix}`,
+      path: `screenshots/admin-ui/${scene.id}${suffix}.png`,
+      route: scene.route,
+      theme: colorScheme,
+      sha256: createHash('sha256').update(bytes).digest('hex'),
+      size: bytes.length,
+      viewport: { width: 1440, height: 900 },
+      ...optimized
+    })
+  }
+
+  await context.close()
+  return images
 }
 
+await mkdir(outputDir, { recursive: true })
+const browser = await chromium.launch({ channel: 'chrome', headless: true })
+const light = await captureTheme(browser, '', 'light')
+const dark = await captureTheme(browser, '-dark', 'dark')
 await browser.close()
+
 const capturedAt = new Date().toISOString()
 const artifactManifest = {
   schemaVersion: 1,
@@ -98,7 +108,7 @@ const artifactManifest = {
   workingTreeHash,
   environment: 'local-real-stack',
   redactions: ['tokens', 'personal-data', 'internal-hosts'],
-  images
+  images: [...light, ...dark]
 }
 await writeFile(
   resolve(outputDir, 'manifest.json'),
@@ -119,4 +129,4 @@ await writeFile(
     status: 'verified'
   }, null, 2)}\n`,
 )
-console.log(`Captured ${images.length} verified product screenshots.`)
+console.log(`Captured ${light.length + dark.length} screenshots (light + dark).`)
