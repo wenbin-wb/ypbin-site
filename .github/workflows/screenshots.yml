@@ -1,0 +1,104 @@
+name: Capture product screenshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      starter-ref:
+        description: ypbin-starter ref
+        default: master
+        required: true
+      admin-ref:
+        description: ypbin-admin ref
+        default: main
+        required: true
+      admin-ui-ref:
+        description: ypbin-admin-ui ref
+        default: main
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: root123456
+          MYSQL_DATABASE: ypbin_admin
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot123456"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s --health-timeout=3s --health-retries=12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: wenbin-wb/ypbin-starter
+          ref: ${{ inputs.starter-ref }}
+          path: sources/ypbin-starter
+      - uses: actions/checkout@v4
+        with:
+          repository: wenbin-wb/ypbin-admin
+          ref: ${{ inputs.admin-ref }}
+          path: sources/ypbin-admin
+      - uses: actions/checkout@v4
+        with:
+          repository: wenbin-wb/ypbin-admin-ui
+          ref: ${{ inputs.admin-ui-ref }}
+          path: sources/ypbin-admin-ui
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.16.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: pnpm
+      - name: Install starter snapshot
+        run: mvn -B -f sources/ypbin-starter/pom.xml -DskipTests install
+      - name: Start admin
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PASSWORD: root123456
+          REDIS_HOST: 127.0.0.1
+        run: |
+          mvn -B -f sources/ypbin-admin/ypbin-admin-server/pom.xml spring-boot:run > admin.log 2>&1 &
+          for i in {1..60}; do curl -fsS http://127.0.0.1:8080/auth/social/platforms && break; sleep 2; done
+      - name: Start admin UI
+        run: |
+          pnpm --dir sources/ypbin-admin-ui install --frozen-lockfile
+          pnpm --dir sources/ypbin-admin-ui -F @vben/web-antd run dev -- --host 0.0.0.0 > admin-ui.log 2>&1 &
+          for i in {1..60}; do curl -fsS http://localhost:5666/auth/login && break; sleep 2; done
+      - name: Install capture dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Record immutable source identity
+        run: |
+          echo "YPBIN_ADMIN_UI_REF=$(git -C sources/ypbin-admin-ui rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "YPBIN_ADMIN_UI_DIFF_SHA256=$(git -C sources/ypbin-admin-ui diff --binary | sha256sum | cut -d' ' -f1)" >> "$GITHUB_ENV"
+      - name: Capture verified screenshots
+        env:
+          YPBIN_ADMIN_UI_URL: http://localhost:5666
+        run: pnpm screenshots:capture
+      - name: Validate hashes
+        run: pnpm screenshots:validate
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ypbin-product-screenshots
+          path: docs/public/screenshots/admin-ui
+          if-no-files-found: error
