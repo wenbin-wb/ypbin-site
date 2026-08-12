@@ -33,6 +33,7 @@
     "pagefind": "1.5.2",
     "sharp": "0.34.3",
     "typescript": "6.0.3",
-    "vue-tsc": "3.3.9"
+    "vue-tsc": "3.3.9",
+    "wrangler": "4.121.0"
   }
 }
