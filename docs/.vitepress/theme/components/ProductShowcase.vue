@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
+
 const screenshots = [
   { id: 'dashboard', label: '运行概览', description: '用户、角色、菜单与在线会话的真实统计。' },
   { id: 'roles', label: '角色权限', description: '数据范围、启停状态与角色维护。' },
@@ -7,6 +9,15 @@ const screenshots = [
   { id: 'licenses', label: '商业授权', description: '授权签发、审批、交付与运行状态。' },
   { id: 'login', label: '登录入口', description: '本地 Y-Frame 品牌与真实认证表单。' }
 ]
+
+const active = ref<{ id: string; label: string } | null>(null)
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') active.value = null
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown))
+onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 </script>
 
 <template>
@@ -17,7 +28,12 @@ const screenshots = [
     </div>
     <div class="showcase-grid">
       <figure v-for="item in screenshots" :key="item.id" class="showcase-card">
-        <a :href="`/screenshots/admin-ui/${item.id}.png`" target="_blank" rel="noreferrer">
+        <button
+          type="button"
+          class="showcase-card__view"
+          :aria-label="`放大查看 ${item.label}`"
+          @click="active = { id: item.id, label: item.label }"
+        >
           <img
             :src="`/screenshots/admin-ui/${item.id}.webp`"
             :alt="`ypbin-admin ${item.label}真实运行截图`"
@@ -25,7 +41,7 @@ const screenshots = [
             height="900"
             loading="lazy"
           />
-        </a>
+        </button>
         <figcaption><strong>{{ item.label }}</strong><span>{{ item.description }}</span></figcaption>
       </figure>
     </div>
@@ -34,5 +50,20 @@ const screenshots = [
       <code>admin-ui@543cb63e</code>
       <a href="/screenshots/admin-ui/manifest.json">查看采集清单与哈希 <span aria-hidden="true">→</span></a>
     </div>
+    <Teleport to="body">
+      <div
+        v-if="active"
+        class="lightbox"
+        role="dialog"
+        aria-modal="true"
+        :aria-label="`${active.label} 放大预览`"
+        @click.self="active = null"
+      >
+        <button type="button" class="lightbox__close" aria-label="关闭" @click="active = null">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+        </button>
+        <img :src="`/screenshots/admin-ui/${active.id}.png`" :alt="`ypbin-admin ${active.label} 放大预览`" />
+      </div>
+    </Teleport>
   </section>
 </template>

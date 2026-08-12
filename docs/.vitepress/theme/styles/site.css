@@ -16,6 +16,9 @@
 .home-nav__theme:active { transform: scale(.96); }
 .theme-icon { width: 16px; height: 16px; }
 
+/* 文档页统一使用品牌导航,隐藏 VitePress 默认顶栏 */
+.VPNavBar { display: none; }
+
 /* 搜索按钮（替换 VitePress 默认搜索） */
 .yp-search-btn { display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 12px; border: 1px solid var(--yp-line); border-radius: 6px; color: var(--yp-text-soft); background: var(--yp-surface-alt); font: 500 13px var(--yp-font-body); cursor: pointer; transition: border-color .18s cubic-bezier(.16,1,.3,1), color .18s cubic-bezier(.16,1,.3,1); }
 .yp-search-btn:hover { color: var(--yp-text); border-color: var(--yp-text-soft); }

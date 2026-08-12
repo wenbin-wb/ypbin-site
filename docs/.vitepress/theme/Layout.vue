@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
 import { useData } from 'vitepress'
+import HomeNav from './components/HomeNav.vue'
 import HomePage from './components/HomePage.vue'
 import PagefindModal from './components/PagefindModal.vue'
-import VpnSearchButton from './components/VpnSearchButton.vue'
 
 const { frontmatter } = useData()
 </script>
@@ -13,8 +13,8 @@ const { frontmatter } = useData()
   <PagefindModal />
   <HomePage v-if="frontmatter.layout === 'home-custom'" />
   <DefaultTheme.Layout v-else>
-    <template #nav-bar-content-after>
-      <VpnSearchButton class="vp-search-btn" />
+    <template #layout-top>
+      <HomeNav />
     </template>
   </DefaultTheme.Layout>
 </template>

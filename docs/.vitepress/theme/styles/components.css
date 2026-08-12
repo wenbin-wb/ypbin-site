@@ -19,12 +19,21 @@
 
 .showcase-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .showcase-card { min-width: 0; margin: 0; border-radius: 12px; overflow: hidden; background: var(--yp-surface); box-shadow: var(--yp-elevate); }
-.showcase-card > a { display: block; overflow: hidden; background: var(--yp-surface-alt); }
-.showcase-card img { display: block; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; transition: transform .25s ease; }
-.showcase-card a:hover img { transform: scale(1.012); }
+.showcase-card__view { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.showcase-card__view img { display: block; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; transition: transform .25s ease; }
+.showcase-card__view:hover img { transform: scale(1.012); }
 .showcase-card figcaption { display: grid; gap: 6px; padding: 16px 18px 18px; border-top: 1px solid var(--yp-line); }
 .showcase-card strong { color: var(--yp-text); font-size: 14px; }
 .showcase-card span { color: var(--yp-text-soft); font-size: 13px; line-height: 1.6; }
+
+/* 截图放大预览 */
+.lightbox { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(8, 11, 16, .86); backdrop-filter: blur(6px); animation: lightbox-in .25s cubic-bezier(.16,1,.3,1); }
+.lightbox img { max-width: 100%; max-height: calc(100vh - 72px); border-radius: 8px; box-shadow: 0 24px 80px rgba(0,0,0,.55); }
+.lightbox__close { position: absolute; top: 20px; right: 20px; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; color: #fff; background: rgba(255,255,255,.08); cursor: pointer; transition: background .18s cubic-bezier(.16,1,.3,1); }
+.lightbox__close:hover { background: rgba(255,255,255,.16); }
+.lightbox__close svg { width: 18px; height: 18px; }
+@keyframes lightbox-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lightbox { animation: none; } }
 .showcase-proof { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 20px; padding: 14px 18px; border: 1px solid var(--yp-line); border-radius: 6px; color: var(--yp-text-soft); font-size: 12px; background: var(--yp-surface-alt); }
 .showcase-proof code { color: var(--yp-cyan-dark); }
 .showcase-proof a { margin-left: auto; color: var(--yp-blue); font-weight: 700; }
