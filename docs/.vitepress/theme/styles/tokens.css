@@ -1,0 +1,115 @@
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans SC";
+  src: url("/fonts/NotoSansSC-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+FF00-FFEF, U+4E00-9FFF;
+}
+
+@font-face {
+  font-family: "Noto Sans SC";
+  src: url("/fonts/NotoSansSC-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+3000-303F, U+FF00-FFEF, U+4E00-9FFF;
+}
+
+:root {
+  --yp-ink: #0a0a0a;
+  --yp-ink-soft: #171717;
+  --yp-panel: #ffffff;
+  --yp-panel-soft: #fafafa;
+  --yp-line: #e5e5e5;
+  --yp-line-soft: #ececec;
+  --yp-blue: #3655c4;
+  --yp-blue-bright: #4264e3;
+  --yp-cyan: #0f8b96;
+  --yp-cyan-dark: #0b6870;
+  --yp-text: #0a0a0a;
+  --yp-text-soft: #525252;
+  --yp-text-muted: #8a8a8a;
+  --yp-surface: #ffffff;
+  --yp-surface-alt: #f5f5f5;
+  --yp-code-bg: #0d1117;
+  --yp-code-text: #d4d4d4;
+  --yp-success: #1a7f4e;
+  --yp-warning: #92610a;
+  --yp-font-display: "Geist", "Noto Sans SC", "Segoe UI Variable Display", "Microsoft YaHei UI", "PingFang SC", sans-serif;
+  --yp-font-body: "Geist", "Noto Sans SC", "Segoe UI Variable Text", "Microsoft YaHei UI", "PingFang SC", sans-serif;
+  --yp-font-mono: "Geist Mono", "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  --yp-elevate: 0 1px 2px rgba(10, 10, 10, .05), 0 12px 32px -14px rgba(10, 10, 10, .12);
+  --yp-max: 1240px;
+  --vp-c-brand-1: var(--yp-blue);
+  --vp-c-brand-2: #4264e3;
+  --vp-c-brand-3: #3655c4;
+  --vp-font-family-base: var(--yp-font-body);
+  --vp-font-family-mono: var(--yp-font-mono);
+}
+
+.dark {
+  --yp-ink: #f5f5f5;
+  --yp-panel: #111111;
+  --yp-panel-soft: #171717;
+  --yp-line: #2a2a2a;
+  --yp-line-soft: #1f1f1f;
+  --yp-blue: #6f8cff;
+  --yp-blue-bright: #85a0ff;
+  --yp-cyan: #4fd1dc;
+  --yp-cyan-dark: #2c8891;
+  --yp-text: #f5f5f5;
+  --yp-text-soft: #a3a3a3;
+  --yp-text-muted: #737373;
+  --yp-surface: #111111;
+  --yp-surface-alt: #171717;
+  --yp-elevate: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px -18px rgba(0, 0, 0, .6);
+  --vp-c-bg: #0a0a0a;
+  --vp-c-bg-soft: #111111;
+  --vp-c-bg-alt: #0d0d0d;
+}
+
+::selection { background: rgba(54, 85, 196, .16); }
+.dark ::selection { background: rgba(111, 140, 255, .26); }
+*:focus-visible { outline: 2px solid var(--yp-cyan); outline-offset: 4px; }
+html { scroll-behavior: smooth; text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+body { min-width: 0; margin: 0; font-family: var(--yp-font-body); }
+
+.skip-link { position: fixed; z-index: 999; top: 12px; left: 12px; transform: translateY(-150%); padding: 10px 14px; color: #fff; background: var(--yp-blue); font-weight: 700; }
+.skip-link:focus { transform: translateY(0); }
+
+/* 文档表格：fixed 固定列宽 + 长值 anywhere 断行，列不撑宽、行不撑高 */
+.vp-doc :has(> table) { overflow-x: auto; max-width: 100%; }
+.vp-doc table { display: table; width: 100%; min-width: 560px; table-layout: fixed; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+.vp-doc th { padding: 10px 14px; color: var(--vp-c-text-1); font-weight: 600; text-align: left; background: var(--vp-c-bg-alt); border-bottom: 1px solid var(--vp-c-divider); white-space: nowrap; }
+.vp-doc td { padding: 12px 14px; border-bottom: 1px solid var(--vp-c-divider); vertical-align: top; line-height: 1.6; overflow-wrap: anywhere; word-break: normal; }
+.vp-doc tr:last-child td { border-bottom: 0; }
+.vp-doc th:nth-child(1), .vp-doc td:nth-child(1) { width: 28%; }
+.vp-doc th:nth-child(2), .vp-doc td:nth-child(2) { width: 24%; }
+.vp-doc th:nth-child(3), .vp-doc td:nth-child(3) { width: 48%; }
+.vp-doc td:first-child code { font-family: var(--yp-font-mono); font-size: 12px; color: var(--yp-cyan-dark); }
+.dark .vp-doc td:first-child code { color: #7fe3ea; }
+.vp-doc .cfg-src { color: var(--vp-c-text-3); font: 11px var(--yp-font-mono); }
+.vp-doc td:first-child .cfg-src { display: block; margin-top: 4px; }
+.vp-doc td code { font-family: var(--yp-font-mono); font-size: 12px; }
+.vp-doc .cfg-value { font-family: var(--yp-font-mono); font-size: 10.5px; line-height: 1.5; color: var(--vp-c-text-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

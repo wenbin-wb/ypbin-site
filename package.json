@@ -1,0 +1,38 @@
+{
+  "name": "ypbin-site",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ypbin 官方网站与文档门户",
+  "packageManager": "pnpm@11.16.0",
+  "engines": {
+    "node": ">=22.18.0",
+    "pnpm": ">=11.0.0"
+  },
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs && pagefind --site docs/.vitepress/dist",
+    "preview": "vitepress preview docs",
+    "typecheck": "vue-tsc --noEmit",
+    "check:content": "node scripts/check-content.mjs",
+    "docs:config": "node scripts/generate-config-docs.mjs",
+    "screenshots:capture": "node tools/screenshots/capture-admin-ui.mjs",
+    "screenshots:validate": "node tools/screenshots/validate-manifest.mjs",
+    "check": "pnpm docs:config && pnpm screenshots:validate && pnpm typecheck && pnpm check:content && pnpm build",
+    "search:pagefind": "pnpm dlx pagefind@1.4.0 --site docs/.vitepress/dist"
+  },
+  "dependencies": {
+    "@pagefind/default-ui": "1.5.2",
+    "shiki": "2.1.0",
+    "vitepress": "1.6.4",
+    "vue": "3.5.41"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "@types/node": "24.10.1",
+    "pagefind": "1.5.2",
+    "sharp": "0.34.3",
+    "typescript": "6.0.3",
+    "vue-tsc": "3.3.9"
+  }
+}

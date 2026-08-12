@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ypbin-site",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev", "--host", "127.0.0.1", "--port", "4173"],
+      "port": 4173
+    }
+  ]
+}

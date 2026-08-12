@@ -1,0 +1,19 @@
+# ypbin
+
+> ypbin 是由 Spring Boot starter、企业后台服务和 Vue 3 管理前端组成的开发者基础设施项目。
+
+## Documentation
+
+- [Architecture](https://ypbin.cn/architecture): 产品边界与依赖方向
+- [Releases](https://ypbin.cn/releases): 版本状态与 starter 版本历史
+- [Starter guide](https://ypbin.cn/guide/starter/): 稳定版快速开始
+- [Starter modules](https://ypbin.cn/guide/starter/modules/): 34 个 Maven 模块分文档
+- [Starter configuration](https://ypbin.cn/guide/config/starter): 完整配置参考
+- [Admin guide](https://ypbin.cn/guide/admin/): 后台服务快速开始
+- [Admin architecture](https://ypbin.cn/guide/admin/architecture): 模块结构与 starter 集成
+- [Admin API contract](https://ypbin.cn/guide/admin/api): 全部接口请求/响应契约
+- [Admin configuration](https://ypbin.cn/guide/config/admin): 环境、应用和数据库参数
+- [Admin UI guide](https://ypbin.cn/guide/admin-ui/): 管理前端快速开始
+- [Admin UI development](https://ypbin.cn/guide/admin-ui/development): 页面开发规范
+- [Admin UI configuration](https://ypbin.cn/guide/config/admin-ui): 前端配置参考
+- [Commercial licensing](https://ypbin.cn/guide/admin/license): 签发、审批、交付和消费端校验

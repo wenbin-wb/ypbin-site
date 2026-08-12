@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "product": "admin",
+  "sourceRepository": "wenbin-wb/ypbin-admin",
+  "sourceRef": null,
+  "capturedAt": null,
+  "environment": "ci",
+  "seedProfile": "screenshot-fixture",
+  "redactions": ["tokens", "personal-data"],
+  "status": "planned"
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "product": "starter",
+  "sourceRepository": "wenbin-wb/ypbin-starter",
+  "sourceRef": null,
+  "capturedAt": null,
+  "environment": "ci",
+  "redactions": [],
+  "status": "planned"
+}

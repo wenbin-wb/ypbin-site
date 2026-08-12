@@ -1,0 +1,2534 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-10",
+  "project": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin",
+  "summary": {
+    "total": 133,
+    "environment": 19,
+    "application": 62,
+    "database": 52,
+    "unconfirmed": 6
+  },
+  "entries": [
+    {
+      "key": "DB_HOST",
+      "type": "string",
+      "defaultValue": "localhost",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "db host",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 7
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "DB_PORT",
+      "type": "integer",
+      "defaultValue": 3306,
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "db port",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 8
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "DB_NAME",
+      "type": "string",
+      "defaultValue": "ypbin_admin",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "db name",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 9
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "DB_USER",
+      "type": "string",
+      "defaultValue": "root",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "db user",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产禁止使用 root，采用最小权限账号。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 10
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "DB_PASSWORD",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "生产环境必须设置",
+      "description": "db password",
+      "allowedValues": null,
+      "safetyNotes": [
+        "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 11
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "REDIS_HOST",
+      "type": "string",
+      "defaultValue": "localhost",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "redis host",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 14
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "REDIS_PORT",
+      "type": "integer",
+      "defaultValue": 6379,
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "redis port",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 15
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "REDIS_DB",
+      "type": "integer",
+      "defaultValue": 0,
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "redis db",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 16
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "REDIS_PASSWORD",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "redis password",
+      "allowedValues": null,
+      "safetyNotes": [
+        "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 17
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "LICENSE_ISSUER_PUBLIC_KEY",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "license issuer public key",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 23
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "LICENSE_ISSUER_PRIVATE_KEY",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "执行 License 签发时必须设置",
+      "description": "license issuer private key",
+      "allowedValues": null,
+      "safetyNotes": [
+        "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 24
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "LICENSE_ISSUER_SM4_KEY",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "执行 License 签发时必须设置",
+      "description": "license issuer sm4 key",
+      "allowedValues": null,
+      "safetyNotes": [
+        "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/.env.example",
+          "line": 25
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "ADMIN_BOOTSTRAP_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "admin bootstrap enabled",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 38
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "ADMIN_BOOTSTRAP_USERNAME",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "ADMIN_BOOTSTRAP_ENABLED=true 时必须设置",
+      "description": "admin bootstrap username",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 39
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "ADMIN_BOOTSTRAP_PASSWORD",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "ADMIN_BOOTSTRAP_ENABLED=true 时必须设置",
+      "description": "admin bootstrap password",
+      "allowedValues": null,
+      "safetyNotes": [
+        "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 40
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "ADMIN_BOOTSTRAP_REAL_NAME",
+      "type": "string",
+      "defaultValue": "平台管理员",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "admin bootstrap real name",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 41
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "ADMIN_BOOTSTRAP_TENANT_ID",
+      "type": "integer",
+      "defaultValue": 1,
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "admin bootstrap tenant id",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 42
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "ADMIN_JOB_RECONCILE_DELAY",
+      "type": "integer",
+      "defaultValue": 30000,
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "admin job reconcile delay",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 44
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "API_CRYPTO_KEY",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "可选；未设置时使用 application.yml 默认值",
+      "description": "api crypto key",
+      "allowedValues": null,
+      "safetyNotes": [
+        "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。",
+        "当前 YAML 路径错误且未确认模块依赖，实际不生效。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 132
+        }
+      ],
+      "category": "environment",
+      "status": "active"
+    },
+    {
+      "key": "server.port",
+      "type": "integer",
+      "defaultValue": 8080,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "HTTP 服务监听端口",
+      "allowedValues": "1..65535",
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 2
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.application.name",
+      "type": "string",
+      "defaultValue": "ypbin-admin",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "应用名称",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 6
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.datasource.driver-class-name",
+      "type": "string",
+      "defaultValue": "com.mysql.cj.jdbc.Driver",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "spring.datasource.driver-class-name 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 8
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.datasource.url",
+      "type": "string",
+      "defaultValue": "jdbc:mysql://localhost:3306/ypbin_admin?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "MySQL JDBC 连接串",
+      "allowedValues": null,
+      "safetyNotes": [
+        "当前 useSSL=false 且 allowPublicKeyRetrieval=true；生产应启用并校验 TLS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 9
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.datasource.username",
+      "type": "string",
+      "defaultValue": "root",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "数据库账号",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 10
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.datasource.password",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "数据库密码",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 11
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.data.redis.host",
+      "type": "string",
+      "defaultValue": "localhost",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "Redis 主机",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 14
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.data.redis.port",
+      "type": "integer",
+      "defaultValue": 6379,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "Redis 端口",
+      "allowedValues": "1..65535",
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 15
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.data.redis.database",
+      "type": "integer",
+      "defaultValue": 0,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "Redis 逻辑库",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 16
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.data.redis.password",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "Redis 密码",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 17
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.flyway.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "启动时执行 Flyway 迁移",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 19
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.flyway.baseline-on-migrate",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "spring.flyway.baseline-on-migrate 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 20
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.flyway.locations",
+      "type": "string",
+      "defaultValue": "classpath:db/migration",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "spring.flyway.locations 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 21
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "spring.flyway.encoding",
+      "type": "string",
+      "defaultValue": "UTF-8",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "spring.flyway.encoding 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 22
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.token-name",
+      "type": "string",
+      "defaultValue": "Authorization",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.token-name 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 26
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.token-prefix",
+      "type": "string",
+      "defaultValue": "Bearer",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.token-prefix 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 27
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.timeout",
+      "type": "integer",
+      "defaultValue": 2592000,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.timeout 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 28
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.active-timeout",
+      "type": "integer",
+      "defaultValue": 1800,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.active-timeout 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 29
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.auto-renew",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.auto-renew 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 30
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.is-read-cookie",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.is-read-cookie 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 31
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "sa-token.is-print",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "sa-token.is-print 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 32
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.admin.bootstrap.enabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "一次性平台管理员初始化开关",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 38
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.admin.bootstrap.username",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "ypbin.admin.bootstrap.enabled=true 时必须有效",
+      "description": "初始化管理员用户名",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 39
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.admin.bootstrap.password",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "ypbin.admin.bootstrap.enabled=true 时必须有效",
+      "description": "初始化管理员密码",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 40
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.admin.bootstrap.real-name",
+      "type": "string",
+      "defaultValue": "平台管理员",
+      "requiredWhen": "ypbin.admin.bootstrap.enabled=true 时必须有效",
+      "description": "ypbin.admin.bootstrap.real-name 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 41
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.admin.bootstrap.tenant-id",
+      "type": "integer",
+      "defaultValue": 1,
+      "requiredWhen": "ypbin.admin.bootstrap.enabled=true 时必须有效",
+      "description": "ypbin.admin.bootstrap.tenant-id 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 42
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.admin.job.reconcile-delay",
+      "type": "integer",
+      "defaultValue": 30000,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "任务对账间隔（毫秒）",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 44
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.web.repeatable-read.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.web.repeatable-read.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 47
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.web.cors.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.web.cors.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 49
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.web.cors.allowed-origin-patterns",
+      "type": "array<string>",
+      "defaultValue": [
+        "http://localhost:*"
+      ],
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.web.cors.allowed-origin-patterns 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 50
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.web.xss.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.web.xss.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 52
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.web.xss.excludes",
+      "type": "array<string>",
+      "defaultValue": [
+        "/webhook/**"
+      ],
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.web.xss.excludes 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 53
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.security.interceptor",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.security.interceptor 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 55
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.tenant.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.tenant.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 68
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.tenant.column",
+      "type": "string",
+      "defaultValue": "tenant_id",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.tenant.column 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 69
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.sign.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.sign.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 92
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.sign.mode",
+      "type": "string",
+      "defaultValue": "ANNOTATION",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "接口签名校验模式",
+      "allowedValues": [
+        "ANNOTATION",
+        "GLOBAL"
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 93
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.license.enabled",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.license.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 95
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.license.issuer.public-key",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "签发时 private-key 与 sm4-key 必填",
+      "description": "ypbin.license.issuer.public-key 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 97
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.license.issuer.private-key",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "签发时 private-key 与 sm4-key 必填",
+      "description": "License 签发 SM2 私钥",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 98
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.license.issuer.sm4-key",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "签发时 private-key 与 sm4-key 必填",
+      "description": "License 签发 SM4 密钥",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 99
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.log.access.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.log.access.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 108
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.data-permission.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.data-permission.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 117
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.async.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "ypbin.async.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 119
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.sse.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "SSE 开关（当前 key 与 starter 不匹配）",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "starter 实际 key 为 ypbin.se.enabled。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 121
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.expire.default",
+      "type": "integer",
+      "defaultValue": 60000,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "行为验证码默认有效期",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 126
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "captcha.sensitive-words.replacement",
+      "type": "string",
+      "defaultValue": "*",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.sensitive-words.replacement 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 128
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.i18n.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.i18n.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 130
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.api-crypto.key",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.api-crypto.key 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 132
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.observability.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.observability.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 136
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.observability.request-id-header",
+      "type": "string",
+      "defaultValue": "X-Request-Id",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.observability.request-id-header 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 137
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.observability.mdc-key",
+      "type": "string",
+      "defaultValue": "requestId",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.observability.mdc-key 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 138
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.api-doc.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.api-doc.enabled 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 140
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.api-doc.title",
+      "type": "string",
+      "defaultValue": "ypbin-admin API",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.api-doc.title 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 141
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.api-doc.description",
+      "type": "string",
+      "defaultValue": "企业级后台管理系统接口文档",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.api-doc.description 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 142
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.api-doc.version",
+      "type": "string",
+      "defaultValue": "1.0.0",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.api-doc.version 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 143
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "captcha.api-doc.contact.name",
+      "type": "string",
+      "defaultValue": "wenbin",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "captcha.api-doc.contact.name 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 145
+        }
+      ],
+      "category": "application",
+      "status": "misconfigured"
+    },
+    {
+      "key": "mybatis-plus.configuration.map-underscore-to-camel-case",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "mybatis-plus.configuration.map-underscore-to-camel-case 配置",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 149
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "logging.pattern.level",
+      "type": "string",
+      "defaultValue": "%5p [${spring.application.name:},%X{requestId:-}]",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "logging.pattern.level 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 153
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "logging.level.cn.ypbin.admin",
+      "type": "string",
+      "defaultValue": "debug",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "logging.level.cn.ypbin.admin 配置",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 155
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "management.endpoints.web.exposure.include",
+      "type": "string",
+      "defaultValue": "health,info",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "management.endpoints.web.exposure.include 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "当前未引入 Actuator。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 165
+        }
+      ],
+      "category": "application",
+      "status": "inactive-missing-dependency"
+    },
+    {
+      "key": "management.endpoint.health.show-details",
+      "type": "string",
+      "defaultValue": "when_authorized",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "management.endpoint.health.show-details 配置",
+      "allowedValues": null,
+      "safetyNotes": [
+        "当前未引入 Actuator。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 168
+        }
+      ],
+      "category": "application",
+      "status": "inactive-missing-dependency"
+    },
+    {
+      "key": "SITE_NAME",
+      "type": "string",
+      "defaultValue": "ypbin-admin",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "site / 系统名称",
+      "allowedValues": null,
+      "safetyNotes": [
+        "未发现后端 Java 消费点。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 100
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SITE_COPYRIGHT",
+      "type": "string",
+      "defaultValue": "ypbin",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "site / 版权信息",
+      "allowedValues": null,
+      "safetyNotes": [
+        "未发现后端 Java 消费点。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 101
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "LOGIN_CAPTCHA_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "login / 是否开启登录验证码",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 102
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "LOGIN_SMS_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "login / 是否开启短信验证码登录",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 103
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_MIN_LENGTH",
+      "type": "integer",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 密码最小长度",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 104
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_REQUIRE_DIGIT",
+      "type": "boolean",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 是否必须含数字",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 105
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_REQUIRE_LETTER",
+      "type": "boolean",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 是否必须含字母",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 106
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_REQUIRE_SYMBOL",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 是否必须含特殊字符",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 107
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_ALLOW_CONTAIN_USERNAME",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 是否允许含用户名",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 108
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_ERROR_LOCK_COUNT",
+      "type": "integer",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 登录错误锁定阈值",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 109
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_LOCK_MINUTES",
+      "type": "integer",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 账号锁定时长(分钟)",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 110
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_EXPIRATION_DAYS",
+      "type": "integer",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 密码有效期(天)",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 111
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "PASSWORD_HISTORY_COUNT",
+      "type": "integer",
+      "defaultValue": "<redacted>",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "password / 历史密码不可重复次数",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 112
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_SUPPLIER",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "LOGIN_SMS_ENABLED=true 时按供应商要求必填",
+      "description": "sms / 短信厂商",
+      "allowedValues": "由运行时 sms4j provider jar 决定",
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 113
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_ACCESS_KEY_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "LOGIN_SMS_ENABLED=true 时按供应商要求必填",
+      "description": "sms / AccessKeyId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 114
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_ACCESS_KEY_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "LOGIN_SMS_ENABLED=true 时按供应商要求必填",
+      "description": "sms / AccessKeySecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 115
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_SIGNATURE",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "LOGIN_SMS_ENABLED=true 时按供应商要求必填",
+      "description": "sms / 短信签名",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 116
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_TEMPLATE_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "LOGIN_SMS_ENABLED=true 时按供应商要求必填",
+      "description": "sms / 验证码模板ID",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 117
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_CODE_EXPIRE_SECONDS",
+      "type": "integer",
+      "defaultValue": 300,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "sms / 验证码有效期(秒)",
+      "allowedValues": null,
+      "safetyNotes": [
+        "必须大于 0。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 118
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SMS_CODE_COOLDOWN_SECONDS",
+      "type": "integer",
+      "defaultValue": 60,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "sms / 验证码发送冷却(秒)",
+      "allowedValues": null,
+      "safetyNotes": [
+        "必须大于 0。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 119
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_HOST",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "发送邮件时必填",
+      "description": "mail / SMTP 服务器",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 120
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_PORT",
+      "type": "integer",
+      "defaultValue": 465,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "mail / SMTP 端口",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 121
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_USERNAME",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "发送邮件时必填",
+      "description": "mail / 邮箱账号",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 122
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_PASSWORD",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "发送邮件时必填",
+      "description": "mail / 邮箱密码/授权码",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 123
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_FROM",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "发送邮件时必填",
+      "description": "mail / 发件地址",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 124
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_FROM_NAME",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "mail / 发件人名称",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 125
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "MAIL_SSL_ENABLED",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "可选；缺失时使用 Java 默认值或关闭能力",
+      "description": "mail / 是否 SSL",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 126
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITHUB_CLIENT_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / GitHub ClientId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 127
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITHUB_CLIENT_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / GitHub ClientSecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。",
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 128
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITHUB_REDIRECT_URI",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / GitHub 回调地址",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 129
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITEE_CLIENT_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / Gitee ClientId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 130
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITEE_CLIENT_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / Gitee ClientSecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。",
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 131
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITEE_REDIRECT_URI",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / Gitee 回调地址",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 132
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_QQ_CLIENT_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / QQ ClientId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 133
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_QQ_CLIENT_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / QQ ClientSecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。",
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 134
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_QQ_REDIRECT_URI",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / QQ 回调地址",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 135
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_WECHAT_OPEN_CLIENT_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 微信开放平台 ClientId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 136
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_WECHAT_OPEN_CLIENT_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 微信开放平台 ClientSecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。",
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 137
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_WECHAT_OPEN_REDIRECT_URI",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 微信开放平台 回调地址",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 138
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_ALIPAY_CLIENT_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 支付宝 ClientId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 139
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_ALIPAY_CLIENT_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 支付宝 ClientSecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。",
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 140
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_ALIPAY_REDIRECT_URI",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 支付宝 回调地址",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 141
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_DINGTALK_CLIENT_ID",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 钉钉 ClientId",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 142
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_DINGTALK_CLIENT_SECRET",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 钉钉 ClientSecret",
+      "allowedValues": null,
+      "safetyNotes": [
+        "数据库明文存储敏感值，仅接口响应脱敏；限制数据库、备份和日志访问。",
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 143
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_DINGTALK_REDIRECT_URI",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 钉钉 回调地址",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 144
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITHUB_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / GitHub 是否启用",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 145
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_GITEE_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / Gitee 是否启用",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 146
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_QQ_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / QQ 是否启用",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 147
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_WECHAT_OPEN_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 微信开放平台是否启用",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 148
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_ALIPAY_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 支付宝是否启用",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 149
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_DINGTALK_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 钉钉是否启用",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 150
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "SOCIAL_ALIPAY_PUBLIC_KEY",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应平台 ENABLED=true 时 ClientId、ClientSecret、Redirect URI 必填；支付宝还需公钥",
+      "description": "social / 支付宝公钥",
+      "allowedValues": null,
+      "safetyNotes": [
+        "生产回调地址应使用 HTTPS。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/db/migration/V2__data.sql",
+          "line": 151
+        }
+      ],
+      "category": "database",
+      "status": "active"
+    }
+  ],
+  "unconfirmed": [
+    {
+      "item": "部署环境实际值",
+      "reason": "未读取 .env；外置配置与 Secret 注入不可静态确认。"
+    },
+    {
+      "item": "运行中 sys_config 值",
+      "reason": "报告记录 Flyway 初值，实际数据库可能已修改。"
+    },
+    {
+      "item": "captcha.expire.default 单位",
+      "reason": "项目注释按毫秒，第三方依赖源码不在仓库。"
+    },
+    {
+      "item": "SMS_SUPPLIER 合法集合",
+      "reason": "由最终打包 provider jar 决定。"
+    },
+    {
+      "item": "多实例 sys_config 一致性",
+      "reason": "仅刷新本 JVM 缓存，未发现跨节点广播。"
+    },
+    {
+      "item": "sys_config status 语义",
+      "reason": "缓存加载未按 status 过滤。"
+    }
+  ],
+  "safetyFindings": [
+    "未读取或输出 .env 真值。",
+    "数据库凭据与 License 密钥应通过 Secret 管理并轮换。",
+    "captcha 下多组属性缩进错误。",
+    "ypbin.sse.enabled 与 starter 实际 ypbin.se.enabled 不一致。"
+  ]
+}

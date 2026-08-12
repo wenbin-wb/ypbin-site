@@ -1,0 +1,38 @@
+<script setup lang="ts">
+const screenshots = [
+  { id: 'dashboard', label: '运行概览', description: '用户、角色、菜单与在线会话的真实统计。' },
+  { id: 'roles', label: '角色权限', description: '数据范围、启停状态与角色维护。' },
+  { id: 'menus', label: '动态菜单', description: '后端菜单、权限标识与页面组件。' },
+  { id: 'jobs', label: '任务调度', description: 'Spring Cron、执行器和并发控制。' },
+  { id: 'licenses', label: '商业授权', description: '授权签发、审批、交付与运行状态。' },
+  { id: 'login', label: '登录入口', description: '本地 Y-Frame 品牌与真实认证表单。' }
+]
+</script>
+
+<template>
+  <section class="home-section showcase-section" aria-labelledby="showcase-title">
+    <div class="section-heading">
+      <h2 id="showcase-title">来自真实运行态的产品界面。</h2>
+      <p>全部图片由真实 admin 与 admin-ui 自动采集，阻断外网并记录源码提交、工作区指纹、视口和 SHA-256；不使用手绘界面或上游截图。</p>
+    </div>
+    <div class="showcase-grid">
+      <figure v-for="item in screenshots" :key="item.id" class="showcase-card">
+        <a :href="`/screenshots/admin-ui/${item.id}.png`" target="_blank" rel="noreferrer">
+          <img
+            :src="`/screenshots/admin-ui/${item.id}.webp`"
+            :alt="`ypbin-admin ${item.label}真实运行截图`"
+            width="1440"
+            height="900"
+            loading="lazy"
+          />
+        </a>
+        <figcaption><strong>{{ item.label }}</strong><span>{{ item.description }}</span></figcaption>
+      </figure>
+    </div>
+    <div class="showcase-proof">
+      <span>6 张已验证截图</span>
+      <code>admin-ui@543cb63e</code>
+      <a href="/screenshots/admin-ui/manifest.json">查看采集清单与哈希 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</template>

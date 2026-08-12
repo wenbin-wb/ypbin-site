@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "product": "admin-ui",
+  "sourceRepository": "wenbin-wb/ypbin-admin-ui",
+  "sourceRef": "543cb63e6140735b6ab1eb8425b24af1dac2923c",
+  "capturedAt": "2026-08-11T00:19:43.881Z",
+  "environment": "local-real-stack",
+  "seedProfile": "V2-development-seed",
+  "redactions": ["tokens", "personal-data", "internal-hosts"],
+  "artifactManifest": "docs/public/screenshots/admin-ui/manifest.json",
+  "status": "verified"
+}

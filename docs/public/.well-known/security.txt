@@ -1,0 +1,5 @@
+Contact: mailto:security@ypbin.cn
+Canonical: https://ypbin.cn/.well-known/security.txt
+Preferred-Languages: zh-CN, en
+Expires: 2027-08-10T00:00:00.000Z
+Policy: https://ypbin.cn/security
