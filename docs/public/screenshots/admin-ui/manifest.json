@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "capturedAt": "2026-08-13T12:24:33.471Z",
+  "capturedAt": "2026-08-13T12:54:24.295Z",
   "sourceRepository": "wenbin-wb/ypbin-admin-ui",
   "sourceRef": "543cb63e6140735b6ab1eb8425b24af1dac2923c",
   "workingTreeHash": "9546dce52275068a1a699f7e364c65d80d6660351cdab4122f854f53c4244473",
@@ -31,75 +31,75 @@
       "path": "screenshots/admin-ui/dashboard.png",
       "route": "/dashboard/analytics",
       "theme": "light",
-      "sha256": "2508c65c45e618d6954b3c065d06e63fee26d4961dcc5051aefc79b195b402e2",
-      "size": 152364,
+      "sha256": "1dea7ca285aefa6e8d76ffbc8ce2519557adebbace352d9144557119255d7755",
+      "size": 153571,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/dashboard.webp",
-      "webpSha256": "6719315bfb3b47ccc81c50f9320a97319592101358fadc9727386d25e9cd2dac",
-      "webpSize": 65472
+      "webpSha256": "5a0b29234d37f1a0ed0e1b8738db9fcc11cd8f9077e3b88792433d65efe79ee1",
+      "webpSize": 66576
     },
     {
       "id": "roles",
       "path": "screenshots/admin-ui/roles.png",
       "route": "/system/role",
       "theme": "light",
-      "sha256": "ddd1fe559979399810cb3d77d168296bbf6f2c0b32fa222695b9272e96bb599e",
-      "size": 83959,
+      "sha256": "67ada1dbd86161033a5f5f9d28804ee3496c4609042f000319f90c1504fe7608",
+      "size": 85260,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/roles.webp",
-      "webpSha256": "0a1f24057c3333007f77fe2a50fdc37ec44a42e9c15fac4ea78dce2d02e70ce3",
-      "webpSize": 45178
+      "webpSha256": "b594185ef7f7f360f8b50a0aa33c211e5da0aff761bed3e5adbd2c7aadd46f2f",
+      "webpSize": 46238
     },
     {
       "id": "menus",
       "path": "screenshots/admin-ui/menus.png",
       "route": "/system/menu",
       "theme": "light",
-      "sha256": "63714bf18ab1baf6a588698337cf3e200609df56642e2c5c5d7ee8830f049305",
-      "size": 107321,
+      "sha256": "61869f5599412b814690624314631a105eafe2a6eae6107a83dcb3028c1eb813",
+      "size": 107885,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/menus.webp",
-      "webpSha256": "1417483c78c4cca7ecb22efb779d8bd06a9e110c73202ede9d597e1fd3d798fc",
-      "webpSize": 57760
+      "webpSha256": "a603a1827b779e9d812d28c2743b1d48bbcb6d640a39fc34f52c207393186d0d",
+      "webpSize": 58456
     },
     {
       "id": "jobs",
       "path": "screenshots/admin-ui/jobs.png",
       "route": "/system/job",
       "theme": "light",
-      "sha256": "444732c5fe196cda78dfcff810041a6e38a71f6104fd9e2be00800492e3a4d84",
-      "size": 62050,
+      "sha256": "c0847ee0d94fa727534b3796bccddab8f0eb0c90a334b6b7a02516ca8971e59d",
+      "size": 62612,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/jobs.webp",
-      "webpSha256": "6933e3e5a78642a838c28271e3b5e28e287c28a2c441f1fa9cddf6ad4b8d15e6",
-      "webpSize": 34290
+      "webpSha256": "2055a146e9bcd7b62782359547dccc1cbeafe54a00bc330f0f2822d06355364b",
+      "webpSize": 34930
     },
     {
       "id": "licenses",
       "path": "screenshots/admin-ui/licenses.png",
       "route": "/system/license",
       "theme": "light",
-      "sha256": "3b38de840e44c66e2c5da442ff8e131c87a7be7ff3e5c1dfa41b9c105e1084d6",
-      "size": 70251,
+      "sha256": "e7f9cae5876928c636023cb04bd7a843acc40cfb3d39894c11db606033e02e40",
+      "size": 69880,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/licenses.webp",
-      "webpSha256": "e1607458025ee7b94cadd5595d17ebb8c82763195c2251eb7237f4152e6cd1dc",
-      "webpSize": 36290
+      "webpSha256": "27a38f948092562d17b4c5d2a70d92e7165b0bf9a3305cdc742201895396b192",
+      "webpSize": 36480
     },
     {
       "id": "login-dark",
@@ -121,75 +121,75 @@
       "path": "screenshots/admin-ui/dashboard-dark.png",
       "route": "/dashboard/analytics",
       "theme": "dark",
-      "sha256": "33e20c68f33deca7f1efc5a8d958c33302bf1f47ee9416a00862374efb3b2313",
-      "size": 155042,
+      "sha256": "3f6896c28eae5685106d090469243c91f8946af99dcfbc0a03069b2c3a317469",
+      "size": 155025,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/dashboard-dark.webp",
-      "webpSha256": "22c9fcad34668f7ee42ee17ba7d7827c3d5b7c26902686260d0bf924104a8a34",
-      "webpSize": 60348
+      "webpSha256": "b87361c3ee231390c385b0ba587062a32a0a0b697281cddc48bec7ac5c254844",
+      "webpSize": 60556
     },
     {
       "id": "roles-dark",
       "path": "screenshots/admin-ui/roles-dark.png",
       "route": "/system/role",
       "theme": "dark",
-      "sha256": "85c8fd0781b114811f58db4e369681a72ac008be4112a62b371cfa3d8867d6d7",
-      "size": 87593,
+      "sha256": "3ceff9f3f37690e01804c80a665caad9eb40ccdd21f9e1f08e16750ee898fb3b",
+      "size": 87565,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/roles-dark.webp",
-      "webpSha256": "7c4e65407e153c7eabfdd9f4da82c369d1cb90bbb3d513f51ebc9b658e5135e4",
-      "webpSize": 42990
+      "webpSha256": "c971a46fe3d2bc142b34f94088030f2a54fc96660dd9f0b9291a71d227cb9aed",
+      "webpSize": 42960
     },
     {
       "id": "menus-dark",
       "path": "screenshots/admin-ui/menus-dark.png",
       "route": "/system/menu",
       "theme": "dark",
-      "sha256": "32c60aebe60c607f8f134df08600f2cd2ba96b97e5a155c836a50ec255e1573b",
-      "size": 111470,
+      "sha256": "4eab391bdcb01566e8e2ae162b9f118f7de15c0542e3b2ba7aaa4c21d089b50d",
+      "size": 111100,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/menus-dark.webp",
-      "webpSha256": "8be9bb918d4d6c953289fa4dcb6516401cfa6601ea441c663a657701ddecd16d",
-      "webpSize": 55474
+      "webpSha256": "949b7005cc0365fabc8c8d48537e69fa07371aeb6c0db755b81b26b7937d77d5",
+      "webpSize": 55414
     },
     {
       "id": "jobs-dark",
       "path": "screenshots/admin-ui/jobs-dark.png",
       "route": "/system/job",
       "theme": "dark",
-      "sha256": "8a5780004f285f14662b7275cca41dd8ec52e7a0d7dcd431520be50a6eecb991",
-      "size": 64906,
+      "sha256": "2a89b2808927acc722c18a4d02fa978f09cf5c1fd33878e50bcbf63059b5a884",
+      "size": 64524,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/jobs-dark.webp",
-      "webpSha256": "a835f60a0dcd22d8a91e85ea07b6384dc9c369f716b1da4715df932c36acc922",
-      "webpSize": 32384
+      "webpSha256": "48040b52f7e404e48d66fb8dd286116c16e0f042938474622ee742d1cc315d43",
+      "webpSize": 32548
     },
     {
       "id": "licenses-dark",
       "path": "screenshots/admin-ui/licenses-dark.png",
       "route": "/system/license",
       "theme": "dark",
-      "sha256": "95fd1c52384cb5665f98f37e78d5e28c6589e0e8803845d3cb010ea9ce038cbe",
-      "size": 73088,
+      "sha256": "4febbf4cc64d7af3bee5569e70c0da8600dafa2f76e5bc7d37461d9034691ef6",
+      "size": 72729,
       "viewport": {
         "width": 2560,
         "height": 1440
       },
       "webpPath": "screenshots/admin-ui/licenses-dark.webp",
-      "webpSha256": "220073f3a604750c58a2f46993de729842ee0798a8348f63183088d63fe8bdc3",
-      "webpSize": 33586
+      "webpSha256": "f783ba3013243ba57dfbd4c801b026ac110a84d9b886f6fee09791575601c527",
+      "webpSize": 33700
     }
   ]
 }

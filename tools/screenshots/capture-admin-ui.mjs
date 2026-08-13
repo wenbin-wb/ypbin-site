@@ -103,8 +103,8 @@ async function captureTheme(browser, suffix, colorScheme) {
   await page.getByTestId('login-username').fill(username)
   await page.getByTestId('login-password').fill(password)
   await page.getByRole('button', { name: 'login' }).click()
-  // 生产为 hash 路由:登录成功后 hash 变为 #/dashboard,pathname 保持初始不变
-  await page.waitForURL((url) => url.hash.includes('/dashboard'), { timeout: 30_000 })
+  // 生产为 hash 路由:登录成功后跳转默认首页(默认已改为 /system/user),pathname 保持初始不变
+  await page.waitForURL((url) => url.hash.includes('/system/user'), { timeout: 30_000 })
 
   // 预热:生产环境首次访问较慢(后端冷启动/慢查询),先空跑一遍让接口与静态资源就绪
   for (const scene of scenes) {
