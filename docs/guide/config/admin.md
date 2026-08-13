@@ -63,7 +63,7 @@ description: 环境变量、application.yml 与运行时数据库参数的逐项
 | `ypbin.admin.bootstrap.tenant-id`<br><span class="cfg-src">integer · application.yml:42</span> | 1 | ypbin.admin.bootstrap.tenant-id 配置<br><strong>必填：ypbin.admin.bootstrap.enabled=true 时必须有效</strong><br><strong>注意</strong>：— |
 | `ypbin.admin.job.reconcile-delay`<br><span class="cfg-src">integer · application.yml:44</span> | 30000 | 任务对账间隔（毫秒）<br><strong>必填：对应组件启用时生效</strong><br><strong>注意</strong>：— |
 | `ypbin.web.repeatable-read.enabled`<br><span class="cfg-src">boolean · application.yml:47</span> | true | ypbin.web.repeatable-read.enabled 配置<br><strong>必填：对应组件启用时生效</strong><br>可选值：true / false<br><strong>注意</strong>：— |
-| `ypbin.web.cors.enabled`<br><span class="cfg-src">boolean · application.yml:49</span> | true | ypbin.web.cors.enabled 配置<br><strong>必填：对应组件启用时生效</strong><br>可选值：true / false<br><strong>注意</strong>：— |
+| `ypbin.web.cors.enabled`<br><span class="cfg-src">boolean · application.yml:49</span> | false | ypbin.web.cors.enabled 配置<br><strong>必填：对应组件启用时生效</strong><br>可选值：true / false<br><strong>注意</strong>：— |
 | `ypbin.web.cors.allowed-origin-patterns`<br><span class="cfg-src">array&lt;string&gt; · application.yml:50</span> | http&#58;//localhost:&#42; | ypbin.web.cors.allowed-origin-patterns 配置<br><strong>必填：对应组件启用时生效</strong><br><strong>注意</strong>：— |
 | `ypbin.web.xss.enabled`<br><span class="cfg-src">boolean · application.yml:52</span> | true | ypbin.web.xss.enabled 配置<br><strong>必填：对应组件启用时生效</strong><br>可选值：true / false<br><strong>注意</strong>：— |
 | `ypbin.web.xss.excludes`<br><span class="cfg-src">array&lt;string&gt; · application.yml:53</span> | /webhook/&#42;&#42; | ypbin.web.xss.excludes 配置<br><strong>必填：对应组件启用时生效</strong><br><strong>注意</strong>：— |

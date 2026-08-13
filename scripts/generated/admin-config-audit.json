@@ -853,7 +853,7 @@
     {
       "key": "ypbin.web.cors.enabled",
       "type": "boolean",
-      "defaultValue": true,
+      "defaultValue": false,
       "requiredWhen": "对应组件启用时生效",
       "description": "ypbin.web.cors.enabled 配置",
       "allowedValues": [
