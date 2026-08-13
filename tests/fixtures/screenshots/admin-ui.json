@@ -3,7 +3,7 @@
   "product": "admin-ui",
   "sourceRepository": "wenbin-wb/ypbin-admin-ui",
   "sourceRef": "543cb63e6140735b6ab1eb8425b24af1dac2923c",
-  "capturedAt": "2026-08-13T09:26:48.674Z",
+  "capturedAt": "2026-08-13T12:24:33.471Z",
   "environment": "local-real-stack",
   "seedProfile": "V2-development-seed",
   "redactions": [

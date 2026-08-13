@@ -47,7 +47,7 @@ async function captureTheme(browser, suffix, colorScheme) {
     locale: 'zh-CN',
     reducedMotion: 'reduce',
     timezoneId: 'Asia/Shanghai',
-    viewport: { width: 1440, height: 1080 }
+    viewport: { width: 2560, height: 1440 }
   })
   const page = await context.newPage()
   await page.route('**/*', async (route) => {
@@ -97,7 +97,7 @@ async function captureTheme(browser, suffix, colorScheme) {
     theme: colorScheme,
     sha256: createHash('sha256').update(loginBytes).digest('hex'),
     size: loginBytes.length,
-    viewport: { width: 1440, height: 1080 },
+    viewport: { width: 2560, height: 1440 },
     ...loginOptimized
   }]
   await page.getByTestId('login-username').fill(username)
@@ -131,7 +131,7 @@ async function captureTheme(browser, suffix, colorScheme) {
       theme: colorScheme,
       sha256: createHash('sha256').update(bytes).digest('hex'),
       size: bytes.length,
-      viewport: { width: 1440, height: 1080 },
+      viewport: { width: 2560, height: 1440 },
       ...optimized
     })
   }

@@ -40,8 +40,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           <img
             :src="isDark ? `/screenshots/admin-ui/${item.id}-dark.webp` : `/screenshots/admin-ui/${item.id}.webp`"
             :alt="`ypbin-admin ${item.label}真实运行截图`"
-            width="1440"
-            height="1080"
+            width="2560"
+            height="1440"
             loading="lazy"
           />
         </button>
