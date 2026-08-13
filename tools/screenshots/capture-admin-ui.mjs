@@ -47,7 +47,7 @@ async function captureTheme(browser, suffix, colorScheme) {
     locale: 'zh-CN',
     reducedMotion: 'reduce',
     timezoneId: 'Asia/Shanghai',
-    viewport: { width: 1440, height: 900 }
+    viewport: { width: 1440, height: 1080 }
   })
   const page = await context.newPage()
   await page.route('**/*', async (route) => {
@@ -77,6 +77,15 @@ async function captureTheme(browser, suffix, colorScheme) {
   }, themeMode)
   await page.reload({ waitUntil: 'domcontentloaded' })
   await page.getByTestId('login-username').waitFor({ state: 'visible' })
+  // 等待登录页入场动画完成(enter-x 元素不透明),避免截到半透明加载态
+  await page.waitForFunction(
+    () => {
+      const nodes = [...document.querySelectorAll('[class*="enter-x"]')]
+      return nodes.length === 0 || nodes.every((n) => Number.parseFloat(getComputedStyle(n).opacity) >= 0.99)
+    },
+    { timeout: 10_000 },
+  )
+  await page.waitForTimeout(500)
   const loginFile = resolve(outputDir, `login${suffix}.png`)
   await page.screenshot({ path: loginFile, fullPage: false })
   const loginBytes = await readFile(loginFile)
@@ -88,7 +97,7 @@ async function captureTheme(browser, suffix, colorScheme) {
     theme: colorScheme,
     sha256: createHash('sha256').update(loginBytes).digest('hex'),
     size: loginBytes.length,
-    viewport: { width: 1440, height: 900 },
+    viewport: { width: 1440, height: 1080 },
     ...loginOptimized
   }]
   await page.getByTestId('login-username').fill(username)
@@ -104,6 +113,7 @@ async function captureTheme(browser, suffix, colorScheme) {
   }
 
   for (const scene of scenes) {
+    console.error(`[capture] ${colorScheme || 'light'} ${scene.id} ${scene.route}`)
     await page.goto(`${baseUrl}/#${scene.route}`, { waitUntil: 'domcontentloaded' })
     await page.locator(scene.ready).first().waitFor({ state: 'visible', timeout: 30_000 })
     // 等待数据真正渲染完成(表格 loading 消失且出现数据行 / 图表 canvas 出现),避免截到加载态
@@ -121,7 +131,7 @@ async function captureTheme(browser, suffix, colorScheme) {
       theme: colorScheme,
       sha256: createHash('sha256').update(bytes).digest('hex'),
       size: bytes.length,
-      viewport: { width: 1440, height: 900 },
+      viewport: { width: 1440, height: 1080 },
       ...optimized
     })
   }

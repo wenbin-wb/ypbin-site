@@ -10,7 +10,7 @@ const screenshots = [
   { id: 'menus', label: '动态菜单', description: '后端菜单、权限标识与页面组件。' },
   { id: 'jobs', label: '任务调度', description: 'Spring Cron、执行器和并发控制。' },
   { id: 'licenses', label: '商业授权', description: '授权签发、审批、交付与运行状态。' },
-  { id: 'login', label: '登录入口', description: '本地 Y-Frame 品牌与真实认证表单。' }
+  { id: 'login', label: '登录入口', description: 'ypbin 品牌登录页与真实认证表单。' }
 ]
 
 const active = ref<{ id: string; label: string } | null>(null)
@@ -41,7 +41,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
             :src="isDark ? `/screenshots/admin-ui/${item.id}-dark.webp` : `/screenshots/admin-ui/${item.id}.webp`"
             :alt="`ypbin-admin ${item.label}真实运行截图`"
             width="1440"
-            height="900"
+            height="1080"
             loading="lazy"
           />
         </button>
