@@ -25,7 +25,7 @@ description: Docker 一键部署、环境变量配置、前端构建上传与生
 服务器需安装 git、maven、JDK 17、docker。执行 admin 仓库 `deploy/deploy.sh`:
 
 ```bash
-wget -qO- <deploy.sh 地址> | bash
+wget -qO- https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/deploy.sh | bash
 ```
 
 脚本自动完成:安装依赖 → 拉取三仓代码 → 构建 admin jar → 生成凭据 `.env` → 启动全部容器。之后更新执行同一条命令。
