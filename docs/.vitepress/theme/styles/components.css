@@ -16,11 +16,13 @@
 .product-card li::before { position: absolute; top: .55em; left: 0; width: 4px; height: 4px; border-radius: 50%; content: ""; background: var(--yp-cyan); opacity: .7; }
 .product-card a { margin-top: auto; color: var(--yp-blue); font-size: 13px; font-weight: 700; }
 .product-card a:hover { color: var(--yp-blue-bright); }
+.product-card__links { display: flex; align-items: center; gap: 18px; margin-top: auto; }
+.product-card__links a { margin-top: 0; }
 
 .showcase-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .showcase-card { min-width: 0; margin: 0; border-radius: 12px; overflow: hidden; background: var(--yp-surface); box-shadow: var(--yp-elevate); }
 .showcase-card__view { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
-.showcase-card__view img { display: block; width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; transition: transform .25s ease; }
+.showcase-card__view img { display: block; width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; transition: transform .25s ease; }
 .showcase-card__view:hover img { transform: scale(1.012); }
 .showcase-card figcaption { display: grid; gap: 6px; padding: 16px 18px 18px; border-top: 1px solid var(--yp-line); }
 .showcase-card strong { color: var(--yp-text); font-size: 14px; }

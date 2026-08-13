@@ -65,7 +65,10 @@ const jsonLd = JSON.stringify({
         <div class="hero__content">
           <h1 id="hero-title">把系统级基建，<em>沉到业务之下。</em></h1>
           <p>34 个模块按需引入，三层产品边界清楚；接入一行依赖，Maven 与 Java 17 即可跑起来。</p>
-          <div class="hero__actions"><a class="button-primary" href="/guide/starter/">开始使用</a></div>
+          <div class="hero__actions">
+            <a class="button-primary" href="/guide/starter/">开始使用</a>
+            <a class="button-quiet" href="https://admin.ypbin.cn" target="_blank" rel="noopener">在线体验 Admin</a>
+          </div>
         </div>
       </section>
       <TrustBar />

@@ -7,6 +7,8 @@ description: 与 ypbin-admin 配套、由后端动态路由驱动的 Vue 3 管�
 
 <StatusBadge status="private" label="5.7.0 private" />
 
+> 在线访问:https://admin.ypbin.cn(admin-ui 前端,需连接 admin 后端接口)
+
 ypbin-admin-ui 是与 ypbin-admin 配套的 Vue 3 管理前端。菜单与页面访问由后端动态路由数据驱动，因此前端必须连接兼容的 admin 接口才能完整运行。
 
 <VersionScope version="工作区版本 5.7.0" status="private" />

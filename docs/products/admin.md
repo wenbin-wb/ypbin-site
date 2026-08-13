@@ -7,6 +7,8 @@ description: 基于 ypbin-starter 开发版本组装的三模块后台服务。
 
 <StatusBadge status="development" label="1.0.0-SNAPSHOT 开发中" />
 
+> 在线访问:https://admin.ypbin.cn
+
 ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统业务、权限与运行入口。它处于开发阶段，不应被描述为稳定发布产品。
 
 <VersionScope version="admin 1.0.0-SNAPSHOT · starter 1.3.0-SNAPSHOT" status="development" />

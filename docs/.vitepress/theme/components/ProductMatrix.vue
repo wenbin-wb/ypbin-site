@@ -17,7 +17,16 @@ import StatusBadge from './StatusBadge.vue'
           <p>{{ product.description }}</p>
           <code>{{ product.scaleLabel }}</code>
           <ul><li v-for="fact in product.facts" :key="fact">{{ fact }}</li></ul>
-          <a :href="`/products/${product.id}`">查看产品边界 <span aria-hidden="true">→</span></a>
+          <div class="product-card__links">
+            <a :href="`/products/${product.id}`">查看产品边界 <span aria-hidden="true">→</span></a>
+            <a
+              v-if="product.id === 'admin'"
+              class="product-card__online"
+              href="https://admin.ypbin.cn"
+              target="_blank"
+              rel="noopener"
+            >在线访问 <span aria-hidden="true">→</span></a>
+          </div>
         </div>
       </article>
     </div>
