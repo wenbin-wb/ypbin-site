@@ -134,3 +134,17 @@ DB_PASSWORD
 ## Redis
 
 Redis 用于缓存、验证码、SSE 票据、接口签名 nonce 和分布式锁。生产必须限制到私网、开启认证并规划持久化和高可用。
+
+## 注意事项
+
+- **安全组放行**:除服务器防火墙(如宝塔),云厂商安全组也需放行对外端口(admin-ui 18080 / admin 8080)
+- **HTTPS**:生产用宝塔 SSL 或 Cloudflare 提供 HTTPS;跨域访问时 CORS 源写成 `https://`
+- **关闭 Bootstrap**:首次登录后把 `.env` 的 `ADMIN_BOOTSTRAP_ENABLED` 改为 `false` 再重跑,避免重复初始化
+- **数据备份**:MySQL 数据在 `deploy_mysql-data` 卷,定期备份;`docker compose down` 不删数据,重建不丢
+- **`.env` 保密**:含数据库与管理员密码,不要提交到仓库
+- **资源规划**:默认 JVM `-Xms256m -Xmx512m`,按服务器内存调整 `JAVA_OPTS`
+- **日志排查**:`docker compose logs -f admin` 查看后端日志;`docker logs deploy-admin-1` 看单容器
+- **日常更新**:
+  - 前端:本地 `pnpm -F @vben/web-antd build` 后 scp 覆盖 dist,无需重启
+  - 后端:git pull 后重跑 deploy.sh(自动重建 jar 与容器)
+- **域名解析**:`admin.ypbin.cn` 等子域的 DNS 在 Cloudflare 指向服务器公网 IP,由宝塔 nginx 统一 80 端口转发
