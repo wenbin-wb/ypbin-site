@@ -7,17 +7,26 @@ import sharp from 'sharp'
 const root = resolve(import.meta.dirname, '../..')
 const outputDir = resolve(root, 'docs/public/screenshots/admin-ui')
 const baseUrl = process.env.YPBIN_ADMIN_UI_URL ?? 'http://localhost:5666'
+const allowedHostname = new URL(baseUrl).hostname
 const username = process.env.YPBIN_SCREENSHOT_USERNAME ?? 'admin'
 const password = process.env.YPBIN_SCREENSHOT_PASSWORD ?? 'admin123'
 const sourceRef = process.env.YPBIN_ADMIN_UI_REF ?? '543cb63e6140735b6ab1eb8425b24af1dac2923c'
 const workingTreeHash = process.env.YPBIN_ADMIN_UI_DIFF_SHA256 ?? '9546dce52275068a1a699f7e364c65d80d6660351cdab4122f854f53c4244473'
 
+// 数据就绪信号:vxe 表格 loading 消失且已有数据行(表格页通用)
+const tableSettled = `(() => {
+  if (document.querySelector('.vxe-loading, .vxe-icon-spinner')) return false
+  return document.querySelectorAll('.vxe-body--row').length > 0
+})()`
+// dashboard:图表 canvas 已渲染即认为数据完成(假数据卡片先于图表出现)
+const dashSettled = `(() => !!document.querySelector('canvas'))()`
+
 const scenes = [
-  { id: 'dashboard', route: '/dashboard/analytics', ready: '[data-testid="page-dashboard-analytics"]' },
-  { id: 'roles', route: '/system/role', ready: '[data-testid="page-system-role"]' },
-  { id: 'menus', route: '/system/menu', ready: '[data-testid="page-system-menu"]' },
-  { id: 'jobs', route: '/system/job', ready: '.vxe-grid' },
-  { id: 'licenses', route: '/system/license', ready: '.vxe-grid' }
+  { id: 'dashboard', route: '/dashboard/analytics', ready: 'text=总用户量', settled: dashSettled },
+  { id: 'roles', route: '/system/role', ready: '[data-testid="page-system-role"]', settled: tableSettled },
+  { id: 'menus', route: '/system/menu', ready: '[data-testid="page-system-menu"]', settled: tableSettled },
+  { id: 'jobs', route: '/system/job', ready: '.vxe-grid', settled: tableSettled },
+  { id: 'licenses', route: '/system/license', ready: '.vxe-grid', settled: tableSettled }
 ]
 
 async function optimizeImage(id, suffix, pngBytes) {
@@ -43,11 +52,11 @@ async function captureTheme(browser, suffix, colorScheme) {
   const page = await context.newPage()
   await page.route('**/*', async (route) => {
     const url = new URL(route.request().url())
-    if (['localhost', '127.0.0.1'].includes(url.hostname)) return route.continue()
+    if (['localhost', '127.0.0.1', allowedHostname].includes(url.hostname)) return route.continue()
     return route.abort()
   })
 
-  await page.goto(`${baseUrl}/auth/login`, { waitUntil: 'domcontentloaded' })
+  await page.goto(`${baseUrl}/#/auth/login`, { waitUntil: 'domcontentloaded' })
   await page.getByTestId('login-username').waitFor({ state: 'visible' })
   const loginFile = resolve(outputDir, `login${suffix}.png`)
   await page.screenshot({ path: loginFile, fullPage: false })
@@ -66,13 +75,22 @@ async function captureTheme(browser, suffix, colorScheme) {
   await page.getByTestId('login-username').fill(username)
   await page.getByTestId('login-password').fill(password)
   await page.getByRole('button', { name: 'login' }).click()
-  await page.waitForURL((url) => !url.pathname.includes('/auth/login'), { timeout: 30_000 })
+  // 生产为 hash 路由:登录成功后 hash 变为 #/dashboard,pathname 保持初始不变
+  await page.waitForURL((url) => url.hash.includes('/dashboard'), { timeout: 30_000 })
+
+  // 预热:生产环境首次访问较慢(后端冷启动/慢查询),先空跑一遍让接口与静态资源就绪
+  for (const scene of scenes) {
+    await page.goto(`${baseUrl}/#${scene.route}`, { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(500)
+  }
 
   for (const scene of scenes) {
-    await page.goto(`${baseUrl}${scene.route}`, { waitUntil: 'domcontentloaded' })
+    await page.goto(`${baseUrl}/#${scene.route}`, { waitUntil: 'domcontentloaded' })
     await page.locator(scene.ready).first().waitFor({ state: 'visible', timeout: 30_000 })
+    // 等待数据真正渲染完成(表格 loading 消失且出现数据行 / 图表 canvas 出现),避免截到加载态
+    await page.waitForFunction(scene.settled, { timeout: 45_000 })
     await page.evaluate(() => document.fonts.ready)
-    await page.waitForTimeout(800)
+    await page.waitForTimeout(1500)
     const file = resolve(outputDir, `${scene.id}${suffix}.png`)
     await page.screenshot({ path: file, fullPage: false })
     const bytes = await readFile(file)
