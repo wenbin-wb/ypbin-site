@@ -15,10 +15,7 @@ export default defineConfig({
   sitemap: { hostname: siteUrl },
   head: [
     // 官网默认浅色为主:历史访问者可能残留 vitepress 的 auto 主题偏好(跟随系统),转为 light 让浅色默认生效;用户手动选择的 dark/light 不受影响
-    {
-      tag: 'script',
-      children: `try{if(localStorage.getItem('vitepress-theme-appearance')==='auto')localStorage.setItem('vitepress-theme-appearance','light')}catch(e){}`
-    },
+    ['script', {}, `try{if(localStorage.getItem('vitepress-theme-appearance')==='auto')localStorage.setItem('vitepress-theme-appearance','light')}catch(e){}`],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }],
     ['link', { rel: 'icon', href: '/brand/favicon.svg', type: 'image/svg+xml' }],
     ['meta', { name: 'theme-color', content: '#080B10' }],
