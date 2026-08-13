@@ -7,6 +7,8 @@ export default defineConfig({
   lang: 'zh-CN',
   title: 'ypbin',
   description,
+  // 默认浅色为主(不随系统),右上角可手动切换深色;切换偏好持久化到 localStorage
+  appearance: { initialValue: 'light' },
   cleanUrls: true,
   ignoreDeadLinks: [/^http:\/\/localhost(?::\d+)?(?:\/|$)/],
   lastUpdated: true,
