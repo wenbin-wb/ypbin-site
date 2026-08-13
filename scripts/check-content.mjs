@@ -36,8 +36,8 @@ for (const target of scanRoots) {
     if (!extensions.has(extname(file))) continue
     const content = await readFile(file, 'utf8')
     const filePath = relative(root, file)
-    // 配置参考与 admin-ui 文档本就描述 vben/antd 技术栈与复用链,豁免"引用类"规则
-    const isReferenceAllowed = /(?:docs[\\/]guide[\\/]config[\\/]|docs[\\/]guide[\\/]admin-ui[\\/])/.test(filePath)
+    // 配置参考与 admin/admin-ui 文档涉及技术栈与部署,豁免"引用类"规则
+    const isReferenceAllowed = /(?:docs[\\/]guide[\\/]config[\\/]|docs[\\/]guide[\\/]admin-ui[\\/]|docs[\\/]guide[\\/]admin[\\/])/.test(filePath)
     for (const rule of rules) {
       if (rule.referenceAllowed && isReferenceAllowed) continue
       if (rule.pattern.test(content)) violations.push(`${filePath}: ${rule.name}`)
