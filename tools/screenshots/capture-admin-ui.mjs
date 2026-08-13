@@ -58,6 +58,25 @@ async function captureTheme(browser, suffix, colorScheme) {
 
   await page.goto(`${baseUrl}/#/auth/login`, { waitUntil: 'domcontentloaded' })
   await page.getByTestId('login-username').waitFor({ state: 'visible' })
+  // vben 默认主题是深色(theme.mode:'dark'),colorScheme 不会驱动它;
+  // 修改 localStorage 的 <namespace>-preferences 里的 theme.mode 并重载,按目标主题强制浅色/深色
+  const themeMode = colorScheme === 'dark' ? 'dark' : 'light'
+  await page.evaluate((mode) => {
+    const key = Object.keys(localStorage).find((k) => k.endsWith('-preferences'))
+    if (key) {
+      try {
+        const data = JSON.parse(localStorage.getItem(key))
+        if (data && data.value && data.value.theme) {
+          data.value.theme.mode = mode
+          localStorage.setItem(key, JSON.stringify(data))
+        }
+      } catch {
+        // 缓存结构异常时忽略,保持默认主题
+      }
+    }
+  }, themeMode)
+  await page.reload({ waitUntil: 'domcontentloaded' })
+  await page.getByTestId('login-username').waitFor({ state: 'visible' })
   const loginFile = resolve(outputDir, `login${suffix}.png`)
   await page.screenshot({ path: loginFile, fullPage: false })
   const loginBytes = await readFile(loginFile)
