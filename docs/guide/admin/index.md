@@ -12,7 +12,7 @@ description: 在本地开发环境编译与配置 ypbin-admin。
 - JDK 17
 - Maven 3.9 或更高版本
 - 可用的数据库与 Redis，具体版本见[兼容矩阵](/guide/compatibility)
-- 已在本地安装 `ypbin-starter 1.3.0-SNAPSHOT`
+- 已在本地安装 `ypbin-starter 1.4.0-SNAPSHOT`
 
 ## 安装开发版 starter
 
@@ -45,4 +45,4 @@ admin 包含 common、system、server 三个模块，server 是启动入口。�
 
 ## 状态说明
 
-admin 当前版本 `1.0.0-SNAPSHOT`，依赖 starter 的 `1.3.0-SNAPSHOT` 开发快照，适合本地联调和二次开发；生产部署前请评估快照依赖带来的变动风险。
+admin 当前版本 `1.0.0-SNAPSHOT`，依赖 starter 的 `1.4.0-SNAPSHOT` 开发快照，适合本地联调和二次开发；生产部署前请评估快照依赖带来的变动风险。

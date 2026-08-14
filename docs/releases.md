@@ -9,12 +9,29 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 | 产品 | 通道 | 版本 | 状态 |
 | --- | --- | --- | --- |
-| ypbin-starter | 稳定 | `v1.2.0` | 已发布，建议生产接入时使用 |
-| ypbin-starter | 开发 | `1.3.0-SNAPSHOT` | 开发中，用于下一版本验证 |
-| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `1.3.0-SNAPSHOT` |
+| ypbin-starter | 稳定 | `v1.3.0` | 已发布，建议生产接入时使用 |
+| ypbin-starter | 开发 | `1.4.0-SNAPSHOT` | 开发中，含 `@SensitiveWordFilter` 注解驱动过滤等新能力 |
+| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `1.4.0-SNAPSHOT` |
 | ypbin-admin-ui | private | `5.7.0` | 工作区版本，不应解读为公共 npm 稳定包 |
 
 ## ypbin-starter 版本历史
+
+### v1.3.0 — 2026-08-14
+
+增强定时任务、验证码、第三方登录与 License 联机校验稳定性，并补充多个模块的单测覆盖。共 34 个模块。
+
+**新增能力**
+
+- Cron 前置校验（`ypbin-starter-job`）：`CronService` 接口与 `SpringCronService` 实现，`JobManager.register()` 时校验 cron 语法合法性，非法即拒绝并提供 `nextExecutionTimes` 预览下次触发时间
+- License 联机授权失败策略（`ypbin-starter-license`）：`RemoteFailurePolicy`（`FAIL_CLOSED` / `FAIL_OPEN_WITH_WARNING`），`HttpRemoteVerifyProvider` 按策略裁决网络异常/超时/明确拒绝三类结果
+- 第三方登录动态注册（`ypbin-starter-social`）：`SocialRequestRegistry` + `DefaultSocialRequestRegistry`（线程安全），运行时动态注册/停用平台请求，无需重启服务
+- 验证码资源自愈（`ypbin-starter-captcha`）：`CaptchaResourceReloader` 接口，`generate` 捕获资源丢失后自动 reload 并重试，解决远程 Redis 重启后验证码 500
+- 缓存多级/Redis 完善（`ypbin-starter-cache`）：多级缓存与 Redis 缓存实现完善并补测试
+
+**工程**
+
+- 补充 cache / job / tenant / crud / datapermission / sign / license / social 等模块单元测试
+- README 补充官网文档链接；补充 Apache-2.0 LICENSE；开发目录移出版本管理
 
 ### v1.2.0 — 2026-08-07
 

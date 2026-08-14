@@ -1,11 +1,11 @@
 ---
 title: starter 快速开始
-description: 使用 Java 17 和 Maven 接入 ypbin-starter v1.2.0。
+description: 使用 Java 17 和 Maven 接入 ypbin-starter v1.3.0。
 ---
 
 # starter 快速开始
 
-<VersionScope version="1.2.0" status="stable" />
+<VersionScope version="1.3.0" status="stable" />
 
 ## 前置条件
 
@@ -21,7 +21,7 @@ description: 使用 Java 17 和 Maven 接入 ypbin-starter v1.2.0。
     <dependency>
       <groupId>cn.ypbin</groupId>
       <artifactId>ypbin-starter-bom</artifactId>
-      <version>1.2.0</version>
+      <version>1.3.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -56,4 +56,4 @@ Starter 共 34 个 Maven 模块。每个模块的总开关、嵌套属性、默�
 
 ## 版本选择
 
-生产项目使用稳定版 `1.2.0`。`1.3.0-SNAPSHOT` 是当前开发版本，需要快照仓库或本地安装，仅用于验证下一版本与 admin 联调。
+生产项目使用稳定版 `1.3.0`。`1.4.0-SNAPSHOT` 是当前开发版本，需要快照仓库或本地安装，仅用于验证下一版本与 admin 联调。
