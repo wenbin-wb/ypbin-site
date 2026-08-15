@@ -8,8 +8,8 @@ description: ypbin 三个产品的版本与运行环境兼容范围。
 | 产品 | 当前版本 | 状态 | 运行时 | 关键依赖 |
 | --- | --- | --- | --- | --- |
 | ypbin-starter | `1.2.0` | 稳定 | Java 17 | Spring Boot 3.5.16 |
-| ypbin-starter | `1.3.0-SNAPSHOT` | 开发 | Java 17 | Spring Boot 3.5.16 |
-| ypbin-admin | `1.0.0-SNAPSHOT` | 开发 | Java 17 | starter 1.3.0-SNAPSHOT |
+| ypbin-starter | `1.4.0-SNAPSHOT` | 开发 | Java 21 | Spring Boot 4.1.0 |
+| ypbin-admin | `1.0.0-SNAPSHOT` | 开发 | Java 21 | starter 1.4.0-SNAPSHOT |
 | ypbin-admin-ui | `5.7.0` | private | Node ^22.18 或 ^24.12 | pnpm >=11、Vue 3、兼容 admin API |
 
 ## 组合建议

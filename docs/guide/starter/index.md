@@ -1,17 +1,17 @@
 ---
 title: starter 快速开始
-description: 使用 Java 17 和 Maven 接入 ypbin-starter v1.3.0。
+description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.0-SNAPSHOT。
 ---
 
 # starter 快速开始
 
-<VersionScope version="1.3.0" status="stable" />
+<VersionScope version="1.4.0-SNAPSHOT" status="development" />
 
 ## 前置条件
 
-- JDK 17
+- JDK 21
 - Maven 3.9 或更高版本
-- Spring Boot 3.5.16 兼容项目
+- Spring Boot 4.1.x 兼容项目
 
 ## 导入 BOM
 

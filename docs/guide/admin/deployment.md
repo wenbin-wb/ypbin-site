@@ -24,7 +24,7 @@ description: Docker 一键部署、环境变量配置、前端构建上传与生
 
 ### 一键部署
 
-服务器需安装 git、maven、JDK 17、docker。执行 admin 仓库 `deploy/deploy.sh`:
+服务器需安装 git、maven、JDK 21、docker。执行 admin 仓库 `deploy/deploy.sh`:
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/deploy.sh | bash
@@ -99,7 +99,7 @@ location /api/ {
 
 | 现象 | 解决 |
 |---|---|
-| `JAVA_HOME` 未定义 | 安装 JDK 17 并设置 `JAVA_HOME` |
+| `JAVA_HOME` 未定义 | 安装 JDK 21 并设置 `JAVA_HOME` |
 | `apt: Unmet dependencies` | `apt --fix-broken install -y` 后重跑 |
 | 容器内通、宿主机不通 | `systemctl restart docker` 重建转发规则 |
 | 端口被占用 | 改 `.env` 的 `ADMIN_PORT` / `ADMIN_UI_PORT` |
@@ -109,7 +109,7 @@ location /api/ {
 
 ## 依赖与版本
 
-- JDK 17
+- JDK 21
 - MySQL 8.4 兼容版本
 - Redis 7 兼容版本
 - 已发布或本地安装的 ypbin-starter

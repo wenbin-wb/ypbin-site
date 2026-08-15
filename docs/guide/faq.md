@@ -20,8 +20,8 @@ description: ypbin 的常见问题与解答，答案以本站文档与源码为�
 
 | 产品 | 环境 |
 |------|------|
-| ypbin-starter | Java 17 + Maven（Spring Boot 3.5.x） |
-| ypbin-admin | Java 17 + MySQL + Redis |
+| ypbin-starter | Java 21 + Maven（Spring Boot 4.1.x） |
+| ypbin-admin | Java 21 + MySQL + Redis |
 | ypbin-admin-ui | Node 22.18+ + pnpm 11 |
 
 数据库、Redis 等中间件的精确兼容范围以对应仓库配置为准。

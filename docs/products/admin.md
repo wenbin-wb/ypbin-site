@@ -11,7 +11,7 @@ description: 基于 ypbin-starter 开发版本组装的三模块后台服务。
 
 ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统业务、权限与运行入口。它处于开发阶段，不应被描述为稳定发布产品。
 
-<VersionScope version="admin 1.0.0-SNAPSHOT · starter 1.3.0-SNAPSHOT" status="development" />
+<VersionScope version="admin 1.0.0-SNAPSHOT · starter 1.4.0-SNAPSHOT" status="development" />
 
 ## 已核验范围
 
@@ -23,7 +23,7 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 | `ypbin-admin-system` | 系统领域与后台业务 |
 | `ypbin-admin-server` | Spring Boot 启动与运行入口 |
 
-开发基线为 Java 17、Spring Boot 3.5.16，并通过 BOM 依赖 ypbin-starter 1.3.0-SNAPSHOT。Actuator 与 observability 当前不属于本产品页的公开能力范围。
+开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter 1.4.0-SNAPSHOT。Actuator 与 observability 当前不属于本产品页的公开能力范围。
 
 ## 安全提醒
 
