@@ -10,11 +10,24 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 | 产品 | 通道 | 版本 | 状态 |
 | --- | --- | --- | --- |
 | ypbin-starter | 稳定 | `v1.3.0` | 已发布，建议生产接入时使用 |
-| ypbin-starter | 开发 | `1.4.0-SNAPSHOT` | 开发中，含 `@SensitiveWordFilter` 注解驱动过滤等新能力 |
+| ypbin-starter | 开发 | `1.4.0-SNAPSHOT` | 开发中，含 AI 对话模块、`@SensitiveWordFilter` 注解驱动过滤等新能力 |
 | ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `1.4.0-SNAPSHOT` |
 | ypbin-admin-ui | private | `5.7.0` | 工作区版本，不应解读为公共 npm 稳定包 |
 
 ## ypbin-starter 版本历史
+
+### 1.4.0-SNAPSHOT — 开发中
+
+新增 AI 对话能力与注解驱动敏感词过滤。共 35 个模块。
+
+**新增能力**
+
+- **AI 对话模块**（`ypbin-starter-ai`）：基于 Spring AI 2.0 的流式/非流式对话、多轮记忆（内存/JDBC）、可选 RAG；核心设计为**模型配置表驱动**——业务方实现 `AiModelConfigResolver` 从配置表读取默认模型，starter 动态构建 OpenAI 兼容客户端，模型地址/密钥/型号全部运行时下发、不在 yml 配置
+- **注解驱动敏感词过滤**（`ypbin-starter-sensitive-words`）：`@SensitiveWordFilter` 字段+方法双目标注解，AOP 自动过滤，替代手动注入服务
+
+**安全加固**
+
+- 登录拦截器对非 REQUEST 分发（ERROR/ASYNC，如 SSE 流失败后的错误分发）直接放行，避免 Sa-Token 上下文未初始化误报并掩盖真实错误
 
 ### v1.3.0 — 2026-08-14
 

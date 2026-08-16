@@ -77,6 +77,7 @@ export default defineConfig({
               { text: 'job 定时任务', link: '/guide/starter/modules/job' },
               { text: 'social 第三方登录', link: '/guide/starter/modules/social' }
             ] },
+            { text: '智能能力', collapsed: true, items: [{ text: 'ai AI 对话', link: '/guide/starter/modules/ai' }] },
             { text: '业务骨架', collapsed: true, items: [
               { text: 'extension-crud 通用 CRUD', link: '/guide/starter/modules/extension-crud' },
               { text: 'extension-tenant 多租户', link: '/guide/starter/modules/extension-tenant' },
@@ -92,7 +93,7 @@ export default defineConfig({
             ] }
           ]
         },
-        { text: '专题教程', items: [{ text: 'Starter 核心机制', link: '/guide/starter/concepts' }, { text: 'Admin 架构与集成', link: '/guide/admin/architecture' }, { text: 'Admin 接口契约', link: '/guide/admin/api' }, { text: 'Admin 部署检查', link: '/guide/admin/deployment' }, { text: '商业授权教程', link: '/guide/admin/license' }, { text: 'Admin UI 页面开发', link: '/guide/admin-ui/development' }] },
+        { text: '专题教程', items: [{ text: 'Starter 核心机制', link: '/guide/starter/concepts' }, { text: 'Admin 架构与集成', link: '/guide/admin/architecture' }, { text: 'Admin 接口契约', link: '/guide/admin/api' }, { text: 'Admin AI 对话能力', link: '/guide/admin/ai' }, { text: 'Admin 部署检查', link: '/guide/admin/deployment' }, { text: '商业授权教程', link: '/guide/admin/license' }, { text: 'Admin UI 页面开发', link: '/guide/admin-ui/development' }] },
         { text: '配置参考', items: [{ text: 'Starter 全量配置', link: '/guide/config/starter' }, { text: 'Admin 全量配置', link: '/guide/config/admin' }, { text: 'Admin UI 全量配置', link: '/guide/config/admin-ui' }] },
         { text: '参考', items: [{ text: '兼容矩阵', link: '/guide/compatibility' }, { text: '常见问题', link: '/guide/faq' }] }
       ],

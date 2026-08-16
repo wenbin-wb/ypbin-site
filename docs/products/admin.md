@@ -29,6 +29,10 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 
 开发种子账号 `admin/admin123` 只用于本地初始化与联调，首次部署必须删除或修改。文档和示例中的 AK/SK 是演示值，不得用于生产环境。
 
+## AI 对话能力
+
+内置 AI 对话与模型配置管理：多模型（OpenAI 兼容接口）运行时配置、连通性测试、默认模型切换、SSE 流式输出、多轮记忆持久化与用量统计。模型地址/密钥/型号在后台配置，不写死在 yml；详见 [Admin AI 对话能力](/guide/admin/ai)。
+
 [查看开发环境启动方式](/guide/admin/)
 
 <SourceCitation source="ypbin-admin/pom.xml" verified-at="2026-08-10" />

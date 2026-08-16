@@ -90,10 +90,13 @@ location /api/ {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_read_timeout 300s;
+    proxy_buffering off;                 # AI 对话 SSE 流式输出必须关闭缓冲
 }
 ```
 
 > `location /api/` 的 `proxy_pass` 末尾斜杠会去掉 `/api` 前缀——admin 接口路径是 `/auth/login`、`/system/xxx`(无 `/api`),保留前缀会返回 404「接口不存在」。
+
+> **AI 对话（SSE）**：对话接口返回 `text/event-stream` 流式响应，`proxy_buffering off` 必须配置，否则回复会攒到流结束才一次性下发；`proxy_read_timeout` 需覆盖模型首 token 延迟（建议 ≥ 120s）。详见 [Admin AI 对话能力](/guide/admin/ai)。
 
 ### 常见问题
 

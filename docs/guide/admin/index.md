@@ -40,8 +40,9 @@ admin 包含 common、system、server 三个模块，server 是启动入口。�
 3. 通过 Bootstrap 一次性创建平台管理员，成功后关闭开关；
 4. 重新生成 License 签发密钥和开放应用密钥；
 5. 配置真实 HTTPS CORS 来源、邮件、短信和存储源；
-6. 审核租户忽略表、签名防重放、任务锁与 SSE 多节点策略；
-7. 执行 Flyway 备份、回滚预案和启动后接口检查。
+6. 启用 AI 对话时注入 `AI_MODEL_SECRET_KEY`（API Key 加密密钥），并在模型配置页维护模型；反向代理需关闭 SSE 缓冲（见 [Admin AI 对话能力](/guide/admin/ai)）；
+7. 审核租户忽略表、签名防重放、任务锁与 SSE 多节点策略；
+8. 执行 Flyway 备份、回滚预案和启动后接口检查。
 
 ## 状态说明
 
