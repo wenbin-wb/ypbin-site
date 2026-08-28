@@ -180,6 +180,19 @@ async function getXxxList(params: Recordable<any>) {
 - `requestClient` 已配置自动解包到 `data`，页面直接拿业务数据；
 - 字段与后端 DTO 完全同名，不做 key 转换。
 
+## 文件下载与导入导出
+
+前端导入导出遵循模块化规范：
+
+1. **文件下载**：调用通用工具 `downloadByBlob(blob, fileName)`（位于 `#/utils/file`），负责创建临时链接、触发下载并安全释放内存：
+   ```ts
+   import { downloadByBlob } from '#/utils/file';
+
+   const blob = await exportUsers(params);
+   downloadByBlob(blob as Blob, $t('system.user.exportFileName') || '用户列表.xlsx');
+   ```
+2. **导入模态框**：在 `modules/import.vue` 中使用 `useVbenModal` 封装独立弹窗，内置模板下载、`Upload.Dragger` 拖拽上传与错误明细折叠展示，主列表页仅做挂载与编排。
+
 ## i18n
 
 每个用户可见文案在 `zh-CN` 和 `en-US` 两份都加，key 路径一致。实体名放 `system.<模块>.name`，字段标签用独立 key。带占位符的 key 传数组：
