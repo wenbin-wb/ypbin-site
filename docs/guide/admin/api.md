@@ -35,7 +35,7 @@ Content-Type: application/json
 请求体：
 {
   "username": "admin",
-  "password": "123456"
+  "password": "pt5aQ5E6t8dkVkMp"
 }
 
 响应 data：
@@ -44,7 +44,7 @@ Content-Type: application/json
 }
 ```
 
-- 默认账号 admin / 123456（实际种子以 `V2__data.sql` 为准，注释标明"密码统一 123456"）
+- 默认账号 admin / pt5aQ5E6t8dkVkMp（实际种子以 `V2__data.sql` 为准，注释标明"密码统一 pt5aQ5E6t8dkVkMp（与前端演示登录一致）"）
 - 登录接口有频率限制（60 秒内最多 10 次）
 
 ### 2.2 第三方登录（OAuth）

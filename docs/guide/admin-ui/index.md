@@ -64,4 +64,4 @@ pnpm dev:antd
 
 ## 凭据提醒
 
-开发种子账号 `admin/123456`（实际种子以 `V2__data.sql` 为准）和文档中的演示 AK/SK 仅用于本地开发，不得用于生产环境。
+开发种子账号 `admin/pt5aQ5E6t8dkVkMp`（实际种子以 `V2__data.sql` 为准）和文档中的演示 AK/SK 仅用于本地开发，不得用于生产环境。
