@@ -19,7 +19,7 @@
     "screenshots:capture": "node tools/screenshots/capture-admin-ui.mjs",
     "screenshots:validate": "node tools/screenshots/validate-manifest.mjs",
     "check": "pnpm docs:config && pnpm screenshots:validate && pnpm typecheck && pnpm check:content && pnpm build",
-    "search:pagefind": "pnpm dlx pagefind@1.4.0 --site docs/.vitepress/dist"
+    "search:pagefind": "pnpm dlx pagefind@1.5.2 --site docs/.vitepress/dist"
   },
   "dependencies": {
     "@pagefind/default-ui": "1.5.2",

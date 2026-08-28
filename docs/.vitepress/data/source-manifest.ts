@@ -31,20 +31,20 @@ export interface RoadmapItem {
 }
 
 export const sourceManifest = {
-  verifiedAt: '2026-08-11',
-  stableStarterVersion: '1.2.0',
+  verifiedAt: '2026-08-14',
+  stableStarterVersion: '1.3.0',
   trustStats: [
-    { value: '34', label: 'Maven 模块 · starter' },
-    { value: '354', label: 'Java 源文件 · starter' },
-    { value: '98', label: '单元测试类 · starter' },
-    { value: '741', label: 'Vue 组件 · admin-ui' }
+    { value: '35', label: 'Maven 模块 · starter' },
+    { value: '473', label: 'Java 源文件 · starter' },
+    { value: '99', label: '单元测试类 · starter' },
+    { value: '760', label: 'Vue 组件 · admin-ui' }
   ] satisfies readonly TrustStat[],
   capabilityLayers: [
     {
       id: 'base',
       name: '基础能力层',
       description: '不依赖 Spring Cloud 的 L1 能力，单体即可用：Web、JSON、数据、缓存、安全、存储、日志与平台能力。',
-      modules: ['core', 'json', 'web', 'data', 'cache', 'security', 'api-doc', 'storage', 'log', 'tools', 'excel', 'captcha', 'messaging', 'sensitive-words', 'i18n', 'api-crypto', 'social', 'sign', 'async', 'job', 'license']
+      modules: ['core', 'json', 'web', 'data', 'cache', 'security', 'api-doc', 'storage', 'log', 'tools', 'excel', 'captcha', 'messaging', 'sensitive-words', 'i18n', 'api-crypto', 'social', 'sign', 'async', 'job', 'license', 'ai']
     },
     {
       id: 'extension',
@@ -66,7 +66,7 @@ export const sourceManifest = {
     }
   ] satisfies readonly CapabilityLayer[],
   roadmap: [
-    { id: 'starter', label: 'ypbin-starter', item: '稳定版 1.2.0 已发布，1.3.0 开发中', scope: '能力模块扩展' },
+    { id: 'starter', label: 'ypbin-starter', item: '1.4.0 开发中：AI 对话模块 + @SensitiveWordFilter', scope: '能力模块扩展' },
     { id: 'admin', label: 'ypbin-admin', item: '通知推送链：站内信与 SSE 推送打通', scope: '消息链路' },
     { id: 'admin-ui', label: 'ypbin-admin-ui', item: '管理页打磨：表单弹层契约与品牌统一', scope: '前端体验' }
   ] satisfies readonly RoadmapItem[],
@@ -75,11 +75,11 @@ export const sourceManifest = {
       id: 'starter',
       name: 'ypbin-starter',
       description: '面向 Spring Boot 的系统级基础能力集合。',
-      version: '1.3.0-SNAPSHOT',
+      version: '1.4.0-SNAPSHOT',
       status: 'stable',
-      runtime: 'Java 17 · Spring Boot 3.5.16',
-      scaleLabel: '34 模块 · 354 类 · 98 测试',
-      facts: ['稳定版 v1.2.0 已发布', '34 个 Maven 模块', 'Apache-2.0 开源协议']
+      runtime: 'Java 21 · Spring Boot 4.1.0',
+      scaleLabel: '35 模块 · 473 类 · 99 测试',
+      facts: ['稳定版 v1.3.0 已发布', '35 个 Maven 模块', 'Apache-2.0 开源协议']
     },
     {
       id: 'admin',
@@ -87,9 +87,9 @@ export const sourceManifest = {
       description: '基于 starter 组装的企业级后台服务。',
       version: '1.0.0-SNAPSHOT',
       status: 'development',
-      runtime: 'Java 17 · Spring Boot 3.5.16',
-      scaleLabel: '242 类 · 19 张业务表',
-      facts: ['依赖 starter 1.3.0-SNAPSHOT', '3 个 Maven 模块', 'RBAC / 多租户 / 定时任务']
+      runtime: 'Java 21 · Spring Boot 4.1.0',
+      scaleLabel: '326 类 · 38 张业务表（28 基础 + 10 AI）',
+      facts: ['依赖 starter 1.4.0-SNAPSHOT', '3 个 Maven 模块', 'RBAC / 多租户 / 定时任务']
     },
     {
       id: 'admin-ui',
@@ -98,7 +98,7 @@ export const sourceManifest = {
       version: '5.7.0',
       status: 'private',
       runtime: 'Vue 3 · TypeScript',
-      scaleLabel: '741 组件 · 18 业务模块',
+      scaleLabel: '760 组件 · 18 业务模块',
       facts: ['与 admin 接口配套', '后端动态路由驱动', '私有部署，不对外分发']
     }
   ] satisfies readonly ProductFact[]

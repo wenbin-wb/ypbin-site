@@ -61,6 +61,10 @@ pnpm -F @vben/web-antd build    # 产物在 apps/web-antd/dist
 
 **Bootstrap 是管理员初始化引导**。admin 首次启动时,若数据库里还没有管理员,会用 `.env` 的 `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD` 自动创建初始管理员账号,让系统第一次能登录进去。它只在空库首次启动时起作用,不是常驻功能。
 
+> **前提**:`ADMIN_BOOTSTRAP_ENABLED` 默认是 `false`(见 `application.yml` 的 `ypbin.admin.bootstrap.enabled`)。若部署脚本未生成该变量,需手动在 `.env` 添加 `ADMIN_BOOTSTRAP_ENABLED=true` 并设置用户名密码,否则首次启动不会创建管理员、无法登录。
+>
+> 当前 `deploy/deploy.sh` 生成 `.env` 时只写入了 `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD`,**未写入 `ADMIN_BOOTSTRAP_ENABLED`**;因此按默认配置部署后 Bootstrap 不会生效,首次登录需要手动补上 `ADMIN_BOOTSTRAP_ENABLED=true`。改完后重跑 deploy.sh 或重建容器。
+
 **登录后应关闭 Bootstrap**:把 `.env` 的 `ADMIN_BOOTSTRAP_ENABLED` 改为 `false` 再重跑 deploy.sh。否则重启时初始化逻辑仍在,若你已修改过初始管理员密码,再次启动可能触发重复初始化,存在账号被按 `.env` 重置的安全风险。
 
 ### CORS

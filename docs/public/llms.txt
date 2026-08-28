@@ -7,7 +7,7 @@
 - [Architecture](https://ypbin.cn/architecture): 产品边界与依赖方向
 - [Releases](https://ypbin.cn/releases): 版本状态与 starter 版本历史
 - [Starter guide](https://ypbin.cn/guide/starter/): 稳定版快速开始
-- [Starter modules](https://ypbin.cn/guide/starter/modules/): 34 个 Maven 模块分文档
+- [Starter modules](https://ypbin.cn/guide/starter/modules/): 35 个 Maven 模块分文档
 - [Starter configuration](https://ypbin.cn/guide/config/starter): 完整配置参考
 - [Admin guide](https://ypbin.cn/guide/admin/): 后台服务快速开始
 - [Admin architecture](https://ypbin.cn/guide/admin/architecture): 模块结构与 starter 集成

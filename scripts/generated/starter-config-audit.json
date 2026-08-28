@@ -10,15 +10,19 @@
     "列出宿主必须或常用的 Spring/第三方标准配置"
   ],
   "summary": {
-    "moduleCount": 34,
-    "modulesWithConfigCount": 27,
-    "customPropertyCount": 268,
+    "moduleCount": 35,
+    "modulesWithConfigCount": 28,
+    "customPropertyCount": 280,
     "standardHostPropertyCount": 40,
-    "totalEntryCount": 308,
-    "configurationPropertiesClassCount": 31,
+    "totalEntryCount": 320,
+    "configurationPropertiesClassCount": 35,
     "riskCount": 5
   },
   "prefixIndex": [
+    "ypbin.ai",
+    "ypbin.ai.chat",
+    "ypbin.ai.memory",
+    "ypbin.ai.rag",
     "ypbin.api-crypto",
     "ypbin.api-doc",
     "ypbin.api-doc.contact",
@@ -72,6 +76,417 @@
     "ypbin.websocket"
   ],
   "modules": {
+    "ypbin-starter-ai": {
+      "configurationProperties": [
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用 AI 模块，默认开启",
+          "allowedValues": [],
+          "enablement": "配置值为 true 时满足该自动装配条件；未配置时同样满足。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/AiProperties.java",
+              "line": 32
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryAutoConfiguration.java",
+              "line": 42
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/AiProperties.java",
+              "line": 32
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryAutoConfiguration.java",
+              "line": 42
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.chat.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用对话能力，默认开启",
+          "allowedValues": [],
+          "enablement": "配置值为 true 时满足该自动装配条件；未配置时同样满足。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 34
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatAutoConfiguration.java",
+              "line": 61
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 34
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatAutoConfiguration.java",
+              "line": 61
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.chat.default-system-prompt",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "你是一个专业的企业级 AI 助手，请用简洁清晰的中文回答问题。",
+          "required": false,
+          "requiredWhen": null,
+          "description": "默认系统提示词。使用 DeepSeek/GPT 等模型时作为 system 角色消息注入",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 37
+            }
+          ],
+          "default": "你是一个专业的企业级 AI 助手，请用简洁清晰的中文回答问题。",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 37
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.chat.rag-enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": false,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否在对话中启用 RAG 检索增强（需要同时配置 ypbin.ai.rag.enabled=true）",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 40
+            }
+          ],
+          "default": false,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 40
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.chat.stream-timeout-ms",
+          "type": "java.lang.Long",
+          "defaultDefined": true,
+          "defaultValue": 0,
+          "required": false,
+          "requiredWhen": null,
+          "description": "流式响应超时（毫秒），0 表示不超时",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 43
+            }
+          ],
+          "default": 0,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/chat/AiChatProperties.java",
+              "line": 43
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.memory.type",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "in-memory",
+          "required": false,
+          "requiredWhen": null,
+          "description": "记忆存储类型：in-memory（默认，重启后丢失）/ jdbc（持久化，需 JDBC 依赖与建表）",
+          "allowedValues": [
+            "in-memory",
+            "jdbc"
+          ],
+          "enablement": "配置值为 jdbc 时装配 JDBC 持久化记忆实现。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryProperties.java",
+              "line": 38
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryAutoConfiguration.java",
+              "line": 69
+            }
+          ],
+          "default": "in-memory",
+          "values": [
+            "in-memory",
+            "jdbc"
+          ],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryProperties.java",
+              "line": 38
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryAutoConfiguration.java",
+              "line": 69
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.memory.window-size",
+          "type": "java.lang.Integer",
+          "defaultDefined": true,
+          "defaultValue": 20,
+          "required": false,
+          "requiredWhen": null,
+          "description": "记忆窗口大小（每次请求携带的历史消息条数），默认 20",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryProperties.java",
+              "line": 41
+            }
+          ],
+          "default": 20,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/memory/AiMemoryProperties.java",
+              "line": 41
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.rag.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": false,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用 RAG，默认关闭（需要向量库才有意义）",
+          "allowedValues": [],
+          "enablement": "配置值为 true 时满足该自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 32
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagAutoConfiguration.java",
+              "line": 42
+            }
+          ],
+          "default": false,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 32
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagAutoConfiguration.java",
+              "line": 42
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.rag.top-k",
+          "type": "java.lang.Integer",
+          "defaultDefined": true,
+          "defaultValue": 5,
+          "required": false,
+          "requiredWhen": null,
+          "description": "检索最近 TopK 片段，默认 5",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 35
+            }
+          ],
+          "default": 5,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 35
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.rag.similarity-threshold",
+          "type": "java.lang.Double",
+          "defaultDefined": true,
+          "defaultValue": 0.7,
+          "required": false,
+          "requiredWhen": null,
+          "description": "相似度阈值，低于此值的片段不纳入 context，默认 0.7",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 38
+            }
+          ],
+          "default": 0.7,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 38
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.rag.max-context-length",
+          "type": "java.lang.Integer",
+          "defaultDefined": true,
+          "defaultValue": 8000,
+          "required": false,
+          "requiredWhen": null,
+          "description": "最大 context 长度（字符数），防止超出模型上下文窗口",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 41
+            }
+          ],
+          "default": 8000,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 41
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-ai",
+          "key": "ypbin.ai.rag.simple-store-path",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "SimpleVectorStore 序列化文件路径；配置后重启不丢向量（自动加载/保存）",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 44
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-ai/src/main/java/cn/ypbin/starter/ai/autoconfigure/rag/AiRagProperties.java",
+              "line": 44
+            }
+          ]
+        }
+      ],
+      "standardHostProperties": []
+    },
     "ypbin-starter-api-crypto": {
       "configurationProperties": [
         {

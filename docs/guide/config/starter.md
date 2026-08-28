@@ -5,7 +5,24 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 # Starter 配置参考
 
-本页由源码审计数据生成，覆盖 **308** 个配置项，其中 `ypbin.*` 268 项、宿主标准配置 40 项。默认值以源码为准。
+本页由源码审计数据生成，覆盖 **320** 个配置项，其中 `ypbin.*` 280 项、宿主标准配置 40 项。默认值以源码为准。
+
+## ypbin-starter-ai
+
+| 配置项 | 默认值 | 说明 |
+|---|---|---|
+| `ypbin.ai.enabled`<br><span class="cfg-src">java.lang.Boolean · AiProperties.java:32 · AiMemoryAutoConfiguration.java:42</span> | true | 是否启用 AI 模块，默认开启<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.chat.enabled`<br><span class="cfg-src">java.lang.Boolean · AiChatProperties.java:34 · AiChatAutoConfiguration.java:61</span> | true | 是否启用对话能力，默认开启<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.chat.default-system-prompt`<br><span class="cfg-src">java.lang.String · AiChatProperties.java:37</span> | 你是一个专业的企业级 AI 助手，请用简洁清晰的中文回答问题。 | 默认系统提示词。使用 DeepSeek/GPT 等模型时作为 system 角色消息注入<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.chat.rag-enabled`<br><span class="cfg-src">java.lang.Boolean · AiChatProperties.java:40</span> | false | 是否在对话中启用 RAG 检索增强（需要同时配置 ypbin.ai.rag.enabled=true）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.chat.stream-timeout-ms`<br><span class="cfg-src">java.lang.Long · AiChatProperties.java:43</span> | 0 | 流式响应超时（毫秒），0 表示不超时<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.memory.type`<br><span class="cfg-src">java.lang.String · AiMemoryProperties.java:38 · AiMemoryAutoConfiguration.java:69</span> | in-memory | 记忆存储类型：in-memory（默认，重启后丢失）/ jdbc（持久化，需 JDBC 依赖与建表）<br>可选值：in-memory / jdbc<br><strong>注意</strong>：— |
+| `ypbin.ai.memory.window-size`<br><span class="cfg-src">java.lang.Integer · AiMemoryProperties.java:41</span> | 20 | 记忆窗口大小（每次请求携带的历史消息条数），默认 20<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.rag.enabled`<br><span class="cfg-src">java.lang.Boolean · AiRagProperties.java:32 · AiRagAutoConfiguration.java:42</span> | false | 是否启用 RAG，默认关闭（需要向量库才有意义）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.rag.top-k`<br><span class="cfg-src">java.lang.Integer · AiRagProperties.java:35</span> | 5 | 检索最近 TopK 片段，默认 5<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.rag.similarity-threshold`<br><span class="cfg-src">java.lang.Double · AiRagProperties.java:38</span> | 0.7 | 相似度阈值，低于此值的片段不纳入 context，默认 0.7<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.rag.max-context-length`<br><span class="cfg-src">java.lang.Integer · AiRagProperties.java:41</span> | 8000 | 最大 context 长度（字符数），防止超出模型上下文窗口<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.ai.rag.simple-store-path`<br><span class="cfg-src">java.lang.String · AiRagProperties.java:44</span> | — | SimpleVectorStore 序列化文件路径；配置后重启不丢向量（自动加载/保存）<br>可选值：—<br><strong>注意</strong>：— |
 
 ## ypbin-starter-api-crypto
 

@@ -340,7 +340,7 @@
       "allowedValues": null,
       "safetyNotes": [
         "敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。",
-        "当前 YAML 路径错误且未确认模块依赖，实际不生效。"
+        "ypbin.api-crypto.key 已生效：接口加解密 AES 密钥由部署环境注入（16/24/32 字节）。"
       ],
       "sources": [
         {
@@ -1161,13 +1161,13 @@
       "type": "boolean",
       "defaultValue": true,
       "requiredWhen": "对应组件启用时生效",
-      "description": "SSE 开关（当前 key 与 starter 不匹配）",
+      "description": "SSE 开关（对应 starter 的 ypbin.sse 前缀，正确绑定）",
       "allowedValues": [
         true,
         false
       ],
       "safetyNotes": [
-        "starter 实际 key 为 ypbin.se.enabled。"
+        "starter 的 SSE 配置前缀就是 ypbin.sse，本键正确生效。"
       ],
       "sources": [
         {
@@ -1176,7 +1176,7 @@
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
       "key": "captcha.expire.default",
@@ -1196,55 +1196,14 @@
       "status": "active"
     },
     {
-      "key": "captcha.sensitive-words.replacement",
+      "key": "ypbin.sensitive-words.replacement",
       "type": "string",
       "defaultValue": "*",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.sensitive-words.replacement 配置",
+      "description": "敏感词替换字符（starter 前缀为 ypbin.sensitive-words，正确绑定）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
-      ],
-      "sources": [
-        {
-          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 128
-        }
-      ],
-      "category": "application",
-      "status": "misconfigured"
-    },
-    {
-      "key": "captcha.i18n.enabled",
-      "type": "boolean",
-      "defaultValue": true,
-      "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.i18n.enabled 配置",
-      "allowedValues": [
-        true,
-        false
-      ],
-      "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
-      ],
-      "sources": [
-        {
-          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 130
-        }
-      ],
-      "category": "application",
-      "status": "misconfigured"
-    },
-    {
-      "key": "captcha.api-crypto.key",
-      "type": "string",
-      "defaultValue": "",
-      "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.api-crypto.key 配置",
-      "allowedValues": null,
-      "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.sensitive-words.replacement 已生效：敏感词命中后统一替换为该字符。"
       ],
       "sources": [
         {
@@ -1253,165 +1212,206 @@
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
-      "key": "captcha.observability.enabled",
+      "key": "ypbin.i18n.enabled",
       "type": "boolean",
       "defaultValue": true,
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.observability.enabled 配置",
+      "description": "国际化开关（starter 前缀为 ypbin.i18n，正确绑定）",
       "allowedValues": [
         true,
         false
       ],
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.i18n.enabled 已生效：按请求参数 lang 或请求头 Accept-Language 解析语言。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 136
+          "line": 167
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
-      "key": "captcha.observability.request-id-header",
+      "key": "ypbin.api-crypto.key",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "对应组件启用时生效",
+      "description": "接口加解密 AES 密钥（starter 前缀为 ypbin.api-crypto，正确绑定）",
+      "allowedValues": null,
+      "safetyNotes": [
+        "ypbin.api-crypto.key 已生效：16/24/32 字节 AES 密钥，生产由环境变量 API_CRYPTO_KEY 注入。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 169
+        }
+      ],
+      "category": "application",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.observability.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "对应组件启用时生效",
+      "description": "请求链路可观测性开关（starter 前缀为 ypbin.observability）",
+      "allowedValues": [
+        true,
+        false
+      ],
+      "safetyNotes": [
+        "admin 当前未引入 ypbin-starter-cloud-observability 模块，本键无自动配置支撑（空配，不生效）。"
+      ],
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
+          "line": 180
+        }
+      ],
+      "category": "application",
+      "status": "inactive-missing-dependency"
+    },
+    {
+      "key": "ypbin.observability.request-id-header",
       "type": "string",
       "defaultValue": "X-Request-Id",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.observability.request-id-header 配置",
+      "description": "请求 ID 响应头名称（starter 前缀为 ypbin.observability）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "admin 当前未引入 ypbin-starter-cloud-observability 模块，本键无自动配置支撑（空配，不生效）。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 137
+          "line": 181
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "inactive-missing-dependency"
     },
     {
-      "key": "captcha.observability.mdc-key",
+      "key": "ypbin.observability.mdc-key",
       "type": "string",
       "defaultValue": "requestId",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.observability.mdc-key 配置",
+      "description": "日志 MDC 键名（starter 前缀为 ypbin.observability）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "admin 当前未引入 ypbin-starter-cloud-observability 模块，本键无自动配置支撑（空配，不生效）。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 138
+          "line": 182
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "inactive-missing-dependency"
     },
     {
-      "key": "captcha.api-doc.enabled",
+      "key": "ypbin.api-doc.enabled",
       "type": "boolean",
       "defaultValue": true,
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.api-doc.enabled 配置",
+      "description": "API 文档开关（starter 前缀为 ypbin.api-doc，正确绑定）",
       "allowedValues": [
         true,
         false
       ],
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.api-doc.enabled 已生效：Knife4j/Swagger 文档可访问。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 140
+          "line": 171
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
-      "key": "captcha.api-doc.title",
+      "key": "ypbin.api-doc.title",
       "type": "string",
       "defaultValue": "ypbin-admin API",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.api-doc.title 配置",
+      "description": "API 文档标题（starter 前缀为 ypbin.api-doc）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.api-doc.title 已生效。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 141
+          "line": 172
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
-      "key": "captcha.api-doc.description",
+      "key": "ypbin.api-doc.description",
       "type": "string",
       "defaultValue": "企业级后台管理系统接口文档",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.api-doc.description 配置",
+      "description": "API 文档描述（starter 前缀为 ypbin.api-doc）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.api-doc.description 已生效。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 142
+          "line": 173
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
-      "key": "captcha.api-doc.version",
+      "key": "ypbin.api-doc.version",
       "type": "string",
       "defaultValue": "1.0.0",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.api-doc.version 配置",
+      "description": "API 文档版本（starter 前缀为 ypbin.api-doc）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.api-doc.version 已生效。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 143
+          "line": 174
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
-      "key": "captcha.api-doc.contact.name",
+      "key": "ypbin.api-doc.contact.name",
       "type": "string",
       "defaultValue": "wenbin",
       "requiredWhen": "对应组件启用时生效",
-      "description": "captcha.api-doc.contact.name 配置",
+      "description": "API 文档联系人（starter 前缀为 ypbin.api-doc）",
       "allowedValues": null,
       "safetyNotes": [
-        "YAML 层级错误：不会绑定预期 ypbin.* starter 属性。"
+        "ypbin.api-doc.contact.name 已生效。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 145
+          "line": 176
         }
       ],
       "category": "application",
-      "status": "misconfigured"
+      "status": "active"
     },
     {
       "key": "mybatis-plus.configuration.map-underscore-to-camel-case",
@@ -1475,16 +1475,16 @@
       "description": "management.endpoints.web.exposure.include 配置",
       "allowedValues": null,
       "safetyNotes": [
-        "当前未引入 Actuator。"
+        "Actuator 已接入（pom.xml 引入 spring-boot-starter-actuator）；仅暴露 health/info 两个低危端点。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 165
+          "line": 228
         }
       ],
       "category": "application",
-      "status": "inactive-missing-dependency"
+      "status": "active"
     },
     {
       "key": "management.endpoint.health.show-details",
@@ -1494,16 +1494,16 @@
       "description": "management.endpoint.health.show-details 配置",
       "allowedValues": null,
       "safetyNotes": [
-        "当前未引入 Actuator。"
+        "Actuator 已接入；health 详情仅在登录放行后可见（/actuator/health 已加入 ypbin.security.excludes）。"
       ],
       "sources": [
         {
           "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/ypbin-admin-server/src/main/resources/application.yml",
-          "line": 168
+          "line": 231
         }
       ],
       "category": "application",
-      "status": "inactive-missing-dependency"
+      "status": "active"
     },
     {
       "key": "SITE_NAME",
@@ -2528,7 +2528,7 @@
   "safetyFindings": [
     "未读取或输出 .env 真值。",
     "数据库凭据与 License 密钥应通过 Secret 管理并轮换。",
-    "captcha 下多组属性缩进错误。",
-    "ypbin.sse.enabled 与 starter 实际 ypbin.se.enabled 不一致。"
+    "ypbin.sse.enabled 对应 starter 的 ypbin.sse 前缀，正确绑定。",
+    "Actuator 已接入（health/info 端点）；observability 模块未引入，对应配置为空配。"
   ]
 }

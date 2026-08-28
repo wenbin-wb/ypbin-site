@@ -5,7 +5,7 @@ description: 理解模块分层、自动装配、宿主覆盖和统一契约。
 
 # Starter 核心机制
 
-本页解释如何正确使用 ypbin-starter，而不只是复制依赖坐标。完整的 308 项配置请查阅[配置参考](/guide/config/starter)。
+本页解释如何正确使用 ypbin-starter，而不只是复制依赖坐标。完整的 320 项配置请查阅[配置参考](/guide/config/starter)。
 
 ## 模块分层
 

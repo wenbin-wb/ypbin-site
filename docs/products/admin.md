@@ -23,11 +23,11 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 | `ypbin-admin-system` | 系统领域与后台业务 |
 | `ypbin-admin-server` | Spring Boot 启动与运行入口 |
 
-开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter 1.4.0-SNAPSHOT。Actuator 与 observability 当前不属于本产品页的公开能力范围。
+开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter 1.4.0-SNAPSHOT。Actuator 已接入（health/info 端点，见 application.yml 的 `management` 段）；observability 模块未引入，不属于本产品页的公开能力范围。
 
 ## 安全提醒
 
-开发种子账号 `admin/admin123` 只用于本地初始化与联调，首次部署必须删除或修改。文档和示例中的 AK/SK 是演示值，不得用于生产环境。
+开发种子账号 `admin/123456`（密码统一见 `V2__data.sql` 种子注释）只用于本地初始化与联调，首次部署必须删除或修改。文档和示例中的 AK/SK 是演示值，不得用于生产环境。
 
 ## AI 对话能力
 

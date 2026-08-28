@@ -8,7 +8,9 @@ export default defineConfig({
   title: 'ypbin',
   description,
   // 默认浅色为主(不随系统),右上角可手动切换深色;切换偏好持久化到 localStorage
-  appearance: { initialValue: 'light' },
+  // 注:VitePress 1.6.x 的 appearance 仅支持 initialValue:'dark',浅色起始为默认行为,
+  // 配合下方 localStorage 脚本把历史 auto 偏好强制为 light,实现"默认浅色、不随系统"
+  appearance: true,
   cleanUrls: true,
   ignoreDeadLinks: [/^http:\/\/localhost(?::\d+)?(?:\/|$)/],
   lastUpdated: true,
@@ -39,7 +41,8 @@ export default defineConfig({
       { text: '产品', items: [{ text: 'starter', link: '/products/starter' }, { text: 'admin', link: '/products/admin' }, { text: 'admin-ui', link: '/products/admin-ui' }] },
       { text: '架构', link: '/architecture' },
       { text: '文档', link: '/guide/starter/' },
-      { text: '发布', link: '/releases' }
+      { text: '发布', link: '/releases' },
+      { text: '安全', link: '/security' }
     ],
     sidebar: {
       '/guide/': [

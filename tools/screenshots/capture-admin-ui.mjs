@@ -9,7 +9,7 @@ const outputDir = resolve(root, 'docs/public/screenshots/admin-ui')
 const baseUrl = process.env.YPBIN_ADMIN_UI_URL ?? 'http://localhost:5666'
 const allowedHostname = new URL(baseUrl).hostname
 const username = process.env.YPBIN_SCREENSHOT_USERNAME ?? 'admin'
-const password = process.env.YPBIN_SCREENSHOT_PASSWORD ?? 'admin123'
+const password = process.env.YPBIN_SCREENSHOT_PASSWORD ?? '123456'
 const sourceRef = process.env.YPBIN_ADMIN_UI_REF ?? '543cb63e6140735b6ab1eb8425b24af1dac2923c'
 const workingTreeHash = process.env.YPBIN_ADMIN_UI_DIFF_SHA256 ?? '9546dce52275068a1a699f7e364c65d80d6660351cdab4122f854f53c4244473'
 

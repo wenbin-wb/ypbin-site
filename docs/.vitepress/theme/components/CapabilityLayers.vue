@@ -6,7 +6,7 @@ import { sourceManifest } from '../../data/source-manifest'
   <section class="home-section capability-section" aria-labelledby="capability-title">
     <div class="section-heading">
       <h2 id="capability-title">从单体到微服务，一套可选的模块矩阵。</h2>
-      <p>34 个 Maven 模块按能力分层，按需引入，用不到的模块不进 classpath。模块名与 maven artifact 一一对应，来源为根聚合 pom。</p>
+      <p>35 个 Maven 模块按能力分层，按需引入，用不到的模块不进 classpath。模块名与 maven artifact 一一对应，来源为根聚合 pom。</p>
     </div>
     <div class="capability-grid">
       <article

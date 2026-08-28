@@ -67,15 +67,16 @@ public class MyModelConfigResolver implements AiModelConfigResolver {
 | `ypbin.ai.enabled` | true | 模块总开关 |
 | `ypbin.ai.chat.enabled` | true | 对话能力开关 |
 | `ypbin.ai.chat.default-system-prompt` | 你是一个专业的企业级 AI 助手… | 默认系统提示词（支持 `{username}`、`{tenantName}` 占位符） |
-| `ypbin.ai.chat.window-size` | 20 | 每次请求携带的历史消息条数；**越大上下文越长、首 token 越慢**，生产按需调小（admin 默认 10） |
 | `ypbin.ai.chat.rag-enabled` | false | 普通对话是否附加全局 RAG（需 `ypbin.ai.rag.enabled=true`） |
 | `ypbin.ai.chat.stream-timeout-ms` | 0 | 流式响应超时（毫秒），0 不超时 |
 | `ypbin.ai.memory.type` | in-memory | 记忆存储：`in-memory`（重启丢失）/ `jdbc`（持久化，需 JDBC 依赖与建表） |
-| `ypbin.ai.memory.window-size` | 20 | 记忆窗口大小 |
+| `ypbin.ai.memory.window-size` | 20 | 记忆窗口大小（每次请求携带的历史消息条数），admin 默认 10 |
 | `ypbin.ai.rag.enabled` | false | RAG 总开关（需 VectorStore 依赖） |
 | `ypbin.ai.rag.top-k` | 5 | 检索条数 |
 | `ypbin.ai.rag.similarity-threshold` | 0.7 | 相似度阈值 |
 | `ypbin.ai.rag.max-context-length` | 8000 | 检索上下文最大字符数 |
+
+> 历史消息窗口统一由 `ypbin.ai.memory.window-size` 控制，`AiChatProperties` 不存在 `window-size` 字段，`ypbin.ai.chat.window-size` 是死键不会生效（见 application.yml 注释与 `AiChatProperties` 源码）。
 
 ## 记忆与建表
 

@@ -20,7 +20,7 @@ ypbin-starter
 
 ## 基础能力层：starter
 
-starter 将横切能力拆成 34 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
+starter 将横切能力拆成 35 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
 
 ## 业务装配层：admin
 
@@ -32,8 +32,8 @@ admin-ui 负责浏览器端交互。页面可见性不独立于后端权限；�
 
 ## 版本流
 
-稳定接入以 starter v1.2.0 为基线。正在联调的 admin 1.0.0-SNAPSHOT 使用 starter 1.3.0-SNAPSHOT；这条开发链不等同于稳定发布链。admin-ui 5.7.0 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
+稳定接入以 starter v1.3.0 为基线。正在联调的 admin 1.0.0-SNAPSHOT 使用 starter 1.4.0-SNAPSHOT；这条开发链不等同于稳定发布链。admin-ui 5.7.0 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
 
 ## 不在当前承诺内
 
-Actuator 与 observability 尚未接入后台服务，计划中的能力以对应仓库源码和本站[发布页](/releases)为准。
+Actuator 已接入后台服务（health/info 端点），observability 模块未引入；计划中的能力以对应仓库源码和本站[发布页](/releases)为准。

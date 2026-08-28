@@ -35,7 +35,7 @@ Content-Type: application/json
 请求体：
 {
   "username": "admin",
-  "password": "admin123"
+  "password": "123456"
 }
 
 响应 data：
@@ -44,7 +44,7 @@ Content-Type: application/json
 }
 ```
 
-- 默认账号 admin / admin123
+- 默认账号 admin / 123456（实际种子以 `V2__data.sql` 为准，注释标明"密码统一 123456"）
 - 登录接口有频率限制（60 秒内最多 10 次）
 
 ### 2.2 第三方登录（OAuth）
@@ -109,13 +109,13 @@ GET /auth/codes         → string[]（权限码集合）
 GET /menu/all           → RouteRecord[]（路由树，排除按钮）
 ```
 
-### 2.7 退出登录
+### 2.6 退出登录
 
 ```
 POST /auth/logout
 ```
 
-### 2.6 未登录处理
+### 2.7 未登录处理
 
 后端返回 `code: 401`，HTTP 200。前端拦截器检测到 401 应清除 token 并跳转登录页。
 
@@ -142,11 +142,19 @@ POST /captcha/verify?id=xxx → 校验验证码，请求体为 ImageCaptchaTrack
 
 ```
 GET    /system/user/list?page=1&pageSize=20&username=zhang&status=1   → PageResult<UserResp>
+GET    /system/user/export?page=1&pageSize=20                          → 导出用户列表（Excel 文件流）
+GET    /system/user/import-template                                    → 下载用户导入模板（Excel 文件流）
+POST   /system/user/import?file=<MultipartFile>                        → 批量导入用户（返回 UserImportResult）
 GET    /system/user/{id}     → UserResp（含 roleIds, postIds）
 POST   /system/user          → 新增用户
 PUT    /system/user/{id}     → 编辑用户
+PUT    /system/user/{id}/status → 修改用户状态，请求体 { "status": 1|0 }
+PUT    /system/user/{id}/reset-password → 重置密码，请求体 { "password": "..." }
+PUT    /system/user/{id}/roles → 分配角色，请求体 { "roleIds": [1, 2] }
 DELETE /system/user/{id}     → 删除用户
 ```
+
+> 用户导入/导出、状态、重置密码与分配角色的请求/响应结构以源码为准（见 `SysUserController`）。
 
 **UserResp 字段:**
 
@@ -262,7 +270,7 @@ GET    /system/config/list?page=1&configGroup=password  → PageResult<ConfigRes
 GET    /system/config/group/{configGroup}                → ConfigResp[]
 POST   /system/config                                   → 新增参数
 PUT    /system/config/{id}                               → 编辑参数
-PUT    /system/config/batch                              → 批量保存 { "configs": { "KEY": "value", ... } }
+PUT    /system/config/group/{configGroup}                → 批量保存分组参数 { "configs": { "KEY": "value", ... } }
 DELETE /system/config/{id}                               → 删除参数
 ```
 
@@ -274,6 +282,7 @@ DELETE /system/config/{id}                               → 删除参数
 GET    /system/client/list    → SysClient[]
 POST   /system/client         → 新增
 PUT    /system/client/{id}    → 编辑
+PUT    /system/client/{id}/reset-secret → 重置客户端密钥
 DELETE /system/client/{id}    → 删除
 ```
 
@@ -281,6 +290,7 @@ DELETE /system/client/{id}    → 删除
 
 ```
 GET /system/log/list?page=1&pageSize=20&module=认证&success=1&startTime=xxx&endTime=xxx → PageResult<LogResp>
+GET /system/log/export?page=1&pageSize=20          → 导出操作日志（Excel 文件流）
 ```
 
 ### 5.10 在线用户
@@ -313,6 +323,8 @@ DELETE /system/file/{id}                    → 删除
 GET    /system/notice/list    → SysNotice[]
 POST   /system/notice         → 新增
 PUT    /system/notice/{id}    → 编辑
+PUT    /system/notice/{id}/revoke  → 撤回公告
+PUT    /system/notice/{id}/publish → 发布公告
 DELETE /system/notice/{id}    → 删除
 ```
 
@@ -320,7 +332,9 @@ DELETE /system/notice/{id}    → 删除
 
 ```
 GET    /system/job/list        → SysJob[]
+GET    /system/job/log?page=1&pageSize=20         → PageResult<JobLogResp>（全部任务日志）
 GET    /system/job/log/{jobId} → PageResult<JobLogResp>
+POST   /system/job/cron/preview → Cron 语法校验与下次触发时间预览，请求体 { "cron": "..." }，响应 CronPreviewResp
 POST   /system/job             → 新增
 PUT    /system/job/{id}        → 编辑
 DELETE /system/job/{id}        → 删除
@@ -329,35 +343,219 @@ POST   /system/job/{id}/stop   → 停止调度
 POST   /system/job/{id}/run    → 立即执行
 ```
 
-### 5.15 开放应用管理
+> `/system/job/log` 与 `/system/job/cron/preview` 请求/响应结构以源码为准（见 `SysJobController`）。
+
+### 5.15 License 管理
+
+```
+GET    /system/license/list            → SysLicense[]（授权列表）
+GET    /system/license/{id}            → 授权详情
+POST   /system/license                 → 新增授权
+PUT    /system/license/{id}            → 编辑授权
+PUT    /system/license/{id}/submit     → 提交签发
+PUT    /system/license/{id}/approve    → 审批通过
+PUT    /system/license/{id}/revoke     → 吊销授权
+DELETE /system/license/{id}            → 删除授权
+POST   /system/license/generate-key    → 生成签发密钥对
+GET    /system/license/{id}/download   → 下载授权文件
+GET    /system/license/{id}/delivery   → 交付信息
+```
+
+> License 相关请求/响应结构以源码为准（见 `SysLicenseController`），签发密钥经环境变量注入。
+
+### 5.16 开放应用管理
 
 ```
 GET    /system/app/list    → SysApp[]
 POST   /system/app         → 新增
 PUT    /system/app/{id}    → 编辑
+PUT    /system/app/{id}/reset-secret → 重置应用密钥
 DELETE /system/app/{id}    → 删除
 ```
 
-### 5.16 邮件测试
+### 5.17 邮件测试
 
 ```
 POST /system/mail/test?to=xxx@example.com    → 发送测试邮件
 ```
 
+### 5.18 权限模板
+
+```
+GET    /system/auth-template/list  → AuthTemplateResp[]（权限模板，平台级）
+POST   /system/auth-template       → 新增
+PUT    /system/auth-template/{id}  → 编辑
+DELETE /system/auth-template/{id}  → 删除
+```
+
+### 5.19 第三方登录配置
+
+```
+GET    /system/config/social      → SocialConfigResp[]（全部平台配置）
+GET    /system/config/social/{source} → 单平台配置
+PUT    /system/config/social/{source} → 修改配置（请求体 SocialConfigUpdateReq）
+```
+
+> source 取值：github / gitee / qq / wechat_open / alipay / dingtalk。
+
 ## 6. 仪表盘
 
 ```
-GET /dashboard/stats → { "userCount": N }
+GET /dashboard/stats        → Map（6 个字段：userCount / roleCount / deptCount / menuCount / onlineCount / logCount）
+GET /dashboard/latest-logs?limit=10  → LogResp[]（最近操作日志，limit 1..100，默认 10）
+GET /dashboard/log-trend?days=7      → LogTrendResp[]（近 N 天操作日志趋势，days 1..90，默认 7）
 ```
+
+- 仪表盘接口需要权限 `system:dashboard:view`。
 
 ## 7. 消息推送
 
+### 7.1 当前用户站内信（仅需登录，无需管理权限）
+
 ```
-GET  /user/messages/unread-count   → long（未读消息数）
+GET  /user/messages?page=1&pageSize=20&readStatus=   → PageResult<SysMessage>（分页，可按已读状态过滤）
+GET  /user/messages/unread-count                     → long（未读消息数）
+GET  /user/messages/recent?limit=10                  → SysMessage[]（最近消息，含已读/未读，limit 1..100）
+PUT  /user/messages/{id}/read                        → 标记单条已读
+PUT  /user/messages/read-all                         → 全部标记已读
+DELETE /user/messages/{id}                           → 删除当前用户自己的消息
+```
+
+### 7.2 推送测试
+
+```
 POST /system/push/test?userId=xxx  → 推送测试（调试用）
 ```
 
-## 8. 前端路由结构（GET /menu/all）
+> SSE 订阅票据端点为 `POST /ypbin/sse/ticket`（见 [Admin UI 配置参考](/guide/config/admin-ui)），订阅端点为 `GET /ypbin/sse/subscribe?ticket=<ticket>`。
+
+## 8. AI 对话
+
+需要登录 + 对应 `ai:*` 权限，统一前缀 `/ai/chat`。
+
+```
+GET    /ai/chat/sessions                    → AiChatSessionResp[]（会话列表）
+POST   /ai/chat/sessions                    → 创建会话，返回会话 ID
+DELETE /ai/chat/sessions/{id}               → 删除会话
+GET    /ai/chat/sessions/{id}/messages      → AiChatMessageResp[]（会话消息历史）
+POST   /ai/chat/send                        → 发送消息（同步），返回 AiChatMessageResp
+POST   /ai/chat/stream                      → 发送消息（流式 SSE，text/event-stream）
+POST   /ai/chat/sessions/{id}/regenerate    → 重新生成最后一条响应
+PUT    /ai/chat/sessions/{id}/title?title=xxx → 更新会话标题
+PUT    /ai/chat/sessions/{id}/pin           → 置顶/取消置顶会话
+```
+
+### 8.1 AI 角色
+
+```
+GET    /ai/roles                 → AiChatRole[]（角色列表）
+POST   /ai/roles                 → 新增角色
+PUT    /ai/roles/{id}            → 编辑角色
+DELETE /ai/roles/{id}            → 删除角色
+PUT    /ai/roles/{id}/favorite   → 收藏/取消收藏角色
+```
+
+### 8.2 模型配置（平台级）
+
+```
+GET    /ai/models?modelType=     → AiModelConfigResp[]（模型配置列表）
+POST   /ai/models                → 新增模型配置
+PUT    /ai/models/{id}           → 编辑模型配置
+DELETE /ai/models/{id}           → 删除模型配置
+PUT    /ai/models/{id}/default   → 设为默认模型
+PUT    /ai/models/{id}/status/{status} → 启用/停用模型
+POST   /ai/models/{id}/duplicate → 复制模型配置
+POST   /ai/models/{id}/test      → 连通性测试
+```
+
+### 8.3 知识库
+
+```
+POST   /ai/knowledge-bases                          → 新增知识库
+PUT    /ai/knowledge-bases/{id}                     → 编辑知识库
+GET    /ai/knowledge-bases                          → 知识库列表
+DELETE /ai/knowledge-bases/{id}                     → 删除知识库
+POST   /ai/knowledge-bases/{id}/documents?file=      → 上传文档（PDF/Markdown/TXT，异步向量化）
+GET    /ai/knowledge-bases/{id}/documents?page=&keyword= → PageResult<AiDocumentVO>
+DELETE /ai/knowledge-bases/{id}/documents/{docId}    → 删除文档
+POST   /ai/knowledge-bases/{id}/documents/batch?files= → 批量上传文档（最多 20 个）
+POST   /ai/knowledge-bases/{id}/import-url           → URL/Sitemap/RSS 导入文档
+POST   /ai/knowledge-bases/{id}/documents/{docId}/retry → 重试向量化
+POST   /ai/knowledge-bases/{id}/query                → 知识库问答（非流式），请求体 { "question": "..." }
+POST   /ai/knowledge-bases/{id}/search-test          → 检索测试，返回召回片段
+POST   /ai/knowledge-bases/{id}/search-rerank-test   → 关键词重叠重排测试
+POST   /ai/knowledge-bases/search-multiple-test      → 多知识库联合检索测试（RRF 合并）
+POST   /ai/knowledge-bases/{id}/query-with-sources   → 带溯源的问答（答案 + 召回片段）
+PUT    /ai/knowledge-bases/{id}/widget?enabled=true  → 启用/停用网页挂件（返回令牌）
+PUT    /ai/knowledge-bases/{id}/share                → 保存公开分享设置（返回令牌）
+GET    /ai/knowledge-bases/{id}/documents/{docId}/content → 文档原文内容
+GET    /ai/knowledge-bases/{id}/documents/{docId}/chunks  → 文档全量分块列表
+```
+
+### 8.4 Prompt 模板
+
+```
+GET    /ai/prompt-templates           → AiPromptTemplate[]
+POST   /ai/prompt-templates           → 新增
+PUT    /ai/prompt-templates/{id}      → 编辑
+DELETE /ai/prompt-templates/{id}      → 删除
+PUT    /ai/prompt-templates/{id}/status/{status} → 启用/停用
+```
+
+### 8.5 用量统计（平台级）
+
+```
+GET /ai/usage/daily?startDate=&endDate=  → 按天聚合 Token 用量（折线图）
+GET /ai/usage/by-model                   → 按模型聚合 Token 用量（饼图）
+GET /ai/usage/summary                    → 用量汇总
+```
+
+### 8.6 AI 统计看板（平台级）
+
+```
+GET /ai/stats/summary         → 概览统计（知识库数/文档总数/问答次数/检索次数/Token 总量）
+GET /ai/stats/daily?days=30   → 近 N 天问答/检索/Token 趋势
+GET /ai/stats/hot-queries?limit=10 → 搜索热词 Top N
+GET /ai/stats/kb-docs         → 各知识库文档数分布
+```
+
+### 8.7 公开分享（免登录）
+
+```
+GET  /share/{token}/config                     → 分享配置（知识库名称、是否需要密码、是否过期）
+GET  /share/{token}/documents?page=            → PageResult<AiDocumentVO>（分享文档列表，可选 X-Share-Password 头）
+GET  /share/{token}/documents/{docId}/content  → 分享文档原文（可选 X-Share-Password 头）
+POST /share/{token}/ask                        → 对分享知识库提问（非流式 RAG），请求体 { "question": "..." }
+```
+
+### 8.8 网页挂件（免登录）
+
+```
+GET  /widget/{token}/config     → 挂件配置
+POST /widget/{token}/ask        → 匿名提问（请求体 { "question": "..." }）
+GET  /widget/embed.js           → 挂件嵌入脚本（application/javascript，无需令牌）
+```
+
+> AI 相关接口的请求/响应结构以源码为准（见 `system/ai/controller/` 下各 Controller）。
+
+## 9. 开放接口
+
+### 9.1 License 联机校验（消费端专用，免登录）
+
+```
+GET /open/license/verify?licenseId=xxx&fingerprint=xxx  → LicenseRemoteResp（valid=true/false）
+```
+
+- 采用开放应用 AK/SK 接口签名鉴权（accessKey/timestamp/nonce/sign 四件套，经 `SignChecker` 校验）。
+- 鉴权失败与业务判定失败统一返回 `valid=false`，消费端据此阻断。
+
+### 9.2 开放 API 示例（免登录，需签名）
+
+```
+POST /open-api/demo   → 标注 @ApiSign，需通过签名校验，返回 { "echo": <请求体>, "message": "开放 API 签名校验通过" }
+```
+
+## 10. 前端路由结构（GET /menu/all）
 
 返回 `RouteRecord[]`，结构如下：
 
@@ -386,7 +584,7 @@ POST /system/push/test?userId=xxx  → 推送测试（调试用）
 - **embedded** 类型：内嵌 iframe，meta.iframeSrc 填地址
 - **link** 类型：外链，meta.link 填地址
 
-## 9. 权限模型
+## 11. 权限模型
 
 - **权限码**：即菜单表中 `auth_code` 字段（如 `system:user:list`）
 - 用户 → 角色 → 菜单（auth_code），多条角色取并集
@@ -394,18 +592,18 @@ POST /system/push/test?userId=xxx  → 推送测试（调试用）
 - 每个系统管理页面都有对应的 list/add/edit/delete 四个按钮级权限码
 - 前端用权限码控制按钮显隐
 
-## 10. 数据字典与派生字段
+## 12. 数据字典与派生字段
 
 - `@DictText` 标注的字段会额外输出一个同名+Text 后缀的文本字段（如 `gender` → `genderText`）
 - `@RefText` 标注的 ID 字段会额外输出一个同名+Name 后缀的名称字段（如 `createUser` → `createUserName`）
 - 这些由后端序列化时自动处理，前端直接使用，无需额外请求
 
-## 11. 数据脱敏
+## 13. 数据脱敏
 
 - `@Sensitive` 标注的字段（如 phone、email）后端序列化时自动脱敏
 - 脱敏规则：手机号保留前 3 后 4、邮箱保留首字符
 
-## 12. 关键系统参数
+## 14. 关键系统参数
 
 | 键 | 默认值 | 说明 |
 |---|---|---|
