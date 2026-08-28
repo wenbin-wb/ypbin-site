@@ -1,6 +1,10 @@
 # ypbin 官网
 
-ypbin 独立官网与文档门户，基于 VitePress、Vue 3 和 TypeScript 构建。
+**ypbin 官方开发文档与指南门户**
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Node](https://img.shields.io/badge/Node-20%2B-brightgreen.svg)](https://nodejs.org/)
+[![VitePress](https://img.shields.io/badge/VitePress-1.6-blue.svg)](https://vitepress.dev/)
 
 ## 本地开发
 

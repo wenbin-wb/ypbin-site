@@ -1,0 +1,23 @@
+name: "📝 文档勘误 / 改进建议 (ypbin-site)"
+description: 发现文档拼写错误、示例代码失效或需要补充新指南？
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢帮助完善 ypbin 官方文档！
+  - type: input
+    id: page_url
+    attributes:
+      label: 文档页面 URL 或路径
+      placeholder: "例如：guide/starter/ai.md 或 https://ypbin.cn/guide/starter/ai"
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: 勘误内容与建议修改
+      description: 请详细指出有误的内容及建议的修改方案。
+    validations:
+      required: true
