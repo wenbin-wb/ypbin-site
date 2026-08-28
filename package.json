@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@pagefind/default-ui": "1.5.2",
-    "shiki": "2.1.0",
+    "shiki": "4.4.3",
     "vitepress": "1.6.4",
     "vue": "3.5.41"
   },
