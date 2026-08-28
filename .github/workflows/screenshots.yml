@@ -41,18 +41,18 @@ jobs:
           --health-cmd="redis-cli ping"
           --health-interval=10s --health-timeout=3s --health-retries=12
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           repository: wenbin-wb/ypbin-starter
           ref: ${{ inputs.starter-ref }}
           path: sources/ypbin-starter
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: wenbin-wb/ypbin-admin
           ref: ${{ inputs.admin-ref }}
           path: sources/ypbin-admin
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           repository: wenbin-wb/ypbin-admin-ui
           ref: ${{ inputs.admin-ui-ref }}
