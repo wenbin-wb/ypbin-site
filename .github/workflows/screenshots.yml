@@ -62,7 +62,7 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: maven
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 11.16.0
           run_install: false
