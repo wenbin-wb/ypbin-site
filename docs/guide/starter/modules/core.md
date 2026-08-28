@@ -41,3 +41,11 @@ public class MenuNode implements TreeNode<MenuNode, Long> {
 List<MenuNode> tree = TreeUtils.build(flatList);        // 自动识别根节点
 List<MenuNode> tree2 = TreeUtils.build(flatList, 0L);   // 指定根父 ID
 ```
+
+## Starter 自诊断端点
+
+当应用引入 `spring-boot-starter-actuator` 时，自动装配自省端点 `/actuator/ypbin`：
+
+- **访问路径**：`GET /actuator/ypbin`
+- **返回内容**：当前 Starter 版本、JDK 版本、Spring Boot 版本、已激活的全部 `ypbin-starter-*` 自动装配类清单，以及核心特性（security, ai, excel, redis, mybatisPlus, tenant, gateway, license 等）的探测状态。
+

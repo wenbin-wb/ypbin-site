@@ -119,3 +119,20 @@ aiChatService.clearMemory(conversationId);
 ```
 
 `conversationId` 由业务方生成（如会话表主键），记忆按会话隔离；清除记忆同时影响多轮上下文与 JDBC 持久化数据。
+
+## Token 用量与成本监控
+
+实现 `AiUsageListener` SPI 接口并注入 Spring 容器，即可在每次 AI 对话完成时接收 Token 消耗指标与响应时延，实现零侵入审计与计费：
+
+```java
+@Component
+public class SysAiUsageListener implements AiUsageListener {
+
+    @Override
+    public void onUsage(AiUsageInfo usage) {
+        log.info("模型: {}, 会话: {}, 耗时: {}ms, 消耗 Tokens: {}", 
+            usage.model(), usage.conversationId(), usage.durationMs(), usage.totalTokens());
+    }
+}
+```
+
