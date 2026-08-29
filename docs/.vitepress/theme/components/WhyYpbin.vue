@@ -6,19 +6,19 @@ const reasons = [
     tag: '细节即质量'
   },
   {
-    title: '一套架构，单体微服务同源',
-    desc: '基础层不依赖 Spring Cloud，单体直接用、微服务叠加治理层，对外契约完全一致、前端无感知。不会出现「单体一套、微服务另起炉灶」的撕裂。',
-    tag: '架构一致'
+    title: '把正确的做法，设成唯一的做法',
+    desc: '扩展点强制批量收一组 ID、返回映射，业务方想写出 N+1 都难；列表翻译由切面在序列化前自动预加载，业务代码零改动。数据权限只拦显式标注的方法，边界清晰可预期。',
+    tag: '消灭 N+1'
   },
   {
     title: '能力即插即拔，随时被接管',
-    desc: '所有能力 Bean 一律 @ConditionalOnMissingBean + @ConditionalOnProperty：定义同类型 Bean 即覆盖默认实现，改一行配置就关停整个模块。不改 starter 一行源码。',
+    desc: '所有能力 Bean 一律 @ConditionalOnMissingBean + @ConditionalOnProperty：定义同类型 Bean 即覆盖默认实现，改一行配置就关停整个模块。starter 给抽象与默认，业务按需注入自己的实现。',
     tag: '可扩展'
   },
   {
-    title: '生产就绪，不是 demo',
-    desc: 'License 商业授权、AI 对话、多租户、数据权限、SSE 实时推送、审计规范全部内置。一条命令部署完整后台，第一天就站在生产就绪的地基上。',
-    tag: '开箱即用'
+    title: '好的框架，知道拒绝什么',
+    desc: '认证选 Sa-Token 而非自研 JWT 或过重的 Spring Security；业务异常统一 HTTP 200 + R.code，而非状态码语义混乱；starter 只给运行时与扩展点、不碰业务表，升级不动业务数据。',
+    tag: '设计取舍'
   }
 ]
 </script>
@@ -27,8 +27,8 @@ const reasons = [
   <section class="home-section why-section" aria-labelledby="why-title">
     <div class="section-heading">
       <p class="section-kicker">为什么是 ypbin</p>
-      <h2 id="why-title">别的框架要自己踩的坑，<br />这里已经替你填平。</h2>
-      <p>不是又一个脚手架。是把你迟早要自己实现的系统级能力，先做对、做透、做成默认。</p>
+      <h2 id="why-title">不是又一个脚手架，<br />是把坑填平的地基。</h2>
+      <p>每个决策都有取舍依据，每个默认值都选生产安全的一侧。要的不是「能跑」，是「跑得对」。</p>
     </div>
     <div class="why-grid">
       <article v-for="(item, i) in reasons" :key="i" class="why-card">

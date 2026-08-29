@@ -61,19 +61,19 @@ const jsonLd = JSON.stringify({
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero__content">
           <p class="hero__eyebrow">Spring Boot · Java 21 · Vue 3</p>
-          <h1 id="hero-title">从脚手架到生产就绪，<em>一条命令。</em></h1>
+          <h1 id="hero-title">难做对的地方，<em>替你做到对。</em></h1>
           <p>
-            把安全、缓存、权限、任务、消息、AI 这些系统级基建沉到 starter 里做对做透，
-            业务只写业务。35 个模块按需引入，单体和微服务同源，
-            一条命令部署整套后台。
+            缓存击穿、序列化 N+1、密码锁定竞态、签名重放窗口——这些系统级细节，
+            每个项目都要踩一遍的坑。ypbin 把它们内建、做对、设为默认，
+            业务只写业务，升级只改配置。
           </p>
           <div class="hero__actions">
             <a class="button-primary" href="https://admin.ypbin.cn" target="_blank" rel="noopener">在线体验 Admin</a>
             <a class="button-quiet" href="/guide/starter/">三行依赖接入 <span aria-hidden="true">→</span></a>
           </div>
           <div class="hero__hint">
-            <code>bash &lt;(curl -fsSL&nbsp;…/deploy/install.sh)</code>
-            <span>— 新服务器一键部署全套（后端 + 前端 + MySQL + Redis）</span>
+            <code>mvn clean install · 已发布 Maven Central v1.4.1</code>
+            <span>— 引入 BOM 按需取用，35 个模块独立发布</span>
           </div>
         </div>
       </section>
