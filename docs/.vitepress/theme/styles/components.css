@@ -63,12 +63,7 @@
 
 /* ===== Hero 附加 ===== */
 .hero__eyebrow { margin: 0 0 18px; color: var(--yp-text-muted); font: 600 13px var(--yp-font-mono); letter-spacing: .1em; text-transform: uppercase; }
-.hero__hint { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 34px; flex-wrap: wrap; }
-.hero__hint code { padding: 8px 14px; border: 1px solid var(--yp-line); border-radius: 8px; color: var(--yp-cyan-dark); font: 12px/1.6 var(--yp-font-mono); background: var(--yp-surface-alt); }
-.dark .hero__hint code { color: #7fe3ea; }
-.hero__hint span { color: var(--yp-text-muted); font-size: 13px; }
 
 @media (max-width: 760px) {
   .why-grid, .feature-grid, .quickstart-layout { grid-template-columns: 1fr; }
-  .hero__hint { flex-direction: column; }
 }
