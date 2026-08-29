@@ -18,19 +18,39 @@ description: Docker 一键部署、环境变量配置、前端构建上传与生
 | 服务 | 端口(默认) | 说明 |
 |---|---|---|
 | `admin` | 8080 | Spring Boot 后端,Flyway 自动建表 |
-| `admin-ui` | 18080 | 前端静态文件(本地构建上传),`/api/` 代理到 admin |
-| `mysql` | 内部 | 数据库,数据卷持久化,重部署不丢 |
-| `redis` | 内部 | 缓存 |
+| `admin-ui` | 18080 | 前端静态文件(bind 挂载 `/opt/ypbin/admin-ui-dist/`),`/api/` 代理到 admin |
+| `mysql` | 3307(宿主机) | 数据库,数据卷持久化,重部署不丢;容器内仍为 3306 |
+| `redis` | 6380(宿主机) | 缓存;容器内仍为 6379 |
 
-### 一键部署
+> 宿主机映射端口默认 3307/6380，避开本机 MySQL 3306 与常见 Redis 6379 冲突；容器间仍走 Docker 内网 3306/6379，互连不受影响。
 
-服务器需安装 git、maven、JDK 21、docker。执行 admin 仓库 `deploy/deploy.sh`:
+### 一键部署（推荐）
+
+新服务器零配置一键安装（脚本自动检测并安装 git/maven/JDK21/Docker/Node）：
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/deploy.sh | bash
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
 ```
 
-脚本自动完成:安装依赖 → 拉取三仓代码 → 构建 admin jar → 生成凭据 `.env` → 启动全部容器。之后更新执行同一条命令。
+脚本 7 阶段自动完成：环境准备（依赖/镜像/网络预检查）→ 磁盘检测 → 拉取三仓代码 → 构建后端 jar → 构建前端 dist → 生成凭据并启动 → 健康检查。
+
+**交互模式（默认）**：运行时会询问关键步骤（回车用默认值）：
+
+1. **操作模式**：①完整部署 ②只更新后端 ③只更新前端 ④手动上传前端包 ⑤退出
+2. **端口配置**：MySQL/Redis/后端/前端端口（默认 3307/6380/8080/18080）
+3. **部署根目录**（默认 `/opt/ypbin`）
+4. **前端构建方式**：服务器构建 / 手动上传（自动检测 dist 就绪）
+5. **starter 构建策略**：重新构建 / 用 .m2 已有包
+6. **.env 复用**：保留原凭据 / 重新生成
+7. **启动前确认**：配置摘要 + Y/n
+
+**全自动模式（CI / 无头环境）**：
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh) -y
+```
+
+> 脚本带版本号自更新检测，raw.githubusercontent.com 有 5 分钟 CDN 缓存，push 后立即执行可能拿到旧版；脚本会自动比对 GitHub API 最新版本并重拉。
 
 ### 前端构建
 
@@ -48,24 +68,27 @@ pnpm -F @vben/web-antd build    # 产物在 apps/web-antd/dist
 
 ### 环境变量(.env)
 
-部署目录的 `.env` 可配置:
+部署目录的 `.env` 可配置(模板 `deploy/.env.example` 已填好可用默认值):
 
 | 变量 | 说明 |
 |---|---|
-| `MYSQL_ROOT_PASSWORD` | MySQL root 密码(必改) |
-| `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD` | 首次登录创建的管理员账号(见下方"Bootstrap 是什么") |
+| `MYSQL_ROOT_PASSWORD` | MySQL root 密码(install.sh 自动随机生成) |
+| `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD` | 首次登录创建的管理员账号(install.sh 自动生成,见下方"Bootstrap 是什么") |
+| `MYSQL_PORT` / `REDIS_PORT` | MySQL/Redis 宿主机映射端口(默认 3307/6380) |
 | `ADMIN_PORT` / `ADMIN_UI_PORT` | 端口(默认 8080 / 18080,被占用可改) |
+| `AI_MODEL_SECRET_KEY` | AI 模型 API Key 加密密钥(16/24/32 字节,install.sh 自动生成) |
+| `DB_HOST` / `REDIS_HOST` | 容器互连主机名(默认 `mysql`/`redis`,Docker 内嵌 DNS 异常时可覆写为容器 IP) |
 | `YPBIN_CORS_ENABLED` / `YPBIN_CORS_ORIGINS` | CORS 开关与允许来源(默认关闭) |
+
+> `.env.example` 已填全部可用默认值,手动部署直接 `cp deploy/.env.example deploy/.env` 即可启动;install.sh 会自动复制并随机化敏感凭据。
 
 #### Bootstrap 是什么
 
 **Bootstrap 是管理员初始化引导**。admin 首次启动时,若数据库里还没有管理员,会用 `.env` 的 `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD` 自动创建初始管理员账号,让系统第一次能登录进去。它只在空库首次启动时起作用,不是常驻功能。
 
-> **前提**:`ADMIN_BOOTSTRAP_ENABLED` 默认是 `false`(见 `application.yml` 的 `ypbin.admin.bootstrap.enabled`)。若部署脚本未生成该变量,需手动在 `.env` 添加 `ADMIN_BOOTSTRAP_ENABLED=true` 并设置用户名密码,否则首次启动不会创建管理员、无法登录。
->
-> 当前 `deploy/deploy.sh` 生成 `.env` 时只写入了 `ADMIN_BOOTSTRAP_USERNAME` / `ADMIN_BOOTSTRAP_PASSWORD`,**未写入 `ADMIN_BOOTSTRAP_ENABLED`**;因此按默认配置部署后 Bootstrap 不会生效,首次登录需要手动补上 `ADMIN_BOOTSTRAP_ENABLED=true`。改完后重跑 deploy.sh 或重建容器。
+> install.sh 生成的 `.env` 默认含 `ADMIN_BOOTSTRAP_ENABLED=true` 与随机管理员密码,首次启动即创建管理员。
 
-**登录后应关闭 Bootstrap**:把 `.env` 的 `ADMIN_BOOTSTRAP_ENABLED` 改为 `false` 再重跑 deploy.sh。否则重启时初始化逻辑仍在,若你已修改过初始管理员密码,再次启动可能触发重复初始化,存在账号被按 `.env` 重置的安全风险。
+**登录后应关闭 Bootstrap**:把 `.env` 的 `ADMIN_BOOTSTRAP_ENABLED` 改为 `false` 再重跑 install.sh。否则重启时初始化逻辑仍在,若你已修改过初始管理员密码,再次启动可能触发重复初始化,存在账号被按 `.env` 重置的安全风险。
 
 ### CORS
 
@@ -106,13 +129,16 @@ location /api/ {
 
 | 现象 | 解决 |
 |---|---|
-| `JAVA_HOME` 未定义 | 安装 JDK 21 并设置 `JAVA_HOME` |
+| `JAVA_HOME` 未定义 | 安装 JDK 21 并设置 `JAVA_HOME`(install.sh 自动处理) |
 | `apt: Unmet dependencies` | `apt --fix-broken install -y` 后重跑 |
 | 容器内通、宿主机不通 | `systemctl restart docker` 重建转发规则 |
-| 端口被占用 | 改 `.env` 的 `ADMIN_PORT` / `ADMIN_UI_PORT` |
+| 端口被占用 | 交互模式选端口时改;或改 `.env` 的 `MYSQL_PORT` / `ADMIN_PORT` 等 |
+| admin 解析不了 `mysql` 主机名 | 残留容器无网络:`docker compose down && docker network prune -f && docker compose up -d` 重建;或 `.env` 配 `DB_HOST=<mysql容器IP>` |
 | `403 Invalid CORS` | 跨域访问时配置 `YPBIN_CORS_ENABLED=true` + `YPBIN_CORS_ORIGINS` |
 | `404 接口不存在` | nginx 代理去掉 `/api` 前缀(见上) |
 | 前端请求 `localhost` | 构建时 `VITE_GLOB_API_URL` 改为 `/api` 后重建前端 |
+| Maven Central 403(国内) | install.sh 自动配阿里云镜像;手动:写 `~/.m2/settings.xml` 的 mirrorOf=central 指向 maven.aliyun.com |
+| 前端 js 报 `text/html` MIME | dist 目录权限不对:install.sh 自动修复为 755/644;手动 `find /opt/ypbin/admin-ui-dist -type d -exec chmod 755 {} \;` |
 
 ## 依赖与版本
 
@@ -160,6 +186,7 @@ Redis 用于缓存、验证码、SSE 票据、接口签名 nonce 和分布式锁
 - **资源规划**:默认 JVM `-Xms256m -Xmx512m`,按服务器内存调整 `JAVA_OPTS`
 - **日志排查**:`docker compose logs -f admin` 查看后端日志;`docker logs deploy-admin-1` 看单容器
 - **日常更新**:
-  - 前端:本地 `pnpm -F @vben/web-antd build` 后 scp 覆盖 dist,无需重启
-  - 后端:git pull 后重跑 deploy.sh(自动重建 jar 与容器)
+  - 后端:重跑 install.sh 选「只更新后端」(git pull + 重建 admin 容器)
+  - 前端:重跑 install.sh 选「只更新前端」或「手动上传前端包」;或本地 `pnpm -F @vben/web-antd build` 后 scp 覆盖 dist,无需重启
+- **磁盘清理**:`bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/cleanup.sh)`(docker 镜像/缓存/卷、journal、apt、旧日志、snap;支持 `--dry-run` 预览)
 - **域名解析**:`admin.ypbin.cn` 等子域的 DNS 在 Cloudflare 指向服务器公网 IP,由宝塔 nginx 统一 80 端口转发
