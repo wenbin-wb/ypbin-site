@@ -42,6 +42,17 @@ pnpm dev:antd
 
 开发服务器通过 `/api` 代理到 `http://localhost:8080`。API 地址必须指向兼容的 admin 服务；不要通过前端硬编码菜单绕过后端动态路由。
 
+## 生产构建与部署
+
+```bash
+pnpm -F @vben/web-antd build   # 产物在 apps/web-antd/dist
+```
+
+部署方式二选一：
+
+- **随 admin 一键部署**：服务器跑 `ypbin-admin` 的 [install.sh](/guide/admin/deployment)（交互模式选「完整部署」服务器自动构建前端，或选「手动上传前端包」等你上传）
+- **单独上传**：`scp -r apps/web-antd/dist/* root@<服务器IP>:/opt/ypbin/admin-ui-dist/`（nginx bind 挂载直接读新文件无需重启；**上传后需目录权限 755/文件 644**，否则 nginx 读不到会报 js `text/html` MIME 错误）
+
 ## 动态路由
 
 登录成功后，前端从后端获取当前用户可访问的路由记录，再映射到本地页面组件。路由缺失或组件无法解析时应暴露配置问题，而不是静默回退到虚构页面。

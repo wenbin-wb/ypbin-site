@@ -7,14 +7,26 @@ description: 在本地开发环境编译与配置 ypbin-admin。
 
 <VersionScope version="1.0.0-SNAPSHOT" status="development" />
 
-## 前置条件
+## 一键部署（生产，推荐）
+
+新服务器零配置一键安装全部组件（后端 + 前端 + MySQL + Redis）：
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
+```
+
+交互模式会询问：操作模式（完整部署 / 只更新后端 / 只更新前端 / 手动上传前端包）、端口（默认 MySQL 3307 / Redis 6380 / 后端 8080 / 前端 18080）、部署目录等；加 `-y` 全自动跳过所有询问。完整流程见 [Admin 部署](/guide/admin/deployment)。
+
+## 本地开发
+
+### 前置条件
 
 - JDK 21
 - Maven 3.9 或更高版本
 - 可用的数据库与 Redis，具体版本见[兼容矩阵](/guide/compatibility)
 - 已在本地安装 `ypbin-starter 1.4.1`
 
-## 安装开发版 starter
+### 安装开发版 starter
 
 在 starter 仓库执行 Maven install，再在 admin 仓库编译：
 
