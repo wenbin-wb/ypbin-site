@@ -9,21 +9,33 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 | 产品 | 通道 | 版本 | 状态 |
 | --- | --- | --- | --- |
-| ypbin-starter | 稳定 | `v1.3.0` | 已发布，建议生产接入时使用 |
-| ypbin-starter | 开发 | `1.4.0-SNAPSHOT` | 开发中，含 AI 对话模块、`@SensitiveWordFilter` 注解驱动过滤等新能力 |
-| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `1.4.0-SNAPSHOT` |
+| ypbin-starter | 稳定 | `v1.4.1` | 已发布，建议生产接入时使用 |
+| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `1.4.1` |
 | ypbin-admin-ui | private | `5.7.0` | 工作区版本，不应解读为公共 npm 稳定包 |
 
 ## ypbin-starter 版本历史
 
-### 1.4.0-SNAPSHOT — 开发中
+### v1.4.1 — 2026-08-29
 
-新增 AI 对话能力与注解驱动敏感词过滤。共 35 个模块。
+修复版：**注解序列化体系全面迁移到 Jackson 3**（Spring Boot 4 主序列化器），修复升级 Spring Boot 4 后序列化失效问题。共 35 个模块。
+
+**修复**
+
+- **响应时间带 T**：`JacksonAutoConfiguration` 的 Jackson 3 customizer 补注册带格式的 `LocalDateTime/LocalDate/LocalTime` 序列化器（`yyyy-MM-dd HH:mm:ss`），修复响应时间输出 ISO 格式（`2026-08-28T14:22:55`）
+- **@RefText/@DictText/@Sensitive 失效**：三个注解与序列化器从 Jackson 2 API 迁移到 `tools.jackson`（`ValueSerializer` + `tools.jackson.databind.annotation.JsonSerialize`），修复引用名称（如用户部门名）、字典文本、字段脱敏在 Jackson 3 下完全不输出的问题
+- **`BaseEntity` Long 转字符串**：`@JsonSerialize(using = ToStringSerializer)` 迁移到 Jackson 3
+- **ObjectMapper 注入失败**：log/sign/api-crypto/license 模块注入的 ObjectMapper 迁移到 Jackson 3（SB4 容器无 Jackson 2 Bean），`LogMaskModule` 重写为 `ValueSerializerModifier` 实现，`copy()` 改用 `rebuild()`
+- **AI 传输层超时**：`DefaultAiChatService`/`LazySimpleVectorStore` 动态构建 OpenAI 客户端时显式配置 `clientTimeout`（默认 60s），防上游挂起无超时
+
+### v1.4.0 — 2026-08-28
+
+新增 AI 对话能力与注解驱动敏感词过滤。Java 基线升级至 **JDK 21 + Spring Boot 4.1.0**。共 35 个模块。
 
 **新增能力**
 
 - **AI 对话模块**（`ypbin-starter-ai`）：基于 Spring AI 2.0 的流式/非流式对话、多轮记忆（内存/JDBC）、可选 RAG；核心设计为**模型配置表驱动**——业务方实现 `AiModelConfigResolver` 从配置表读取默认模型，starter 动态构建 OpenAI 兼容客户端，模型地址/密钥/型号全部运行时下发、不在 yml 配置
 - **注解驱动敏感词过滤**（`ypbin-starter-sensitive-words`）：`@SensitiveWordFilter` 字段+方法双目标注解，AOP 自动过滤，替代手动注入服务
+- **AI 用量监听 SPI**：`AiUsageListener` 回调 Token 用量统计；`/actuator/ypbin` 自诊断端点
 
 **安全加固**
 

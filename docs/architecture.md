@@ -32,7 +32,7 @@ admin-ui 负责浏览器端交互。页面可见性不独立于后端权限；�
 
 ## 版本流
 
-稳定接入以 starter v1.3.0 为基线。正在联调的 admin 1.0.0-SNAPSHOT 使用 starter 1.4.0-SNAPSHOT；这条开发链不等同于稳定发布链。admin-ui 5.7.0 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
+稳定接入以 starter v1.3.0 为基线。正在联调的 admin 1.0.0-SNAPSHOT 使用 starter 1.4.1；这条开发链不等同于稳定发布链。admin-ui 5.7.0 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
 
 ## 不在当前承诺内
 

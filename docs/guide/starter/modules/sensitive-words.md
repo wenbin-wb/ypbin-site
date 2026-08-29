@@ -14,7 +14,7 @@ ypbin:
     replacement: '*'             # 命中词替换字符，默认 *
 ```
 
-## 注解驱动（推荐，1.4.0-SNAPSHOT+）
+## 注解驱动（推荐，1.4.0+）
 
 在 DTO 字段上标注 `@SensitiveWordFilter` 声明哪些字段需要过滤，在 Service 方法上标注触发 AOP 自动处理，无需手动注入服务：
 

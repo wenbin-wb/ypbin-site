@@ -1,11 +1,11 @@
 ---
 title: starter 快速开始
-description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.0-SNAPSHOT。
+description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.1。
 ---
 
 # starter 快速开始
 
-<VersionScope version="1.4.0-SNAPSHOT" status="development" />
+<VersionScope version="1.4.1" status="stable" />
 
 ## 前置条件
 
@@ -21,7 +21,7 @@ description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.0-SNAPSHOT。
     <dependency>
       <groupId>cn.ypbin</groupId>
       <artifactId>ypbin-starter-bom</artifactId>
-      <version>1.4.0-SNAPSHOT</version>
+      <version>1.4.1</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -29,7 +29,7 @@ description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.0-SNAPSHOT。
 </dependencyManagement>
 ```
 
-本页对应开发版 `1.4.0-SNAPSHOT`（Java 21 / Spring Boot 4.1.x 基线）。稳定版使用 `1.3.0`（Java 17 / Spring Boot 3.5 基线），依赖坐标写法相同、仅版本号不同。
+本页对应稳定版 `1.4.1`（Java 21 / Spring Boot 4.1.x 基线）。
 
 ## 引入能力模块
 
@@ -58,4 +58,4 @@ Starter 共 35 个 Maven 模块。每个模块的总开关、嵌套属性、默�
 
 ## 版本选择
 
-生产项目使用稳定版 `1.3.0`。`1.4.0-SNAPSHOT` 是当前开发版本，需要快照仓库或本地安装，仅用于验证下一版本与 admin 联调。
+生产项目使用稳定版 `1.4.1`（Java 21 / Spring Boot 4.1.x）。历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）仍可接入，依赖坐标写法相同、仅版本号不同。
