@@ -26,3 +26,7 @@ pnpm build
 ```
 
 Cloudflare Pages 的构建命令为 `pnpm build`，输出目录为 `docs/.vitepress/dist`。搜索使用 Pagefind（`pnpm build` 内自动生成索引，产物在 `docs/.vitepress/dist/pagefind`）；`pnpm search:pagefind` 可单独重建索引评估效果。
+
+## 🤝 贡献
+
+欢迎提交文档改进与 Issue，写作与提交规范见 [CONTRIBUTING.md](CONTRIBUTING.md)。
