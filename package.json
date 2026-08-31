@@ -11,11 +11,11 @@
   },
   "scripts": {
     "dev": "vitepress dev docs",
-    "build": "vitepress build docs && pagefind --site docs/.vitepress/dist",
+    "build": "node scripts/inject-versions.mjs inject && vitepress build docs && node scripts/inject-versions.mjs restore && pagefind --site docs/.vitepress/dist",
     "preview": "vitepress preview docs",
     "typecheck": "vue-tsc --noEmit",
     "check:content": "node scripts/check-content.mjs",
-    "docs:config": "node scripts/inject-versions.mjs && node scripts/generate-config-docs.mjs",
+    "docs:config": "node scripts/generate-config-docs.mjs",
     "screenshots:capture": "node tools/screenshots/capture-admin-ui.mjs",
     "screenshots:validate": "node tools/screenshots/validate-manifest.mjs",
     "check": "pnpm docs:config && pnpm screenshots:validate && pnpm typecheck && pnpm check:content && pnpm build",

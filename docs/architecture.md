@@ -32,7 +32,7 @@ admin-ui 负责浏览器端交互。页面可见性不独立于后端权限；�
 
 ## 版本流
 
-稳定接入以 starter v2.0.0 为基线（Java 21 / Spring Boot 4.1）。正在联调的 admin 1.0.0-SNAPSHOT 使用 starter 2.0.0；admin-ui 5.7.0 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
+稳定接入以 starter v@STARTER_VERSION@ 为基线（Java 21 / Spring Boot 4.1）。正在联调的 admin @ADMIN_VERSION@ 使用 starter @STARTER_VERSION@；admin-ui @ADMIN_UI_VERSION@ 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
 
 ## 不在当前承诺内
 

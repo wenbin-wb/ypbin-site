@@ -1,0 +1,43 @@
+name: Sync starter version
+
+on:
+  repository_dispatch:
+    types: [starter-release]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: 同步 starter 最新版本到文档
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 拉取 starter 最新 Release 版本
+        id: version
+        run: |
+          V=$(curl -fsSL https://api.github.com/repos/wenbin-wb/ypbin-starter/releases/latest | grep -oP '"tag_name":\s*"v\K[^"]+')
+          echo "VERSION=$V" >> "$GITHUB_OUTPUT"
+          echo "最新 starter 版本：$V"
+
+      - name: 更新 releases.json 并注入文档
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          node -e "
+            const fs=require('fs');
+            const p='docs/.vitepress/data/releases.json';
+            const j=JSON.parse(fs.readFileSync(p,'utf8'));
+            j.starter='\${VERSION}';
+            j.updatedAt=new Date().toISOString().slice(0,10);
+            fs.writeFileSync(p,JSON.stringify(j,null,2)+'\n');
+          "
+          node scripts/inject-versions.mjs
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "docs(release): 同步 starter v$VERSION 版本到文档" || echo "无变更需提交"
+          git push
+
+      - name: 校验文档构建
+        run: pnpm install --frozen-lockfile && pnpm docs:config && pnpm build
