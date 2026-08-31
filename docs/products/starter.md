@@ -1,6 +1,6 @@
 ---
 title: ypbin-starter
-description: 35 模块的 Spring Boot 系统级基础能力集合。
+description: 36 模块的 Spring Boot 系统级基础能力集合。
 ---
 
 # ypbin-starter
