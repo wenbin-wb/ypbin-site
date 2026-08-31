@@ -15,7 +15,7 @@
     "preview": "vitepress preview docs",
     "typecheck": "vue-tsc --noEmit",
     "check:content": "node scripts/check-content.mjs",
-    "docs:config": "node scripts/generate-config-docs.mjs",
+    "docs:config": "node scripts/inject-versions.mjs && node scripts/generate-config-docs.mjs",
     "screenshots:capture": "node tools/screenshots/capture-admin-ui.mjs",
     "screenshots:validate": "node tools/screenshots/validate-manifest.mjs",
     "check": "pnpm docs:config && pnpm screenshots:validate && pnpm typecheck && pnpm check:content && pnpm build",
