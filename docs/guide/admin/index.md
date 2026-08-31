@@ -24,7 +24,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/d
 - JDK 21
 - Maven 3.9 或更高版本
 - 可用的数据库与 Redis，具体版本见[兼容矩阵](/guide/compatibility)
-- 已在本地安装 `ypbin-starter 1.4.1`
+- 已在本地安装 `ypbin-starter 2.0.0`
 
 ### 安装开发版 starter
 
@@ -58,4 +58,4 @@ admin 包含 common、system、server 三个模块，server 是启动入口。�
 
 ## 状态说明
 
-admin 当前版本 `1.0.0-SNAPSHOT`，依赖 starter 的 `1.4.1` 稳定版，适合本地联调和二次开发。
+admin 当前版本 `1.0.0-SNAPSHOT`，依赖 starter 的 `2.0.0` 稳定版，适合本地联调和二次开发。

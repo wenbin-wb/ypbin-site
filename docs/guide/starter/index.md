@@ -1,11 +1,11 @@
 ---
 title: starter 快速开始
-description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.1。
+description: 使用 Java 21 和 Maven 接入 ypbin-starter v2.0.0。
 ---
 
 # starter 快速开始
 
-<VersionScope version="1.4.1" status="stable" />
+<VersionScope version="2.0.0" status="stable" />
 
 ## 前置条件
 
@@ -21,7 +21,7 @@ description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.1。
     <dependency>
       <groupId>cn.ypbin</groupId>
       <artifactId>ypbin-starter-bom</artifactId>
-      <version>1.4.1</version>
+      <version>2.0.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -29,7 +29,7 @@ description: 使用 Java 21 和 Maven 接入 ypbin-starter v1.4.1。
 </dependencyManagement>
 ```
 
-本页对应稳定版 `1.4.1`（Java 21 / Spring Boot 4.1.x 基线）。
+本页对应稳定版 `2.0.0`（Java 21 / Spring Boot 4.1.x 基线）。
 
 ## 引入能力模块
 
@@ -46,7 +46,7 @@ BOM 已管理模块版本，业务依赖不要重复声明版本。继续按实�
 
 ## 配置与模块参考
 
-Starter 共 35 个 Maven 模块。每个模块的总开关、嵌套属性、默认值、条件装配、可选值和生产注意均已从源码展开到[Starter 全量配置参考](/guide/config/starter)，当前覆盖 320 个条目。接入前建议按模块逐项检查，尤其关注安全、租户、签名、存储、消息、任务、License 和 AI 的必填条件。
+Starter 共 36 个 Maven 模块。每个模块的总开关、嵌套属性、默认值、条件装配、可选值和生产注意均已从源码展开到[Starter 全量配置参考](/guide/config/starter)，当前覆盖 320 个条目。接入前建议按模块逐项检查，尤其关注安全、租户、签名、存储、消息、任务、License 和 AI 的必填条件。
 
 推荐接入顺序：
 
@@ -58,4 +58,4 @@ Starter 共 35 个 Maven 模块。每个模块的总开关、嵌套属性、默�
 
 ## 版本选择
 
-生产项目使用稳定版 `1.4.1`（Java 21 / Spring Boot 4.1.x）。历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）仍可接入，依赖坐标写法相同、仅版本号不同。
+生产项目使用稳定版 `2.0.0`（Java 21 / Spring Boot 4.1.x）。历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）仍可接入，依赖坐标写法相同、仅版本号不同。

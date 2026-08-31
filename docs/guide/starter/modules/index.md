@@ -1,6 +1,6 @@
 ---
 title: Starter 模块文档
-description: ypbin-starter 35 个 Maven 模块的分层总览与使用文档。
+description: ypbin-starter 36 个 Maven 模块的分层总览与使用文档。
 ---
 
 # Starter 模块文档
@@ -29,7 +29,7 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合。全部能�
     <dependency>
       <groupId>cn.ypbin</groupId>
       <artifactId>ypbin-starter-bom</artifactId>
-      <version>1.4.1</version>
+      <version>2.0.0</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -37,4 +37,4 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合。全部能�
 </dependencyManagement>
 ```
 
-本页以稳定版 `1.4.1`（Java 21 / Spring Boot 4.1.x）为准；历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）的 BOM 写法相同，仅版本号不同。
+本页以稳定版 `2.0.0`（Java 21 / Spring Boot 4.1.x）为准；历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）的 BOM 写法相同，仅版本号不同。

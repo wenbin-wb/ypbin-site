@@ -9,27 +9,31 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 | 产品 | 通道 | 版本 | 状态 |
 | --- | --- | --- | --- |
-| ypbin-starter | 稳定 | `v1.4.1` | 已发布，建议生产接入时使用 |
-| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `1.4.1` |
+| ypbin-starter | 稳定 | `v2.0.0` | 已发布，建议生产接入时使用 |
+| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `2.0.0` |
 | ypbin-admin-ui | private | `5.7.0` | 工作区版本，不应解读为公共 npm 稳定包 |
 
 ## ypbin-starter 版本历史
 
-### v1.4.1 — 2026-08-29
+### v2.0.0 — 2026-08-31
 
-修复版：**注解序列化体系全面迁移到 Jackson 3**（Spring Boot 4 主序列化器），修复升级 Spring Boot 4 后序列化失效问题。共 35 个模块。
+**破坏性变更版本**：删除控制器基类 `BaseController`，公开 API 与继承结构不兼容调整。共 36 个模块。
 
-**修复**
+**破坏性变更与迁移**
 
-- **响应时间带 T**：`JacksonAutoConfiguration` 的 Jackson 3 customizer 补注册带格式的 `LocalDateTime/LocalDate/LocalTime` 序列化器（`yyyy-MM-dd HH:mm:ss`），修复响应时间输出 ISO 格式（`2026-08-28T14:22:55`）
-- **@RefText/@DictText/@Sensitive 失效**：三个注解与序列化器从 Jackson 2 API 迁移到 `tools.jackson`（`ValueSerializer` + `tools.jackson.databind.annotation.JsonSerialize`），修复引用名称（如用户部门名）、字典文本、字段脱敏在 Jackson 3 下完全不输出的问题
-- **`BaseEntity` Long 转字符串**：`@JsonSerialize(using = ToStringSerializer)` 迁移到 Jackson 3
-- **ObjectMapper 注入失败**：log/sign/api-crypto/license 模块注入的 ObjectMapper 迁移到 Jackson 3（SB4 容器无 Jackson 2 Bean），`LogMaskModule` 重写为 `ValueSerializerModifier` 实现，`copy()` 改用 `rebuild()`
-- **AI 传输层超时**：`DefaultAiChatService`/`LazySimpleVectorStore` 动态构建 OpenAI 客户端时显式配置 `clientTimeout`（默认 60s），防上游挂起无超时
+- **`BaseController` 已删除**：请求上下文读取迁移至 `WebRequestUtils`（`ypbin-starter-web` 静态工具，方法同名），当前用户读取迁移至 `UserContext`，响应包装改用 `R` 静态工厂（`R.ok()/R.fail()`）；业务控制器改为普通 `@RestController`
+- **`CrudController` 不再继承 `BaseController`**：标准 CRUD 控制器不受影响，但子类直接调用过的基类辅助方法需按上表迁移
+- **参数校验 handler 合并**：`MethodArgumentNotValidException` 与 `BindException` 合并为 `BindException` 单入口；`GlobalErrorCode` 新增 `METHOD_NOT_ALLOWED(405)`
+
+**新增**
+
+- **`EntityStatus` 枚举**：`ENABLED(1)/DISABLED(0)`，`BaseEntity.status` 默认值改引枚举
+- **`WebRequestUtils`**：HTTP 请求上下文统一读取入口（替代基类辅助方法）
+- **deploy 环境变量化**：compose 弱口令改 `${VAR:?}` 强制 .env 注入，新增 `.env.example`
 
 ### v1.4.0 — 2026-08-28
 
-新增 AI 对话能力与注解驱动敏感词过滤。Java 基线升级至 **JDK 21 + Spring Boot 4.1.0**。共 35 个模块。
+新增 AI 对话能力与注解驱动敏感词过滤。Java 基线升级至 **JDK 21 + Spring Boot 4.1.0**。共 36 个模块。
 
 **新增能力**
 
