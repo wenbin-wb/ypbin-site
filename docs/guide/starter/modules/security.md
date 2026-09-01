@@ -216,3 +216,57 @@ LoginHelper.login(userId, clientReq);
 UserContext.setLoginUser(loginUser);
 OnlineUserHelper.record(ip, browser, os);   // 可选：记录终端信息供在线列表展示
 ```
+
+## 微服务身份头模式（identity）
+
+微服务架构下服务间不各自校验 token，由**网关统一校验并签发可信身份头**，下游服务从身份头构建当前用户：
+
+- `IdentityHeaders`：身份头常量（`X-User-Id`/`X-User-Name`/`X-Tenant-Id`/`X-Dept-Id`/`X-Roles`），网关签发与下游读取共用。
+- `IdentityHeaderFilter`：Servlet 服务自动装配，解析身份头构建 `LoginUser` 写入 `IdentityContext`，请求结束清理。开关 `ypbin.security.identity.enabled`（默认开）。
+- `IdentityContext`：当前用户上下文（ThreadLocal），提供 `getUserId()`/`getUsername()`/`getTenantId()`/`isLogin()`（均返回 `Optional`）。
+
+```yaml
+ypbin:
+  security:
+    identity:
+      enabled: true            # 是否装配身份头过滤器（默认开）
+```
+
+```java
+// 微服务下游读取当前用户（身份头模式）
+Long userId = IdentityContext.getUserId().orElse(null);
+```
+
+> 与单体 `UserContext`（sa-token 会话）职责对等但实现无关：微服务版依赖网关签发的可信头，不依赖 sa-token 会话。单体应用继续用 `UserContext`，微服务应用用 `IdentityContext`。
+
+## 平台访问控制（platform）
+
+`@PlatformAccess` 标注平台级接口（仅平台用户可访问，租户用户禁止）：
+
+- 切面从 `IdentityContext` 取当前用户，经 `PlatformUserChecker` SPI 判定是否平台用户；非平台用户抛 403。
+- `PlatformUserChecker` 默认放行（不假设业务），业务方实现并注册为 Bean 即启用严格校验。
+
+```yaml
+ypbin:
+  security:
+    platform:
+      enabled: true            # 是否装配平台访问切面（默认开）
+```
+
+```java
+// 业务方实现平台用户判定（admin 示例：查 sys_user.user_type = PLATFORM）
+@Service
+public class SysPermissionServiceImpl implements PlatformUserChecker {
+    @Override
+    public boolean isPlatformUser(Long userId) {
+        // 查询用户类型，返回是否为平台用户
+        return ...;
+    }
+}
+
+// 标注平台级接口
+@RestController
+@RequestMapping("/system/menu")
+@PlatformAccess
+public class SysMenuController { ... }
+```
