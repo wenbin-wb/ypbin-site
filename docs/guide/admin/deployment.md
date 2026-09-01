@@ -9,6 +9,15 @@ description: Docker 一键部署、环境变量配置、前端构建上传与生
 
 > 已上线的 Admin 管理系统:https://admin.ypbin.cn
 
+## 微服务版部署
+
+admin 微服务版（`feature/microservice` 分支：网关 + auth/system/ai/job 五服务，基于 Nacos/OpenFeign/Sentinel）的部署与单体版不同，详见：
+
+- **一键部署脚本**：`ypbin-admin/deploy/install-microservice.sh`（Docker 模式全自动；`NO_DOCKER=1` 无 Docker 模式 java -jar 直启，需外部 Nacos/Redis/MySQL）
+- **部署手册**：[microservice-deployment.md](https://github.com/wenbin-wb/ypbin-admin/blob/feature/microservice/docs/microservice-deployment.md)（架构/服务清单/环境变量/FAQ）
+
+> 微服务版当前为演进分支，生产环境请以单体版（本页）为主，微服务版按上述手册评估后使用。
+
 ## Docker 部署
 
 生产推荐 Docker Compose 编排:admin 后端 + admin-ui 前端 + MySQL + Redis。
