@@ -7,13 +7,23 @@ description: ypbin-admin 模块结构、与 starter 的分工、扩展点与搭�
 
 ## 模块结构
 
-ypbin-admin 以模块化单体起步，预留微服务拆分：
+ypbin-admin 以模块化单体起步，预留微服务拆分。当前 `main` 分支仅两个 Maven 模块，
+公共代码已并入 `ypbin-admin-system`，业务代码按业务域分层：
 
-| 模块 | 职责 |
+| 模块/包 | 职责 |
 |------|------|
-| `ypbin-admin-common` | 公共定义 |
-| `ypbin-admin-system` | 业务实现：用户、角色、菜单、部门、字典、参数、任务等 |
+| `ypbin-admin-system` | 业务模块：`common`（公共）+ `modules/{ai,auth,job,system}` |
 | `ypbin-admin-server` | 启动与装配：application.yml、Flyway、Bootstrap |
+
+`modules` 内部按业务域收口：
+
+```
+modules/
+├── ai/          AI 对话、知识库、模型配置
+├── auth/        登录、验证码、短信/第三方登录
+├── job/         定时任务管理、执行器、任务日志
+└── system/      RBAC、菜单、部门、租户、系统参数、消息公告等系统底座
+```
 
 ## 与 starter 的分工
 

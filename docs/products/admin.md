@@ -15,12 +15,11 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 
 ## 已核验范围
 
-根 POM 声明三个 Maven 模块：
+根 POM 声明两个 Maven 模块：
 
 | 模块 | 边界 |
 | --- | --- |
-| `ypbin-admin-common` | 管理系统共享基础代码 |
-| `ypbin-admin-system` | 系统领域与后台业务 |
+| `ypbin-admin-system` | 业务模块：`common` + `modules/{ai,auth,job,system}` |
 | `ypbin-admin-server` | Spring Boot 启动与运行入口 |
 
 开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter @STARTER_VERSION@。Actuator 已接入（health/info 端点，见 application.yml 的 `management` 段）；observability 模块未引入，不属于本产品页的公开能力范围。
