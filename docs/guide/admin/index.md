@@ -9,13 +9,19 @@ description: 在本地开发环境编译与配置 ypbin-admin。
 
 ## 一键部署（生产，推荐）
 
-新服务器零配置一键安装全部组件（后端 + 前端 + MySQL + Redis）：
+新服务器零配置一键安装微服务版（Nacos + 网关 + auth/system/ai/job 五服务 + MySQL + Redis + 前端）：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
 ```
 
-交互模式会询问：操作模式（完整部署 / 只更新后端 / 只更新前端 / 手动上传前端包）、端口（默认 MySQL 3307 / Redis 6380 / 后端 8080 / 前端 18080）、部署目录等；加 `-y` 全自动跳过所有询问。完整流程见 [Admin 部署](/guide/admin/deployment)。
+交互模式会询问：操作模式（完整部署 / 只更新后端 / 只重启服务）、端口、部署目录等；加 `-y` 全自动跳过所有询问。完整流程见 [Admin 部署](/guide/admin/deployment)。
+
+> 需要单体版（boot 分支）时使用：
+>
+> ```bash
+> bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/install.sh)
+> ```
 
 ## 本地开发
 
@@ -35,7 +41,7 @@ mvn -DskipTests install
 mvn -DskipTests package
 ```
 
-admin 包含 common、system、server 三个模块，server 是启动入口。实际数据库连接、Redis 与密钥必须通过本地环境配置提供，不要把凭据提交到仓库。
+admin 主分支为微服务形态，包含 common、gateway、auth、service（system/ai/job）、service-api；单体形态见 boot 分支。实际数据库连接、Redis 与密钥必须通过本地环境配置提供，不要把凭据提交到仓库。
 
 ## 初始化安全要求
 

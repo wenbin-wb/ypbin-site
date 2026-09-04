@@ -39,7 +39,7 @@ async function copyCommand() {
         <span class="quickstart-card__num">02</span>
         <h3>直接跑起整套后台</h3>
         <p>想先看效果或需要完整后台：新服务器执行一条命令，自动装依赖、构建、启动，交互式确认端口与模式。</p>
-        <code class="quickstart-card__cmd">bash &lt;(curl -fsSL&nbsp;…/ypbin-admin/boot/deploy/install.sh)</code>
+        <code class="quickstart-card__cmd">bash &lt;(curl -fsSL&nbsp;…/ypbin-admin/main/deploy/install.sh)</code>
         <a class="text-link" href="/guide/admin/deployment">查看部署文档 <span aria-hidden="true">→</span></a>
       </article>
     </div>
