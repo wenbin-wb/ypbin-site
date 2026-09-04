@@ -6,7 +6,7 @@ description: ypbin-site 官方文档站点开发与内容合规标准。编写�
 # ypbin-site-dev — ypbin-site 文档站点开发与合规标准
 
 面向 `ypbin-site`（基于 VitePress 1.6 + Vue 3 + Pagefind 的官方统一技术门户与文档站点）。
-定位：**全项目的技术中枢与对外规范门户**，负责全面、准确地呈现 `ypbin-starter`（35 模块）、`ypbin-admin`（业务中台，**含单体版 `main` 与微服务版 `feature/microservice` 两种形态**）、`ypbin-admin-ui`（前端体系）的设计原理、使用指南、API 契约与部署运维。
+定位：**全项目的技术中枢与对外规范门户**，负责全面、准确地呈现 `ypbin-starter`（35 模块）、`ypbin-admin`（业务中台，**主推微服务版 `main`，另含单体版 `boot` 两种形态**）、`ypbin-admin-ui`（前端体系）的设计原理、使用指南、API 契约与部署运维。
 
 两种模式：
 - **开发模式**：新增/更新文档页面、侧边栏导航、配置自动生成脚本或截图测试时使用。
@@ -18,7 +18,7 @@ description: ypbin-site 官方文档站点开发与内容合规标准。编写�
 
 1. **真实对齐与契约一致性（文档即代码）**：
    - 文档中描述的 Starter 模块列表（共 35 个模块）、配置项（`ypbin.*`）、API 接口路径与入参出参，**必须与实际代码 100% 保持一致**。
-   - 描述 admin 时须区分形态：单体版（`main`，`UserContext` sa-token 会话）与微服务版（`feature/microservice`，五服务 + 网关 + `IdentityContext` 身份头 + Feign）；写部署/架构文档时明确是哪种形态，不混写。
+   - 描述 admin 时须区分形态：**微服务版（`main`，主推**：网关 + auth/system/ai/job 五服务 + `IdentityContext` 身份头 + Feign）与**单体版（`boot`，`UserContext` sa-token 会话）**；写部署/架构文档时明确是哪种形态，不混写。
    - 严禁在文档中凭空捏造未实现的功能或过期的旧配置。
 
 2. **严禁参考项目品牌词残留**：
