@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import { codeToHtml } from 'shiki'
 
 const copied = ref(false)
-const command = '<dependency>\n  <groupId>cn.ypbin</groupId>\n  <artifactId>ypbin-starter-web</artifactId>\n  <version>1.4.1</version>\n</dependency>'
+const command = '<dependency>\n  <groupId>cn.ypbin</groupId>\n  <artifactId>ypbin-starter-web</artifactId>\n  <version>2.1.0</version>\n</dependency>'
 const codeHtml = ref('')
 
 onMounted(async () => {
@@ -28,7 +28,7 @@ async function copyCommand() {
       <article class="quickstart-card">
         <span class="quickstart-card__num">01</span>
         <h3>在自己的服务里接入 starter</h3>
-        <p>引入 BOM 后按需加依赖，自动装配、零配置。稳定版 v1.4.1 已发布 Maven Central。</p>
+        <p>引入 BOM 后按需加依赖，自动装配、零配置。稳定版 v2.1.0 已发布 Maven Central。</p>
         <div class="code-panel">
           <div class="code-panel__bar"><span>pom.xml</span><button type="button" @click="copyCommand">{{ copied ? '已复制' : '复制' }}</button></div>
           <div class="code-panel__body" v-html="codeHtml"></div>

@@ -15,6 +15,25 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 ## ypbin-starter 版本历史
 
+### v2.1.0 — 2026-09-01
+
+**微服务增强版本**：面向 Spring Cloud 微服务形态补齐身份头上下文、平台访问控制、Feign 统一响应与缓存失效能力。共 36 个模块。
+
+**新增能力**
+
+- **微服务身份头上下文**（`ypbin-starter-security`）：新增 `IdentityContext` / `IdentityHeaderFilter`，下游服务从网关签发的内部身份头读取当前用户，`auth/ai/system/job` 均可使用
+- **`@PlatformAccess` 反哺 starter**：平台用户访问控制注解/切面/SPI 下沉至 starter，微服务版可直接使用 `cn.ypbin.starter.security.platform.PlatformAccess`
+- **声明式缓存失效**（`ypbin-starter-cache`）：新增 `@CacheEvict` 注解 + AOP 切面，配合跨服务永久缓存实现主动失效
+- **永久缓存模式**：`getOrLoad` 支持 `ttl=null` 永久缓存，由业务侧主动失效
+- **Feign 统一响应处理**：新增 `FeignResponses` 统一解析 `R<T>` 并避免静默降级
+- **跨服务调用透传**：Feign 身份头/租户上下文自动透传
+
+**安全/质量**
+
+- `PlatformAccessAspect` 内联全限定类名清理
+- 上下文门面化/Feign 身份透传/事务后缓存失效等审查缺陷修复
+- JaCoCo 覆盖率门禁真实化并提高至 0.80
+
 ### v2.0.0 — 2026-08-31
 
 **破坏性变更版本**：删除控制器基类 `BaseController`，公开 API 与继承结构不兼容调整。共 36 个模块。

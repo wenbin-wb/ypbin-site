@@ -1,6 +1,6 @@
 ---
 title: ypbin-admin
-description: 基于 ypbin-starter 开发版本组装的三模块后台服务。
+description: 基于 ypbin-starter 组装的后台服务，主推微服务形态，含单体 boot 分支。
 ---
 
 # ypbin-admin
@@ -15,14 +15,19 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 
 ## 已核验范围
 
-根 POM 声明两个 Maven 模块：
+主分支 `main` 为微服务形态，根 POM 声明：
 
 | 模块 | 边界 |
 | --- | --- |
-| `ypbin-admin-system` | 业务模块：`common` + `modules/{ai,auth,job,system}` |
-| `ypbin-admin-server` | Spring Boot 启动与运行入口 |
+| `ypbin-common` | 共享常量/配置/身份头/租户等 |
+| `ypbin-gateway` | 统一网关与登录鉴权 |
+| `ypbin-auth` | 认证服务 |
+| `ypbin-service` | system/ai/job 业务服务 |
+| `ypbin-service-api` | Feign 接口与共享 DTO/实体 |
 
-开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter @STARTER_VERSION@。Actuator 已接入（health/info 端点，见 application.yml 的 `management` 段）；observability 模块未引入，不属于本产品页的公开能力范围。
+同时维护单体版 `boot` 分支：`ypbin-admin-system`（`common` + `modules/{ai,auth,job,system}`）+ `ypbin-admin-server`。
+
+开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter @STARTER_VERSION@。
 
 ## 安全提醒
 

@@ -24,9 +24,17 @@ starter 将横切能力拆成 36 个 Maven 模块。业务项目通过 BOM 获�
 
 ## 业务装配层：admin
 
-admin 选择 starter 能力，形成 common、system、server 三个模块。它定义管理系统的后端业务与访问控制，并向 admin-ui 提供接口和动态路由记录。
+admin 目前主推微服务形态，代码位于 `main` 分支，由多个 Maven 模块组成：
 
-**微服务形态**：admin 同时提供微服务版（`main` 分支）——网关 + auth/system/ai/job 五服务，基于 Spring Cloud Alibaba（Nacos 注册/配置中心、OpenFeign 服务调用、Sentinel 限流）。微服务版与单体版共享 starter 能力；差异在部署形态与跨服务通信（详见 admin 仓库 `docs/microservice-deployment.md`）。
+- `ypbin-common`：共享常量、配置、身份头/租户等微服务基础装配
+- `ypbin-gateway`：统一网关，负责登录鉴权、身份头签发与路由
+- `ypbin-auth`：认证服务（登录/验证码/第三方登录）
+- `ypbin-service`：业务服务聚合（`ypbin-system` / `ypbin-ai` / `ypbin-job`）
+- `ypbin-service-api`：Feign 接口与跨服务共享 DTO/实体
+
+微服务版基于 Spring Cloud Alibaba（Nacos 注册/配置中心、OpenFeign 服务调用、Sentinel 限流），与单体版共享 starter 能力。
+
+另提供单体版（`boot` 分支）：`ypbin-admin-system`（`common` + `modules/{ai,auth,job,system}`）+ `ypbin-admin-server`，适合不需要微服务拆分/部署更简单的场景。
 
 ## 交互层：admin-ui
 
