@@ -11,10 +11,10 @@ description: Docker 一键部署、环境变量配置、前端构建上传与生
 
 ## 微服务版部署
 
-admin 微服务版（`feature/microservice` 分支：网关 + auth/system/ai/job 五服务，基于 Nacos/OpenFeign/Sentinel）的部署与单体版不同，详见：
+admin 微服务版（`main` 分支：网关 + auth/system/ai/job 五服务，基于 Nacos/OpenFeign/Sentinel）的部署与单体版不同，详见：
 
 - **一键部署脚本**：`ypbin-admin/deploy/install-microservice.sh`（Docker 模式全自动；`NO_DOCKER=1` 无 Docker 模式 java -jar 直启，需外部 Nacos/Redis/MySQL）
-- **部署手册**：[microservice-deployment.md](https://github.com/wenbin-wb/ypbin-admin/blob/feature/microservice/docs/microservice-deployment.md)（架构/服务清单/环境变量/FAQ）
+- **部署手册**：[microservice-deployment.md](https://github.com/wenbin-wb/ypbin-admin/blob/main/docs/microservice-deployment.md)（架构/服务清单/环境变量/FAQ）
 
 > 微服务版当前为演进分支，生产环境请以单体版（本页）为主，微服务版按上述手册评估后使用。
 
@@ -38,7 +38,7 @@ admin 微服务版（`feature/microservice` 分支：网关 + auth/system/ai/job
 新服务器零配置一键安装（脚本自动检测并安装 git/maven/JDK21/Docker/Node）：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/install.sh)
 ```
 
 脚本 7 阶段自动完成：环境准备（依赖/镜像/网络预检查）→ 磁盘检测 → 拉取三仓代码 → 构建后端 jar → 构建前端 dist → 生成凭据并启动 → 健康检查。
@@ -56,7 +56,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/d
 **全自动模式（CI / 无头环境）**：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh) -y
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/install.sh) -y
 ```
 
 > 脚本带版本号自更新检测，raw.githubusercontent.com 有 5 分钟 CDN 缓存，push 后立即执行可能拿到旧版；脚本会自动比对 GitHub API 最新版本并重拉。
@@ -197,5 +197,5 @@ Redis 用于缓存、验证码、SSE 票据、接口签名 nonce 和分布式锁
 - **日常更新**:
   - 后端:重跑 install.sh 选「只更新后端」(git pull + 重建 admin 容器)
   - 前端:重跑 install.sh 选「只更新前端」或「手动上传前端包」;或本地 `pnpm -F @vben/web-antd build` 后 scp 覆盖 dist,无需重启
-- **磁盘清理**:`bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/cleanup.sh)`(docker 镜像/缓存/卷、journal、apt、旧日志、snap;支持 `--dry-run` 预览)
+- **磁盘清理**:`bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/cleanup.sh)`(docker 镜像/缓存/卷、journal、apt、旧日志、snap;支持 `--dry-run` 预览)
 - **域名解析**:`admin.ypbin.cn` 等子域的 DNS 在 Cloudflare 指向服务器公网 IP,由宝塔 nginx 统一 80 端口转发

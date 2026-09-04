@@ -12,7 +12,7 @@ description: 在本地开发环境编译与配置 ypbin-admin。
 新服务器零配置一键安装全部组件（后端 + 前端 + MySQL + Redis）：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/install.sh)
 ```
 
 交互模式会询问：操作模式（完整部署 / 只更新后端 / 只更新前端 / 手动上传前端包）、端口（默认 MySQL 3307 / Redis 6380 / 后端 8080 / 前端 18080）、部署目录等；加 `-y` 全自动跳过所有询问。完整流程见 [Admin 部署](/guide/admin/deployment)。
