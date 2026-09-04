@@ -303,7 +303,7 @@ DELETE /system/online-user/{token}           → 强制下线
 ### 5.11 租户管理
 
 ```
-GET    /system/tenant/list    → SysTenant[]
+GET    /system/tenant/list    → TenantResp[]
 POST   /system/tenant         → 新增
 PUT    /system/tenant/{id}    → 编辑
 DELETE /system/tenant/{id}    → 删除
@@ -313,14 +313,14 @@ DELETE /system/tenant/{id}    → 删除
 
 ```
 POST   /system/file/upload?module=avatar    → FormData(file)，返回 FileInfo
-GET    /system/file/list?page=1&pageSize=20 → PageResult<SysFile>
+GET    /system/file/list?page=1&pageSize=20 → PageResult<FileResp>
 DELETE /system/file/{id}                    → 删除
 ```
 
 ### 5.13 公告管理
 
 ```
-GET    /system/notice/list    → SysNotice[]
+GET    /system/notice/list    → NoticeResp[]
 POST   /system/notice         → 新增
 PUT    /system/notice/{id}    → 编辑
 PUT    /system/notice/{id}/revoke  → 撤回公告
@@ -331,7 +331,7 @@ DELETE /system/notice/{id}    → 删除
 ### 5.14 定时任务
 
 ```
-GET    /system/job/list        → SysJob[]
+GET    /system/job/list        → JobResp[]
 GET    /system/job/log?page=1&pageSize=20         → PageResult<JobLogResp>（全部任务日志）
 GET    /system/job/log/{jobId} → PageResult<JobLogResp>
 POST   /system/job/cron/preview → Cron 语法校验与下次触发时间预览，请求体 { "cron": "..." }，响应 CronPreviewResp
@@ -348,7 +348,7 @@ POST   /system/job/{id}/run    → 立即执行
 ### 5.15 License 管理
 
 ```
-GET    /system/license/list            → SysLicense[]（授权列表）
+GET    /system/license/list            → PageResult<LicenseResp>（授权列表）
 GET    /system/license/{id}            → 授权详情
 POST   /system/license                 → 新增授权
 PUT    /system/license/{id}            → 编辑授权
@@ -366,7 +366,7 @@ GET    /system/license/{id}/delivery   → 交付信息
 ### 5.16 开放应用管理
 
 ```
-GET    /system/app/list    → SysApp[]
+GET    /system/app/list    → AppResp[]
 POST   /system/app         → 新增
 PUT    /system/app/{id}    → 编辑
 PUT    /system/app/{id}/reset-secret → 重置应用密钥
@@ -413,9 +413,9 @@ GET /dashboard/log-trend?days=7      → LogTrendResp[]（近 N 天操作日志�
 ### 7.1 当前用户站内信（仅需登录，无需管理权限）
 
 ```
-GET  /user/messages?page=1&pageSize=20&readStatus=   → PageResult<SysMessage>（分页，可按已读状态过滤）
+GET  /user/messages?page=1&pageSize=20&readStatus=   → PageResult<MessageResp>（分页，可按已读状态过滤）
 GET  /user/messages/unread-count                     → long（未读消息数）
-GET  /user/messages/recent?limit=10                  → SysMessage[]（最近消息，含已读/未读，limit 1..100）
+GET  /user/messages/recent?limit=10                  → MessageResp[]（最近消息，含已读/未读，limit 1..100）
 PUT  /user/messages/{id}/read                        → 标记单条已读
 PUT  /user/messages/read-all                         → 全部标记已读
 DELETE /user/messages/{id}                           → 删除当前用户自己的消息
@@ -471,9 +471,9 @@ POST   /ai/models/{id}/test      → 连通性测试
 ### 8.3 知识库
 
 ```
-POST   /ai/knowledge-bases                          → 新增知识库
+POST   /ai/knowledge-bases                          → 新增知识库，返回 AiKnowledgeBaseResp
 PUT    /ai/knowledge-bases/{id}                     → 编辑知识库
-GET    /ai/knowledge-bases                          → 知识库列表
+GET    /ai/knowledge-bases                          → 知识库列表，返回 AiKnowledgeBaseResp[]
 DELETE /ai/knowledge-bases/{id}                     → 删除知识库
 POST   /ai/knowledge-bases/{id}/documents?file=      → 上传文档（PDF/Markdown/TXT，异步向量化）
 GET    /ai/knowledge-bases/{id}/documents?page=&keyword= → PageResult<AiDocumentVO>
@@ -495,7 +495,7 @@ GET    /ai/knowledge-bases/{id}/documents/{docId}/chunks  → 文档全量分块
 ### 8.4 Prompt 模板
 
 ```
-GET    /ai/prompt-templates           → AiPromptTemplate[]
+GET    /ai/prompt-templates           → AiPromptTemplateResp[]
 POST   /ai/prompt-templates           → 新增
 PUT    /ai/prompt-templates/{id}      → 编辑
 DELETE /ai/prompt-templates/{id}      → 删除
