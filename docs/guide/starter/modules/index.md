@@ -1,6 +1,6 @@
 ---
 title: Starter 模块文档
-description: ypbin-starter 36 个 Maven 模块的分层总览与使用文档。
+description: ypbin-starter 35 个 Maven 模块的分层总览与使用文档。
 ---
 
 # Starter 模块文档

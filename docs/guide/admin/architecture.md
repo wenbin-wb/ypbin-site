@@ -7,23 +7,21 @@ description: ypbin-admin 模块结构、与 starter 的分工、扩展点与搭�
 
 ## 模块结构
 
-ypbin-admin 以模块化单体起步，预留微服务拆分。当前 `main` 分支仅两个 Maven 模块，
-公共代码已并入 `ypbin-admin-system`，业务代码按业务域分层：
+ypbin-admin 主分支 `main` 为**微服务形态**，根 POM 声明多个 Maven 模块：
 
-| 模块/包 | 职责 |
+| 模块 | 职责 |
 |------|------|
-| `ypbin-admin-system` | 业务模块：`common`（公共）+ `modules/{ai,auth,job,system}` |
-| `ypbin-admin-server` | 启动与装配：application.yml、Flyway、Bootstrap |
+| `ypbin-common` | 共享常量、配置、身份头/租户等微服务基础装配 |
+| `ypbin-gateway` | 统一网关：登录鉴权、身份头签发与路由转发 |
+| `ypbin-auth` | 认证服务：登录、验证码、第三方登录 |
+| `ypbin-service` | 业务服务聚合：`ypbin-system`（RBAC/菜单/租户/消息等）/ `ypbin-ai` / `ypbin-job` |
+| `ypbin-service-api` | Feign 接口与跨服务共享 DTO/实体（`ypbin-system-api` / `ypbin-ai-api`） |
 
-`modules` 内部按业务域收口：
+跨服务调用约定：auth/ai **不直连共享库**，一律经 `ISystemClient` Feign 调 system 服务；
+网关校验 token 后签发 `X-User-Id/X-Tenant-Id/...` 身份头，下游经 `IdentityContext` 读取当前用户。
 
-```
-modules/
-├── ai/          AI 对话、知识库、模型配置
-├── auth/        登录、验证码、短信/第三方登录
-├── job/         定时任务管理、执行器、任务日志
-└── system/      RBAC、菜单、部门、租户、系统参数、消息公告等系统底座
-```
+另维护**单体版 `boot` 分支**：`ypbin-admin-system`（公共 + 业务域 `cn.ypbin.admin.common` + `cn.ypbin.admin.modules/{ai,auth,job,system}`）+ `ypbin-admin-server`（启动与装配），
+当前用户走 `UserContext`/`LoginHelper`（sa-token 会话）。适合不需要服务拆分的场景，详见 [部署文档](/guide/admin/deployment)。
 
 ## 与 starter 的分工
 
@@ -74,7 +72,7 @@ admin 侧不重造这些能力；发现 starter 缺能力或不好用时，反�
 2. **建基础表 + 实体**：用户/角色/菜单/部门等业务表；实体继承 `BaseEntity`（自带雪花 ID、审计字段、状态、逻辑删除），多租户表继承 `TenantBaseEntity`。字段严守全链路同名。
 3. **实现 `PermissionProvider`**（必须）：接通 `@SaCheckPermission`。
 4. **登录流程**：`LoginHelper.login(userId, LoginClientRequest)` 按客户端策略登录 → `UserContext.setLoginUser(loginUser)` → 可选 `OnlineUserHelper.record(ip, browser, os)`。登录前 `PasswordAttemptLimiter.checkLocked` 判锁定、失败 `recordFailure`、成功 `reset`；改密用 `PasswordValidator.check`。
-5. **控制器基类**：标准 CRUD 继承 `CrudController`，复杂业务继承 `BaseController`。受保护资源务必覆盖 `permissionPrefix()`（如 `"system:user"`），六端点自动挂 `前缀:list/add/edit/delete` 权限。
+5. **控制器写法**：自 starter v2.0.0 起 `BaseController` 已删除，业务控制器一律为普通 `@RestController`，响应用 `R.ok()/R.fail()` 静态工厂、请求上下文用 `WebRequestUtils`、当前用户用 `UserContext`（单体 boot）/`IdentityContext`（微服务 main）。接口形态简单稳定的资源也可继承 starter `extension-crud` 的 `CrudController` 复用 get/list/page/save/update/delete 六端点。
 6. **按需实现可选 Provider**：字典、引用翻译、数据权限、多租户等。
 7. **后台可配类**：客户端、密码策略、邮件、存储、开放应用要做成后台可配时，实现对应 `XxxConfigProvider` 从配置表读。
 8. **在线用户 / 强制下线**：直接注入 `OnlineUserService`（list / kickout）。
@@ -83,8 +81,8 @@ admin 侧不重造这些能力；发现 starter 缺能力或不好用时，反�
 
 ## 依赖选型
 
-**单体后台常用**：`ypbin-starter-web`、`-data`、`-security`、`-json`、`-cache`、`-log`、`-api-doc`、`-extension-crud`、`-excel`、`-captcha`、`-messaging`、`-storage`、`-tools`。
+**微服务（main 分支，推荐）**：在单体基础依赖之上引入 `ypbin-starter-cloud-nacos`、`-cloud-core`、`-cloud-gateway`、`-cloud-loadbalancer`、`-cloud-sentinel`、`-cloud-observability`，或直接引聚合模块 `ypbin-starter-app-cloud`。
+
+**单体（boot 分支）常用**：`ypbin-starter-web`、`-data`、`-security`、`-json`、`-cache`、`-log`、`-api-doc`、`-extension-crud`、`-excel`、`-captcha`、`-messaging`、`-storage`、`-tools`，或引 `ypbin-starter-app-web` 一站式聚合。
 
 按业务再选：`-extension-tenant`（多租户）、`-extension-datapermission`（数据权限）、`-sign`（开放 API）、`-social`（第三方登录）、`-sensitive-words`、`-i18n`、`-api-crypto`、`-async`。
-
-**微服务额外**：`ypbin-starter-cloud-nacos`、`-cloud-core`、`-cloud-gateway`、`-cloud-loadbalancer`、`-cloud-sentinel`、`-cloud-observability`。也可直接引聚合模块 `ypbin-starter-app-web`（单体一站式）或 `-app-cloud`（微服务）。

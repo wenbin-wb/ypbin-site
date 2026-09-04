@@ -1,6 +1,6 @@
 ---
 title: ypbin-starter
-description: 36 模块的 Spring Boot 系统级基础能力集合。
+description: 35 模块的 Spring Boot 系统级基础能力集合。
 ---
 
 # ypbin-starter
@@ -13,7 +13,7 @@ ypbin-starter 是面向 Spring Boot 的基础能力集合。它将 Web、JSON、
 
 ## 已核验范围
 
-- 根聚合项目声明 **36 个 Maven 模块**。
+- 根聚合项目声明 **35 个 Maven 模块**。
 - Java 基线为 **21**（1.3.0 及以前为 17；1.4.0 起随 Spring Boot 4.1 升级到 21）。
 - 当前稳定版本为 **v@STARTER_VERSION@**（2026-08-31 发布，破坏性变更：删除 BaseController，API 迁移至 WebRequestUtils/UserContext/R 静态工厂）。
 - 许可证为 Apache License 2.0。

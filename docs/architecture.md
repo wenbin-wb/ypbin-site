@@ -20,7 +20,7 @@ ypbin-starter
 
 ## 基础能力层：starter
 
-starter 将横切能力拆成 36 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
+starter 将横切能力拆成 35 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
 
 ## 业务装配层：admin
 
