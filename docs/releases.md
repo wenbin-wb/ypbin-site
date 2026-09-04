@@ -15,9 +15,28 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 ## ypbin-starter 版本历史
 
+### v2.1.1 — 2026-09-04
+
+**微服务修复版本**：网关/云模块时间序列化对齐 Jackson 3、Feign 统一响应解析、WebFlux 网关装配修复，并修复 Release 自动发布流水线。共 35 个模块。
+
+**新增能力**
+
+- **`FeignResponses`**（`ypbin-starter-cloud-core`）：Feign 调用统一解析 `R<T>` 响应——`dataOrThrow(resp, msg)` 校验远程业务成功、失败抛 `BusinessException`（禁止静默降级），`dataOrDefault` 兜底可选值
+
+**修复**
+
+- 网关错误响应时间戳序列化错误（cloud-gateway）：Jackson 2 → Jackson 3（`tools.jackson` ObjectMapper），错误响应 `timestamp` 不再序列化为数组
+- Sa-Token 共享会话 JSON 反序列化失败（security）：注册 `LoginUser` 到 Sa-Token JSON 反序列化白名单
+- WebFlux 网关装配误载（security）：`SecurityAutoConfiguration`/`IdentityAutoConfiguration`/`PlatformAccessAutoConfiguration` 增加 Servlet Web 条件，WebFlux 环境不再错误装配
+- Spring Cloud 兼容性检查误报（cloud）：禁用 compatibility-verifier 对官方支持 Boot 4.1.x 的误报
+
+**工程**
+
+- Release 自动发布流水线修复：tag 触发的 checkout 处于 detached HEAD，`git push` 改用显式 refspec（此前 v2.1.0 因该缺陷 Release 未建成）
+
 ### v2.1.0 — 2026-09-01
 
-**微服务增强版本**：面向 Spring Cloud 微服务形态补齐身份头上下文、平台访问控制、Feign 统一响应与缓存失效能力。共 35 个模块。
+**微服务增强版本**：面向 Spring Cloud 微服务形态补齐身份头上下文、平台访问控制、声明式缓存失效与永久缓存能力。共 35 个模块。
 
 **新增能力**
 
@@ -25,7 +44,7 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 - **`@PlatformAccess` 反哺 starter**：平台用户访问控制注解/切面/SPI 下沉至 starter，微服务版可直接使用 `cn.ypbin.starter.security.platform.PlatformAccess`
 - **声明式缓存失效**（`ypbin-starter-cache`）：新增 `@CacheEvict` 注解 + AOP 切面，配合跨服务永久缓存实现主动失效
 - **永久缓存模式**：`getOrLoad` 支持 `ttl=null` 永久缓存，由业务侧主动失效
-- **Feign 统一响应处理**：新增 `FeignResponses` 统一解析 `R<T>` 并避免静默降级
+- **`UserContext` 门面化**：自适应身份头优先、Sa-Token 会话回退（业务代码无需感知部署形态）
 - **跨服务调用透传**：Feign 身份头/租户上下文自动透传
 
 **安全/质量**
