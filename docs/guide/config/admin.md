@@ -5,7 +5,7 @@ description: 环境变量、application.yml 与运行时数据库参数的逐项
 
 # Admin 配置参考
 
-环境变量、application.yml 与运行时数据库参数。本页共 **133** 项，包含类型、默认值、必填条件、可选值、生产注意与源码来源。
+环境变量、application.yml 与运行时数据库参数。本页共 **140** 项，包含类型、默认值、必填条件、可选值、生产注意与源码来源。
 
 ## environment
 
@@ -30,6 +30,8 @@ description: 环境变量、application.yml 与运行时数据库参数的逐项
 | `ADMIN&#95;BOOTSTRAP&#95;TENANT&#95;ID`<br><span class="cfg-src">integer · application.yml:42</span> | 1 | admin bootstrap tenant id<br><strong>可选；未设置时使用 application.yml 默认值</strong><br><strong>注意</strong>：— |
 | `ADMIN&#95;JOB&#95;RECONCILE&#95;DELAY`<br><span class="cfg-src">integer · application.yml:44</span> | 30000 | admin job reconcile delay<br><strong>可选；未设置时使用 application.yml 默认值</strong><br><strong>注意</strong>：— |
 | `API&#95;CRYPTO&#95;KEY`<br><span class="cfg-src">string · application.yml:132</span> |  | api crypto key<br><strong>可选；未设置时使用 application.yml 默认值</strong><br><strong>注意</strong>：敏感值不得提交、打印或进入报告；生产使用 Secret 管理并轮换。 / ypbin.api-crypto.key 已生效：接口加解密 AES 密钥由部署环境注入（16/24/32 字节）。 |
+| `YPBIN&#95;XXL&#95;JOB&#95;ENABLED`<br><span class="cfg-src">boolean · .env.example:32</span> | false | boot 单体版是否启用 XXL-JOB 执行器（默认复用主部署调度中心）<br><strong>可选；boot 单体部署用，true 时启用执行器注册</strong><br><strong>注意</strong>：— |
+| `YPBIN&#95;XXL&#95;JOB&#95;ADMIN`<br><span class="cfg-src">string · .env.example:33</span> | http&#58;//host.docker.internal:18085 | boot 单体版 xxl-job-admin 调度中心地址<br><strong>可选；boot 单体指向的 xxl-job-admin 地址（跨 compose 用宿主机）</strong><br><strong>注意</strong>：— |
 
 ## application
 
@@ -97,6 +99,11 @@ description: 环境变量、application.yml 与运行时数据库参数的逐项
 | `logging.level.cn.ypbin.admin`<br><span class="cfg-src">string · application.yml:155</span> | debug | logging.level.cn.ypbin.admin 配置<br><strong>必填：对应组件启用时生效</strong><br><strong>注意</strong>：— |
 | `management.endpoints.web.exposure.include`<br><span class="cfg-src">string · application.yml:228</span> | health,info | management.endpoints.web.exposure.include 配置<br><strong>必填：对应组件启用时生效</strong><br><strong>注意</strong>：Actuator 已接入（pom.xml 引入 spring-boot-starter-actuator）；仅暴露 health/info 两个低危端点。 |
 | `management.endpoint.health.show-details`<br><span class="cfg-src">string · application.yml:231</span> | when&#95;authorized | management.endpoint.health.show-details 配置<br><strong>必填：对应组件启用时生效</strong><br><strong>注意</strong>：Actuator 已接入；health 详情仅在登录放行后可见（/actuator/health 已加入 ypbin.security.excludes）。 |
+| `ypbin.xxl-job.enabled`<br><span class="cfg-src">boolean · ypbin-system.yaml:59</span> | true | 是否启用 XXL-JOB 执行器（system 服务注册到调度中心）<br><strong>必填：部署后需与 xxl-job-admin 调度中心同时启用</strong><br><strong>注意</strong>：— |
+| `ypbin.xxl-job.admin-addresses`<br><span class="cfg-src">string · ypbin-system.yaml:60</span> | http&#58;//xxl-job-admin:8080 | xxl-job-admin 调度中心地址（3.4.x context path 为根路径）<br><strong>必填：enabled=true 时必须</strong><br><strong>注意</strong>：— |
+| `ypbin.xxl-job.access-token`<br><span class="cfg-src">string · ypbin-system.yaml:61</span> |  | 执行器通讯 Token<br><strong>可选；与调度中心保持一致，空则不校验</strong><br><strong>注意</strong>：— |
+| `ypbin.xxl-job.appname`<br><span class="cfg-src">string · ypbin-system.yaml:62</span> | ypbin-system | 执行器名称（AppName），admin 端按此注册与路由<br><strong>必填：enabled=true 时必须</strong><br><strong>注意</strong>：— |
+| `ypbin.xxl-job.port`<br><span class="cfg-src">integer · ypbin-system.yaml:63</span> | 9999 | 执行器端口<br><strong>可选；执行器通讯端口，默认 9999</strong><br><strong>注意</strong>：— |
 
 ## database
 

@@ -20,7 +20,7 @@ ypbin-starter
 
 ## 基础能力层：starter
 
-starter 将横切能力拆成 35 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
+starter 将横切能力拆成 36 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
 
 ## 业务装配层：admin
 
@@ -29,12 +29,13 @@ admin 目前主推微服务形态，代码位于 `main` 分支，由多个 Maven
 - `ypbin-common`：共享常量、配置、身份头/租户等微服务基础装配
 - `ypbin-gateway`：统一网关，负责登录鉴权、身份头签发与路由
 - `ypbin-auth`：认证服务（登录/验证码/第三方登录）
-- `ypbin-service`：业务服务聚合（`ypbin-system` / `ypbin-ai` / `ypbin-job`）
+- `ypbin-service`：业务服务聚合（`ypbin-system` / `ypbin-ai`）
 - `ypbin-service-api`：Feign 接口与跨服务共享 DTO/实体
+- `xxl-job-admin`：XXL-JOB 分布式任务调度中心（独立中间件，任务管理/调度日志/触发）
 
-微服务版基于 Spring Cloud Alibaba（Nacos 注册/配置中心、OpenFeign 服务调用、Sentinel 限流），与单体版共享 starter 能力。
+微服务版基于 Spring Cloud Alibaba（Nacos 注册/配置中心、OpenFeign 服务调用、Sentinel 限流），与单体版共享 starter 能力。业务定时任务由 xxl-job-admin 统一调度，各服务以 `@XxlJob` 执行器接入（见 [xxljob 模块](/guide/starter/modules/xxljob)）。
 
-另提供单体版（`boot` 分支）：`ypbin-admin-system`（`common` + `modules/{ai,auth,job,system}`）+ `ypbin-admin-server`，适合不需要微服务拆分/部署更简单的场景。
+另提供单体版（`boot` 分支）：`ypbin-admin-system`（`common` + `modules/{ai,auth,job,system}`，job 包为 XXL-JOB 执行器业务类）+ `ypbin-admin-server`，适合不需要微服务拆分/部署更简单的场景。
 
 ## 交互层：admin-ui
 

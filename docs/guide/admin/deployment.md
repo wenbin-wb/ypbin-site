@@ -9,7 +9,7 @@ description: 微服务版（main）一键部署、单体版（boot）部署、�
 
 > 已上线的 Admin 管理系统：https://admin.ypbin.cn
 >
-> 当前推荐部署 **微服务版（main 分支）**：网关 + auth/system/ai/job 五服务，基于 Nacos/OpenFeign/Sentinel。
+> 当前推荐部署 **微服务版（main 分支）**：网关 + auth/system/ai 四服务 + xxl-job-admin 任务调度中心，基于 Nacos/OpenFeign/Sentinel。
 > 如需单体版，见文末 [单体版（boot 分支）](#单体版boot-分支)。
 
 ## 微服务版（推荐）
@@ -22,7 +22,7 @@ description: 微服务版（main）一键部署、单体版（boot）部署、�
 | `ypbin-auth` | 18081 | 认证服务：登录/验证码/第三方登录 |
 | `ypbin-system` | 18082 | 系统管理：RBAC/菜单/用户/租户/参数/公告/文件等 |
 | `ypbin-ai` | 18083 | AI 对话/知识库/模型配置 |
-| `ypbin-job` | 18084 | 定时任务 |
+| `ypbin-xxl-job-admin` | 18085 | XXL-JOB 任务调度中心（业务定时任务/执行日志/触发） |
 | `ypbin-admin-ui` | 19000 | 前端 |
 | `ypbin-nacos` | 8080/8848 | 注册与配置中心 |
 | `ypbin-redis` | 6379 | 缓存/会话 |
@@ -30,7 +30,7 @@ description: 微服务版（main）一键部署、单体版（boot）部署、�
 
 ### 一键部署（推荐）
 
-新服务器零配置一键安装微服务版（Nacos/MySQL/Redis + 5 个后端服务 + 前端）：
+新服务器零配置一键安装微服务版（Nacos/MySQL/Redis + 4 个后端服务 + xxl-job-admin + 前端）：
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
@@ -62,8 +62,9 @@ scp -r apps/web-antd/dist/* root@<服务器IP>:/opt/ypbin/main/ypbin-admin/admin
 ### Nacos 配置
 
 微服务版配置全部存放在 Nacos：
-- Data ID：`ypbin-common.yaml`、`ypbin-gateway.yaml`、`ypbin-auth.yaml`、`ypbin-system.yaml`、`ypbin-ai.yaml`、`ypbin-job.yaml`
+- Data ID：`ypbin-common.yaml`、`ypbin-gateway.yaml`、`ypbin-auth.yaml`、`ypbin-system.yaml`、`ypbin-ai.yaml`
 - 源文件位于 `ypbin-admin` 仓库 `deploy/nacos/`，`install.sh` 自动发布到 Nacos。
+- xxl-job-admin 为独立调度中心（自带控制台与数据库 `xxl_job`，不走 Nacos）。
 
 ### 安全提示
 
@@ -83,6 +84,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/d
 - 架构：admin 后端 + admin-ui + MySQL + Redis
 - 端口：admin 8080、admin-ui 18080、MySQL 3307、Redis 6380（可覆盖）
 - 数据卷持久化，Flyway 自动建表。
+- 定时任务：boot 业务任务同样是 XXL-JOB 执行器（`@XxlJob`），默认复用微服务版部署的 xxl-job-admin 调度中心（`.env` 配 `YPBIN_XXL_JOB_ADMIN`，appname=`ypbin-boot`）；独立部署时自行部署调度中心即可。
 
 单体版配置以 `.env` 为主，详细变量见 `ypbin-admin/deploy/.env.example`。
 
@@ -104,7 +106,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/d
 - 登录后关闭 `ADMIN_BOOTSTRAP_ENABLED`。
 - 定期备份 MySQL/Nacos 数据。
 - HTTPS 与安全组：仅放行对外端口，管理端口保持私网。
-- 资源规划：微服务 5 个 JVM 建议 2GB+；单体 JVM 默认 256-512MB。
+- 资源规划：微服务 4 个 JVM 建议 2GB+（xxl-job-admin 调度中心默认 256-512MB）；单体 JVM 默认 256-512MB。
 
 ## 日常更新
 

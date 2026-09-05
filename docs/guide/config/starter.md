@@ -5,7 +5,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 # Starter 配置参考
 
-本页由源码审计数据生成，覆盖 **320** 个配置项，其中 `ypbin.*` 280 项、宿主标准配置 40 项。默认值以源码为准。
+本页由源码审计数据生成，覆盖 **329** 个配置项，其中 `ypbin.*` 289 项、宿主标准配置 40 项。默认值以源码为准。
 
 ## ypbin-starter-ai
 
@@ -466,3 +466,17 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.web.xss.excludes`<br><span class="cfg-src">java.util.List&lt;java.lang.String&gt; · XssProperties.java:35</span> | — | 放行路径（这些路径不做 XSS 清洗），支持 Ant 风格<br>可选值：—<br><strong>注意</strong>：— |
 | `spring.mvc.throw-exception-if-no-handler-found`<br><span class="cfg-src">java.lang.Boolean · WebDefaultsEnvironmentPostProcessor.java:48</span> | true | 未匹配处理器时抛出异常，以便统一输出 JSON 404。<br>可选值：—<br><strong>注意</strong>：— |
 | `spring.web.resources.add-mappings`<br><span class="cfg-src">java.lang.Boolean · WebDefaultsEnvironmentPostProcessor.java:50</span> | false | 是否启用默认静态资源映射；starter 默认关闭以确保未知路径进入统一 404。<br>可选值：—<br><strong>注意</strong>：— |
+
+## ypbin-starter-xxljob
+
+| 配置项 | 默认值 | 说明 |
+|---|---|---|
+| `ypbin.xxl-job.enabled`<br><span class="cfg-src">java.lang.Boolean · XxlJobProperties.java:37 · XxlJobAutoConfiguration.java:41</span> | false | 是否启用 XXL-JOB 执行器<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.xxl-job.admin-addresses`<br><span class="cfg-src">java.lang.String · XxlJobProperties.java:40</span> | — | 调度中心地址（多个逗号分隔）<br><strong>必填：enabled=true 时必须</strong><br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级 |
+| `ypbin.xxl-job.access-token`<br><span class="cfg-src">java.lang.String · XxlJobProperties.java:43</span> |  | 执行器通讯 Token（与 admin 端保持一致，为空则不做校验）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.xxl-job.appname`<br><span class="cfg-src">java.lang.String · XxlJobProperties.java:46</span> | — | 执行器名称（AppName），admin 端按此注册与路由<br><strong>必填：enabled=true 时必须</strong><br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级 |
+| `ypbin.xxl-job.address`<br><span class="cfg-src">java.lang.String · XxlJobProperties.java:49</span> | — | 执行器注册地址（为空时自动注册本机 IP）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.xxl-job.ip`<br><span class="cfg-src">java.lang.String · XxlJobProperties.java:52</span> | — | 执行器 IP（为空自动获取）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.xxl-job.port`<br><span class="cfg-src">java.lang.Integer · XxlJobProperties.java:55</span> | 9999 | 执行器端口（执行器与 admin 通讯用）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.xxl-job.log-path`<br><span class="cfg-src">java.lang.String · XxlJobProperties.java:58</span> | — | 执行器日志保存路径（为空使用默认临时目录）<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.xxl-job.log-retention-days`<br><span class="cfg-src">java.lang.Integer · XxlJobProperties.java:61</span> | 30 | 执行器日志保存天数<br>可选值：—<br><strong>注意</strong>：— |

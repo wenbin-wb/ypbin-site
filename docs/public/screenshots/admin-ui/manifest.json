@@ -132,21 +132,6 @@
       "webpSize": 55018
     },
     {
-      "id": "jobs",
-      "path": "screenshots/admin-ui/jobs.png",
-      "route": "/system/job",
-      "theme": "light",
-      "sha256": "fba2309ffd1aacf6f9da0c2d556e2693807646033dd15cbc7845b5e7c063f4f4",
-      "size": 100156,
-      "viewport": {
-        "width": 1920,
-        "height": 1080
-      },
-      "webpPath": "screenshots/admin-ui/jobs.webp",
-      "webpSha256": "b3857804ef968c772040609adfdbfac6234fee5a8fbcf70860fc34e41c1989e6",
-      "webpSize": 56052
-    },
-    {
       "id": "logs",
       "path": "screenshots/admin-ui/logs.png",
       "route": "/system/log",
@@ -280,21 +265,6 @@
       "webpPath": "screenshots/admin-ui/licenses-dark.webp",
       "webpSha256": "64a1d4f3f57d5dbc3820357b2c6e17a11c087f0554054f416fe71cf6f7d3b2ee",
       "webpSize": 52668
-    },
-    {
-      "id": "jobs-dark",
-      "path": "screenshots/admin-ui/jobs-dark.png",
-      "route": "/system/job",
-      "theme": "dark",
-      "sha256": "3920328063c55665d6814a1d8860d1455e9bdf8c45db4c90571dd2922359e559",
-      "size": 102173,
-      "viewport": {
-        "width": 1920,
-        "height": 1080
-      },
-      "webpPath": "screenshots/admin-ui/jobs-dark.webp",
-      "webpSha256": "46f047b57d9b3e462dcf70043cf4c79fd9e0ad9cfd113272dd60c24f7c585e13",
-      "webpSize": 53456
     },
     {
       "id": "logs-dark",

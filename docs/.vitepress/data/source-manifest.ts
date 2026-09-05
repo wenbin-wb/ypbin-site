@@ -19,23 +19,23 @@ export interface RoadmapItem {
 }
 
 export const sourceManifest = {
-  verifiedAt: '2026-09-04',
-  stableStarterVersion: '2.1.1',
+  verifiedAt: '2026-09-05',
+  stableStarterVersion: '2.2.0',
   roadmap: [
-    { id: 'starter', label: 'ypbin-starter', item: '2.1.1 已发布（微服务修复：Jackson 3 网关时间/FeignResponses/WebFlux 装配）', scope: '能力模块扩展' },
-    { id: 'admin', label: 'ypbin-admin', item: '通知推送链：站内信与 SSE 推送打通', scope: '消息链路' },
-    { id: 'admin-ui', label: 'ypbin-admin-ui', item: '管理页打磨：表单弹层契约与品牌统一', scope: '前端体验' }
+    { id: 'starter', label: 'ypbin-starter', item: '2.2.0 已发布（新增 XXL-JOB 执行器接入壳 ypbin-starter-xxljob）', scope: '任务调度' },
+    { id: 'admin', label: 'ypbin-admin', item: '任务调度迁 XXL-JOB：main/boot 退役自研 sys_job，接 xxl-job-admin 统一调度', scope: '任务调度' },
+    { id: 'admin-ui', label: 'ypbin-admin-ui', item: '任务管理页迁 xxl-job-admin 控制台，移除自研任务模块', scope: '任务调度' }
   ] satisfies readonly RoadmapItem[],
   products: [
     {
       id: 'starter',
       name: 'ypbin-starter',
       description: '面向 Spring Boot 的系统级基础能力集合。',
-      version: '2.1.1',
+      version: '2.2.0',
       status: 'stable',
       runtime: 'Java 21 · Spring Boot 4.1.0',
-      scaleLabel: '35 模块 · 544 类 · 162 测试',
-      facts: ['稳定版 v2.1.1 已发布', '35 个 Maven 模块', 'Apache-2.0 开源协议']
+      scaleLabel: '36 模块 · 544 类 · 166 测试',
+      facts: ['稳定版 v2.2.0 已发布', '36 个 Maven 模块（含 XXL-JOB 接入壳）', 'Apache-2.0 开源协议']
     },
     {
       id: 'admin',
@@ -45,7 +45,7 @@ export const sourceManifest = {
       status: 'development',
       runtime: 'Java 21 · Spring Boot 4.1.0',
       scaleLabel: '330 类 · 38 张业务表（28 基础 + 10 AI）',
-      facts: ['依赖 starter 2.1.1', '微服务形态：common/gateway/auth/service/service-api', 'RBAC / 多租户 / 定时任务']
+      facts: ['依赖 starter 2.2.0', '微服务形态：common/gateway/auth/service + xxl-job-admin 调度', 'RBAC / 多租户 / XXL-JOB 任务调度']
     },
     {
       id: 'admin-ui',

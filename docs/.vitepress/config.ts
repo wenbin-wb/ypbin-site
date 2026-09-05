@@ -77,7 +77,8 @@ export default defineConfig({
             { text: '消息与平台', collapsed: true, items: [
               { text: 'messaging 消息推送', link: '/guide/starter/modules/messaging' },
               { text: 'async 异步', link: '/guide/starter/modules/async' },
-              { text: 'job 定时任务', link: '/guide/starter/modules/job' },
+              { text: 'job 自研轻量调度', link: '/guide/starter/modules/job' },
+              { text: 'xxljob XXL-JOB 接入', link: '/guide/starter/modules/xxljob' },
               { text: 'social 第三方登录', link: '/guide/starter/modules/social' }
             ] },
             { text: '智能能力', collapsed: true, items: [{ text: 'ai AI 对话', link: '/guide/starter/modules/ai' }] },

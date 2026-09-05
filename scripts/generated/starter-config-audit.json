@@ -10,12 +10,12 @@
     "列出宿主必须或常用的 Spring/第三方标准配置"
   ],
   "summary": {
-    "moduleCount": 35,
-    "modulesWithConfigCount": 28,
-    "customPropertyCount": 280,
+    "moduleCount": 36,
+    "modulesWithConfigCount": 29,
+    "customPropertyCount": 289,
     "standardHostPropertyCount": 40,
-    "totalEntryCount": 320,
-    "configurationPropertiesClassCount": 35,
+    "totalEntryCount": 329,
+    "configurationPropertiesClassCount": 29,
     "riskCount": 5
   },
   "prefixIndex": [
@@ -73,7 +73,17 @@
     "ypbin.web.cors",
     "ypbin.web.repeatable-read",
     "ypbin.web.xss",
-    "ypbin.websocket"
+    "ypbin.websocket",
+    "ypbin.xxl-job.enabled",
+    "ypbin.xxl-job.admin-addresses",
+    "ypbin.xxl-job.access-token",
+    "ypbin.xxl-job.appname",
+    "ypbin.xxl-job.address",
+    "ypbin.xxl-job.ip",
+    "ypbin.xxl-job.port",
+    "ypbin.xxl-job.log-path",
+    "ypbin.xxl-job.log-retention-days",
+    "ypbin.xxl-job"
   ],
   "modules": {
     "ypbin-starter-ai": {
@@ -11532,6 +11542,295 @@
     },
     "ypbin-starter-app-cloud": {
       "configurationProperties": [],
+      "standardHostProperties": []
+    },
+    "ypbin-starter-xxljob": {
+      "configurationProperties": [
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": false,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用 XXL-JOB 执行器",
+          "allowedValues": [],
+          "enablement": "配置值为 true 时满足该自动装配条件；未配置时默认关闭。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 37
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobAutoConfiguration.java",
+              "line": 41
+            }
+          ],
+          "default": false,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 37
+            },
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobAutoConfiguration.java",
+              "line": 41
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.admin-addresses",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": true,
+          "requiredWhen": "enabled=true 时必须",
+          "description": "调度中心地址（多个逗号分隔）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [
+            "缺失时启动即抛错暴露，禁止静默降级"
+          ],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 40
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 40
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.access-token",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "",
+          "required": false,
+          "requiredWhen": null,
+          "description": "执行器通讯 Token（与 admin 端保持一致，为空则不做校验）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 43
+            }
+          ],
+          "default": "",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 43
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.appname",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": true,
+          "requiredWhen": "enabled=true 时必须",
+          "description": "执行器名称（AppName），admin 端按此注册与路由",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [
+            "缺失时启动即抛错暴露，禁止静默降级"
+          ],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 46
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 46
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.address",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "执行器注册地址（为空时自动注册本机 IP）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 49
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 49
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.ip",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "执行器 IP（为空自动获取）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 52
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 52
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.port",
+          "type": "java.lang.Integer",
+          "defaultDefined": true,
+          "defaultValue": 9999,
+          "required": false,
+          "requiredWhen": null,
+          "description": "执行器端口（执行器与 admin 通讯用）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 55
+            }
+          ],
+          "default": 9999,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 55
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.log-path",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "执行器日志保存路径（为空使用默认临时目录）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 58
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 58
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.log-retention-days",
+          "type": "java.lang.Integer",
+          "defaultDefined": true,
+          "defaultValue": 30,
+          "required": false,
+          "requiredWhen": null,
+          "description": "执行器日志保存天数",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 61
+            }
+          ],
+          "default": 30,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 61
+            }
+          ]
+        }
+      ],
       "standardHostProperties": []
     }
   },

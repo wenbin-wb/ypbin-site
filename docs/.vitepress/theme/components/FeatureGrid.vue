@@ -28,7 +28,7 @@ const groups = [
     <div class="section-heading">
       <p class="section-kicker">能力全景</p>
       <h2 id="feature-title">你要的都有，按需取用。</h2>
-      <p>不绑死全家桶——35 个模块独立发布，用哪个引哪个，用不到的模块不进 classpath。</p>
+      <p>不绑死全家桶——36 个模块独立发布，用哪个引哪个，用不到的模块不进 classpath。</p>
     </div>
     <div class="feature-grid">
       <article v-for="g in groups" :key="g.name" class="feature-card">

@@ -330,20 +330,10 @@ DELETE /system/notice/{id}    → 删除
 
 ### 5.14 定时任务
 
-```
-GET    /system/job/list        → JobResp[]
-GET    /system/job/log?page=1&pageSize=20         → PageResult<JobLogResp>（全部任务日志）
-GET    /system/job/log/{jobId} → PageResult<JobLogResp>
-POST   /system/job/cron/preview → Cron 语法校验与下次触发时间预览，请求体 { "cron": "..." }，响应 CronPreviewResp
-POST   /system/job             → 新增
-PUT    /system/job/{id}        → 编辑
-DELETE /system/job/{id}        → 删除
-POST   /system/job/{id}/start  → 启动调度
-POST   /system/job/{id}/stop   → 停止调度
-POST   /system/job/{id}/run    → 立即执行
-```
+定时任务（定义/启停/立即执行/执行日志）已迁移至 **XXL-JOB** 统一管理，不再走 `/system/job` 接口：
 
-> `/system/job/log` 与 `/system/job/cron/preview` 请求/响应结构以源码为准（见 `SysJobController`）。
+- 管理入口为 **xxl-job-admin 调度中心控制台**（部署见 [部署文档](/guide/admin/deployment)）；
+- 各业务服务的定时逻辑以 `@XxlJob("handlerName")` 暴露为执行器（接入见 [xxljob 模块](/guide/starter/modules/xxljob)）。
 
 ### 5.15 License 管理
 

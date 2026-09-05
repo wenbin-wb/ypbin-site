@@ -8,7 +8,6 @@ const screenshots = [
   { id: 'dashboard', label: '运行概览', description: '用户、角色、菜单与在线会话的真实统计。' },
   { id: 'roles', label: '角色权限', description: '数据范围、启停状态与角色维护。' },
   { id: 'menus', label: '动态菜单', description: '后端菜单、权限标识与页面组件。' },
-  { id: 'jobs', label: '任务调度', description: 'Spring Cron、执行器和并发控制。' },
   { id: 'licenses', label: '商业授权', description: '授权签发、审批、交付与运行状态。' },
   { id: 'login', label: '登录入口', description: 'ypbin 品牌登录页与真实认证表单。' }
 ]

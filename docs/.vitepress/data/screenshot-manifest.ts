@@ -15,7 +15,6 @@ const adminUiScenes = [
   ['dashboard', '真实运行概览', '/dashboard/analytics'],
   ['roles', '真实角色权限管理', '/system/role'],
   ['menus', '真实动态菜单管理', '/system/menu'],
-  ['jobs', '真实定时任务管理', '/system/job'],
   ['licenses', '真实商业授权管理', '/system/license']
 ] as const
 

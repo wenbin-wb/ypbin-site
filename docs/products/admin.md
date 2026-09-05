@@ -22,10 +22,13 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 | `ypbin-common` | 共享常量/配置/身份头/租户等 |
 | `ypbin-gateway` | 统一网关与登录鉴权 |
 | `ypbin-auth` | 认证服务 |
-| `ypbin-service` | system/ai/job 业务服务 |
+| `ypbin-service` | system/ai 业务服务 |
 | `ypbin-service-api` | Feign 接口与共享 DTO/实体 |
+| `xxl-job-admin` | XXL-JOB 任务调度中心（独立中间件） |
 
-同时维护单体版 `boot` 分支：`ypbin-admin-system`（`common` + `modules/{ai,auth,job,system}`）+ `ypbin-admin-server`。
+同时维护单体版 `boot` 分支：`ypbin-admin-system`（`common` + `modules/{ai,auth,job,system}`，job 包为 XXL-JOB 执行器业务类）+ `ypbin-admin-server`。
+
+业务定时任务统一由 XXL-JOB 调度（各服务以 `@XxlJob` 执行器接入 xxl-job-admin，见 [任务调度](/guide/starter/modules/xxljob)）。
 
 开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter @STARTER_VERSION@。
 

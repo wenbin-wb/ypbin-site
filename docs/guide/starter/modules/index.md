@@ -1,6 +1,6 @@
 ---
 title: Starter 模块文档
-description: ypbin-starter 35 个 Maven 模块的分层总览与使用文档。
+description: ypbin-starter 36 个 Maven 模块的分层总览与使用文档。
 ---
 
 # Starter 模块文档
@@ -13,7 +13,7 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合。全部能�
 |------|------|------|
 | 基础能力 L1 | [core](/guide/starter/modules/core) · [web](/guide/starter/modules/web) · [data](/guide/starter/modules/data) · [json](/guide/starter/modules/json) · [cache](/guide/starter/modules/cache) · [security](/guide/starter/modules/security) · [log](/guide/starter/modules/log) · [tools](/guide/starter/modules/tools) · [i18n](/guide/starter/modules/i18n) · [api-doc](/guide/starter/modules/api-doc) · [storage](/guide/starter/modules/storage) | 不依赖 Spring Cloud，单体即可用 |
 | 数据与安全增强 | [excel](/guide/starter/modules/excel) · [captcha](/guide/starter/modules/captcha) · [api-crypto](/guide/starter/modules/api-crypto) · [sign](/guide/starter/modules/sign) · [sensitive-words](/guide/starter/modules/sensitive-words) · [license](/guide/starter/modules/license) | 业务常见的数据与安全能力 |
-| 消息与平台 | [messaging](/guide/starter/modules/messaging) · [async](/guide/starter/modules/async) · [job](/guide/starter/modules/job) · [social](/guide/starter/modules/social) | 推送、异步、调度与第三方登录 |
+| 消息与平台 | [messaging](/guide/starter/modules/messaging) · [async](/guide/starter/modules/async) · [job](/guide/starter/modules/job) · [xxljob](/guide/starter/modules/xxljob) · [social](/guide/starter/modules/social) | 推送、异步、任务调度与第三方登录 |
 | 智能能力 | [ai](/guide/starter/modules/ai) | Spring AI 对话、记忆与 RAG（模型配置表驱动） |
 | 业务骨架 L2 | [extension-crud](/guide/starter/modules/extension-crud) · [extension-tenant](/guide/starter/modules/extension-tenant) · [extension-datapermission](/guide/starter/modules/extension-datapermission) | 在基础能力上叠加的通用业务骨架 |
 | 微服务 L3 | [cloud-core](/guide/starter/modules/cloud-core) · [cloud-nacos](/guide/starter/modules/cloud-nacos) · [cloud-loadbalancer](/guide/starter/modules/cloud-loadbalancer) · [cloud-gateway](/guide/starter/modules/cloud-gateway) · [cloud-observability](/guide/starter/modules/cloud-observability) · [cloud-sentinel](/guide/starter/modules/cloud-sentinel) | 面向 Spring Cloud 的分布式能力 |

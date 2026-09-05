@@ -9,7 +9,7 @@ description: 在本地开发环境编译与配置 ypbin-admin。
 
 ## 一键部署（生产，推荐）
 
-新服务器零配置一键安装微服务版（Nacos + 网关 + auth/system/ai/job 五服务 + MySQL + Redis + 前端）：
+新服务器零配置一键安装微服务版（Nacos + 网关 + auth/system/ai 四服务 + xxl-job-admin 调度中心 + MySQL + Redis + 前端）：
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
@@ -41,7 +41,7 @@ mvn -DskipTests install
 mvn -DskipTests package
 ```
 
-admin 主分支为微服务形态，包含 common、gateway、auth、service（system/ai/job）、service-api；单体形态见 boot 分支。实际数据库连接、Redis 与密钥必须通过本地环境配置提供，不要把凭据提交到仓库。
+admin 主分支为微服务形态，包含 common、gateway、auth、service（system/ai）、service-api；业务定时任务由独立 xxl-job-admin 调度中心统一管理。单体形态见 boot 分支（boot 的 modules/job 为 XXL-JOB 执行器业务类）。实际数据库连接、Redis 与密钥必须通过本地环境配置提供，不要把凭据提交到仓库。
 
 ## 初始化安全要求
 

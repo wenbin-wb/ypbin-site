@@ -14,8 +14,9 @@ ypbin-admin 主分支 `main` 为**微服务形态**，根 POM 声明多个 Maven
 | `ypbin-common` | 共享常量、配置、身份头/租户等微服务基础装配 |
 | `ypbin-gateway` | 统一网关：登录鉴权、身份头签发与路由转发 |
 | `ypbin-auth` | 认证服务：登录、验证码、第三方登录 |
-| `ypbin-service` | 业务服务聚合：`ypbin-system`（RBAC/菜单/租户/消息等）/ `ypbin-ai` / `ypbin-job` |
+| `ypbin-service` | 业务服务聚合：`ypbin-system`（RBAC/菜单/租户/消息等）/ `ypbin-ai` |
 | `ypbin-service-api` | Feign 接口与跨服务共享 DTO/实体（`ypbin-system-api` / `ypbin-ai-api`） |
+| `xxl-job-admin` | XXL-JOB 任务调度中心（独立中间件）：业务定时任务的定义/调度日志/触发由它统一管理 |
 
 跨服务调用约定：auth/ai **不直连共享库**，一律经 `ISystemClient` Feign 调 system 服务；
 网关校验 token 后签发 `X-User-Id/X-Tenant-Id/...` 身份头，下游经 `IdentityContext` 读取当前用户。
@@ -86,3 +87,5 @@ admin 侧不重造这些能力；发现 starter 缺能力或不好用时，反�
 **单体（boot 分支）常用**：`ypbin-starter-web`、`-data`、`-security`、`-json`、`-cache`、`-log`、`-api-doc`、`-extension-crud`、`-excel`、`-captcha`、`-messaging`、`-storage`、`-tools`，或引 `ypbin-starter-app-web` 一站式聚合。
 
 按业务再选：`-extension-tenant`（多租户）、`-extension-datapermission`（数据权限）、`-sign`（开放 API）、`-social`（第三方登录）、`-sensitive-words`、`-i18n`、`-api-crypto`、`-async`。
+
+**定时任务**：业务侧任务统一走 XXL-JOB——各服务引入 `ypbin-starter-xxljob` 以 `@XxlJob` 暴露执行器，配合独立部署的 xxl-job-admin 调度中心（见 [部署文档](/guide/admin/deployment)）；自研 `ypbin-starter-job`（内存调度）仅在无需调度中心的轻量场景使用。

@@ -3,11 +3,11 @@
   "generatedAt": "2026-08-10",
   "project": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin",
   "summary": {
-    "total": 133,
-    "environment": 19,
-    "application": 62,
+    "total": 140,
+    "environment": 21,
+    "application": 67,
     "database": 52,
-    "unconfirmed": 6
+    "unconfirmed": 0
   },
   "entries": [
     {
@@ -2496,6 +2496,125 @@
         }
       ],
       "category": "database",
+      "status": "active"
+    },
+    {
+      "key": "ypbin.xxl-job.enabled",
+      "type": "boolean",
+      "defaultValue": true,
+      "requiredWhen": "部署后需与 xxl-job-admin 调度中心同时启用",
+      "description": "是否启用 XXL-JOB 执行器（system 服务注册到调度中心）",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/nacos/ypbin-system.yaml",
+          "line": 59
+        }
+      ],
+      "category": "application",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "status": "active"
+    },
+    {
+      "key": "ypbin.xxl-job.admin-addresses",
+      "type": "string",
+      "defaultValue": "http://xxl-job-admin:8080",
+      "requiredWhen": "enabled=true 时必须",
+      "description": "xxl-job-admin 调度中心地址（3.4.x context path 为根路径）",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/nacos/ypbin-system.yaml",
+          "line": 60
+        }
+      ],
+      "category": "application",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "status": "active"
+    },
+    {
+      "key": "ypbin.xxl-job.access-token",
+      "type": "string",
+      "defaultValue": "",
+      "requiredWhen": "可选；与调度中心保持一致，空则不校验",
+      "description": "执行器通讯 Token",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/nacos/ypbin-system.yaml",
+          "line": 61
+        }
+      ],
+      "category": "application",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "status": "active"
+    },
+    {
+      "key": "ypbin.xxl-job.appname",
+      "type": "string",
+      "defaultValue": "ypbin-system",
+      "requiredWhen": "enabled=true 时必须",
+      "description": "执行器名称（AppName），admin 端按此注册与路由",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/nacos/ypbin-system.yaml",
+          "line": 62
+        }
+      ],
+      "category": "application",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "status": "active"
+    },
+    {
+      "key": "ypbin.xxl-job.port",
+      "type": "integer",
+      "defaultValue": 9999,
+      "requiredWhen": "可选；执行器通讯端口，默认 9999",
+      "description": "执行器端口",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/nacos/ypbin-system.yaml",
+          "line": 63
+        }
+      ],
+      "category": "application",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "status": "active"
+    },
+    {
+      "key": "YPBIN_XXL_JOB_ENABLED",
+      "type": "boolean",
+      "defaultValue": false,
+      "requiredWhen": "可选；boot 单体部署用，true 时启用执行器注册",
+      "description": "boot 单体版是否启用 XXL-JOB 执行器（默认复用主部署调度中心）",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/.env.example",
+          "line": 32
+        }
+      ],
+      "category": "environment",
+      "allowedValues": null,
+      "safetyNotes": [],
+      "status": "active"
+    },
+    {
+      "key": "YPBIN_XXL_JOB_ADMIN",
+      "type": "string",
+      "defaultValue": "http://host.docker.internal:18085",
+      "requiredWhen": "可选；boot 单体指向的 xxl-job-admin 地址（跨 compose 用宿主机）",
+      "description": "boot 单体版 xxl-job-admin 调度中心地址",
+      "sources": [
+        {
+          "path": "C:/Users/Administrator/IdeaProjects/starter/ypbin-admin/deploy/.env.example",
+          "line": 33
+        }
+      ],
+      "category": "environment",
+      "allowedValues": null,
+      "safetyNotes": [],
       "status": "active"
     }
   ],
