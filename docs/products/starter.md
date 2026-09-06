@@ -5,17 +5,17 @@ description: 36 模块的 Spring Boot 系统级基础能力集合。
 
 # ypbin-starter
 
-<StatusBadge status="stable" label="v@STARTER_VERSION@ 稳定版" />
+<StatusBadge status="stable" label="v${VERSION} 稳定版" />
 
 ypbin-starter 是面向 Spring Boot 的基础能力集合。它将 Web、JSON、数据访问、缓存、安全、存储、日志、消息、任务、云组件等横切能力拆分为可选择的 Maven 模块，通过 BOM 管理版本。
 
-<VersionScope version="稳定版 @STARTER_VERSION@ / 开发版 @STARTER_VERSION@+" status="stable" />
+<VersionScope version="稳定版 ${VERSION} / 开发版 ${VERSION}+" status="stable" />
 
 ## 已核验范围
 
 - 根聚合项目声明 **36 个 Maven 模块**。
 - Java 基线为 **21**（1.3.0 及以前为 17；1.4.0 起随 Spring Boot 4.1 升级到 21）。
-- 当前稳定版本为 **v@STARTER_VERSION@**（2026-09-05 发布，新增 `ypbin-starter-xxljob`：XXL-JOB v3.4.2 执行器接入壳，业务定时任务迁 XXL-JOB 分布式调度中心统一管理）。
+- 当前稳定版本为 **v${VERSION}**（2026-09-05 发布，新增 `ypbin-starter-xxljob`：XXL-JOB v3.4.2 执行器接入壳，业务定时任务迁 XXL-JOB 分布式调度中心统一管理）。
 - 许可证为 Apache License 2.0。
 
 ## 适合解决什么

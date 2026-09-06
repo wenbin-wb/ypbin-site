@@ -29,7 +29,7 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合。全部能�
     <dependency>
       <groupId>cn.ypbin</groupId>
       <artifactId>ypbin-starter-bom</artifactId>
-      <version>@STARTER_VERSION@</version>
+      <version>${VERSION}</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -37,4 +37,4 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合。全部能�
 </dependencyManagement>
 ```
 
-本页以稳定版 `@STARTER_VERSION@`（Java 21 / Spring Boot 4.1.x）为准；历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）的 BOM 写法相同，仅版本号不同。
+本页以稳定版 `${VERSION}`（Java 21 / Spring Boot 4.1.x）为准；历史稳定版 `1.3.0`（Java 17 / Spring Boot 3.5 基线）的 BOM 写法相同，仅版本号不同。

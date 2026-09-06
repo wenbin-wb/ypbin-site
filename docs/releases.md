@@ -9,9 +9,9 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 | 产品 | 通道 | 版本 | 状态 |
 | --- | --- | --- | --- |
-| ypbin-starter | 稳定 | `v@STARTER_VERSION@` | 已发布，建议生产接入时使用 |
-| ypbin-admin | 开发 | `@ADMIN_VERSION@` | 尚未声明稳定发布，依赖 starter `@STARTER_VERSION@` |
-| ypbin-admin-ui | private | `@ADMIN_UI_VERSION@` | 工作区版本，不应解读为公共 npm 稳定包 |
+| ypbin-starter | 稳定 | `v${VERSION}` | 已发布，建议生产接入时使用 |
+| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `${VERSION}` |
+| ypbin-admin-ui | private | `5.7.0` | 工作区版本，不应解读为公共 npm 稳定包 |
 
 ## ypbin-starter 版本历史
 

@@ -5,13 +5,13 @@ description: 基于 ypbin-starter 组装的后台服务，主推微服务形态�
 
 # ypbin-admin
 
-<StatusBadge status="development" label="@ADMIN_VERSION@ 开发中" />
+<StatusBadge status="development" label="1.0.0-SNAPSHOT 开发中" />
 
 > 在线访问:https://admin.ypbin.cn
 
 ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统业务、权限与运行入口。它处于开发阶段，不应被描述为稳定发布产品。
 
-<VersionScope version="admin @ADMIN_VERSION@ · starter @STARTER_VERSION@" status="development" />
+<VersionScope version="admin 1.0.0-SNAPSHOT · starter ${VERSION}" status="development" />
 
 ## 已核验范围
 
@@ -30,7 +30,7 @@ ypbin-admin 是基于 ypbin-starter 组装的后台管理服务，负责系统�
 
 业务定时任务统一由 XXL-JOB 调度（各服务以 `@XxlJob` 执行器接入 xxl-job-admin，见 [任务调度](/guide/starter/modules/xxljob)）。
 
-开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter @STARTER_VERSION@。
+开发基线为 Java 21、Spring Boot 4.1.0，并通过 BOM 依赖 ypbin-starter ${VERSION}。
 
 ## 安全提醒
 
