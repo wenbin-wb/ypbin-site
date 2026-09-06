@@ -5,7 +5,9 @@ description: ypbin-admin 全部接口的请求/响应契约、认证方式与数
 
 # Admin 接口契约
 
-以下为 ypbin-admin 后端全部接口的请求/响应契约、认证方式与数据结构，前后端按此对接。默认接口路径前缀 /api（由网关/代理转发到后端）。
+以下为 ypbin-admin 后端全部接口的请求/响应契约、认证方式与数据结构，前后端按此对接。
+
+> **URL 口径**：默认接口路径前缀 `/api`（由 nginx 代理转发到网关）。网关前对外 URL 第一段为**服务短名**（`system`/`auth`/`ai`），网关按短名路由并剥掉短名段后，服务内 Controller 只声明纯资源路径（如 `/system/user/list` → 网关剥 `system` → 服务收 `/user/list`）。本文档一律写**网关前对外 URL**（含服务短名）。免登录段对外形态：`/auth/captcha`、`/auth/social/*`、`/system/open-api/*`、`/system/open/license/*`、`/ai/share/*`、`/ai/widget/*`、`/system/ypbin/sse/*`。
 ## 1. 响应格式
 
 所有接口统一返回 JSON，格式如下：
@@ -104,9 +106,9 @@ Authorization: Bearer <accessToken>
 登录成功后，按顺序调用以下接口获取用户信息、权限和菜单：
 
 ```
-GET /user/info          → UserInfo（用户基本信息 + 权限码 + 角色码）
+GET /auth/user/info   → UserInfo（用户基本信息 + 权限码 + 角色码）
 GET /auth/codes         → string[]（权限码集合）
-GET /menu/all           → RouteRecord[]（路由树，排除按钮）
+GET /auth/menu/all      → RouteRecord[]（路由树，排除按钮）
 ```
 
 ### 2.6 退出登录
@@ -122,16 +124,16 @@ POST /auth/logout
 ## 3. 个人中心
 
 ```
-GET  /user/profile        → UserResp（当前用户信息）
-PUT  /user/profile        → 更新个人信息（realName/nickname/avatar/phone/email/gender）
-PUT  /user/profile/password → 修改密码 { "oldPassword": "...", "newPassword": "..." }
+GET  /system/user/profile → UserResp（当前用户信息）
+PUT  /system/user/profile → 更新个人信息（realName/nickname/avatar/phone/email/gender）
+PUT  /system/user/profile/password → 修改密码 { "oldPassword": "...", "newPassword": "..." }
 ```
 
 ## 4. 验证码
 
 ```
-GET  /captcha             → 获取行为验证码（滑块/旋转/点选），开关由 LOGIN_CAPTCHA_ENABLED 控制
-POST /captcha/verify?id=xxx → 校验验证码，请求体为 ImageCaptchaTrack（前端采集的行为轨迹）
+GET  /auth/captcha             → 获取行为验证码（滑块/旋转/点选），开关由 LOGIN_CAPTCHA_ENABLED 控制
+POST /auth/captcha/verify?id=xxx → 校验验证码，请求体为 ImageCaptchaTrack（前端采集的行为轨迹）
 ```
 
 ## 5. 系统管理接口
@@ -391,9 +393,9 @@ PUT    /system/config/social/{source} → 修改配置（请求体 SocialConfigU
 ## 6. 仪表盘
 
 ```
-GET /dashboard/stats        → Map（6 个字段：userCount / roleCount / deptCount / menuCount / onlineCount / logCount）
-GET /dashboard/latest-logs?limit=10  → LogResp[]（最近操作日志，limit 1..100，默认 10）
-GET /dashboard/log-trend?days=7      → LogTrendResp[]（近 N 天操作日志趋势，days 1..90，默认 7）
+GET /system/dashboard/stats        → Map（6 个字段：userCount / roleCount / deptCount / menuCount / onlineCount / logCount）
+GET /system/dashboard/latest-logs?limit=10  → LogResp[]（最近操作日志，limit 1..100，默认 10）
+GET /system/dashboard/log-trend?days=7      → LogTrendResp[]（近 N 天操作日志趋势，days 1..90，默认 7）
 ```
 
 - 仪表盘接口需要权限 `system:dashboard:view`。
@@ -403,12 +405,12 @@ GET /dashboard/log-trend?days=7      → LogTrendResp[]（近 N 天操作日志�
 ### 7.1 当前用户站内信（仅需登录，无需管理权限）
 
 ```
-GET  /user/messages?page=1&pageSize=20&readStatus=   → PageResult<MessageResp>（分页，可按已读状态过滤）
-GET  /user/messages/unread-count                     → long（未读消息数）
-GET  /user/messages/recent?limit=10                  → MessageResp[]（最近消息，含已读/未读，limit 1..100）
-PUT  /user/messages/{id}/read                        → 标记单条已读
-PUT  /user/messages/read-all                         → 全部标记已读
-DELETE /user/messages/{id}                           → 删除当前用户自己的消息
+GET  /system/messages?page=1&pageSize=20&readStatus=   → PageResult<MessageResp>（分页，可按已读状态过滤）
+GET  /system/messages/unread-count                     → long（未读消息数）
+GET  /system/messages/recent?limit=10                  → MessageResp[]（最近消息，含已读/未读，limit 1..100）
+PUT  /system/messages/{id}/read                        → 标记单条已读
+PUT  /system/messages/read-all                         → 全部标记已读
+DELETE /system/messages/{id}                           → 删除当前用户自己的消息
 ```
 
 ### 7.2 推送测试
@@ -417,7 +419,7 @@ DELETE /user/messages/{id}                           → 删除当前用户自�
 POST /system/push/test?userId=xxx  → 推送测试（调试用）
 ```
 
-> SSE 订阅票据端点为 `POST /ypbin/sse/ticket`（见 [Admin UI 配置参考](/guide/config/admin-ui)），订阅端点为 `GET /ypbin/sse/subscribe?ticket=<ticket>`。
+> SSE 订阅票据端点为 `POST /system/ypbin/sse/ticket`（见 [Admin UI 配置参考](/guide/config/admin-ui)），订阅端点为 `GET /system/ypbin/sse/subscribe?ticket=<ticket>`（对外 URL 带 `system` 服务短名，网关剥短名后服务收 `/ypbin/sse/*`）。
 
 ## 8. AI 对话
 
@@ -512,18 +514,18 @@ GET /ai/stats/kb-docs         → 各知识库文档数分布
 ### 8.7 公开分享（免登录）
 
 ```
-GET  /share/{token}/config                     → 分享配置（知识库名称、是否需要密码、是否过期）
-GET  /share/{token}/documents?page=            → PageResult<AiDocumentVO>（分享文档列表，可选 X-Share-Password 头）
-GET  /share/{token}/documents/{docId}/content  → 分享文档原文（可选 X-Share-Password 头）
-POST /share/{token}/ask                        → 对分享知识库提问（非流式 RAG），请求体 { "question": "..." }
+GET  /ai/share/{token}/config                     → 分享配置（知识库名称、是否需要密码、是否过期）
+GET  /ai/share/{token}/documents?page=            → PageResult<AiDocumentVO>（分享文档列表，可选 X-Share-Password 头）
+GET  /ai/share/{token}/documents/{docId}/content  → 分享文档原文（可选 X-Share-Password 头）
+POST /ai/share/{token}/ask                        → 对分享知识库提问（非流式 RAG），请求体 { "question": "..." }
 ```
 
 ### 8.8 网页挂件（免登录）
 
 ```
-GET  /widget/{token}/config     → 挂件配置
-POST /widget/{token}/ask        → 匿名提问（请求体 { "question": "..." }）
-GET  /widget/embed.js           → 挂件嵌入脚本（application/javascript，无需令牌）
+GET  /ai/widget/{token}/config     → 挂件配置
+POST /ai/widget/{token}/ask        → 匿名提问（请求体 { "question": "..." }）
+GET  /ai/widget/embed.js           → 挂件嵌入脚本（application/javascript，无需令牌）
 ```
 
 > AI 相关接口的请求/响应结构以源码为准（见 `system/ai/controller/` 下各 Controller）。
@@ -533,7 +535,7 @@ GET  /widget/embed.js           → 挂件嵌入脚本（application/javascript�
 ### 9.1 License 联机校验（消费端专用，免登录）
 
 ```
-GET /open/license/verify?licenseId=xxx&fingerprint=xxx  → LicenseRemoteResp（valid=true/false）
+GET /system/open/license/verify?licenseId=xxx&fingerprint=xxx  → LicenseRemoteResp（valid=true/false）
 ```
 
 - 采用开放应用 AK/SK 接口签名鉴权（accessKey/timestamp/nonce/sign 四件套，经 `SignChecker` 校验）。
@@ -542,7 +544,7 @@ GET /open/license/verify?licenseId=xxx&fingerprint=xxx  → LicenseRemoteResp（
 ### 9.2 开放 API 示例（免登录，需签名）
 
 ```
-POST /open-api/demo   → 标注 @ApiSign，需通过签名校验，返回 { "echo": <请求体>, "message": "开放 API 签名校验通过" }
+POST /system/open-api/demo   → 标注 @ApiSign，需通过签名校验，返回 { "echo": <请求体>, "message": "开放 API 签名校验通过" }
 ```
 
 ## 10. 前端路由结构（GET /menu/all）

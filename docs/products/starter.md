@@ -15,7 +15,7 @@ ypbin-starter 是面向 Spring Boot 的基础能力集合。它将 Web、JSON、
 
 - 根聚合项目声明 **36 个 Maven 模块**。
 - Java 基线为 **21**（1.3.0 及以前为 17；1.4.0 起随 Spring Boot 4.1 升级到 21）。
-- 当前稳定版本为 **v${VERSION}**（2026-09-05 发布，新增 `ypbin-starter-xxljob`：XXL-JOB v3.4.2 执行器接入壳，业务定时任务迁 XXL-JOB 分布式调度中心统一管理）。
+- 当前稳定版本为 **v${VERSION}**（2026-09-07 发布，微服务 SSE 修复：`SecuritySseUserIdResolver` 兼容网关身份头形态——`IdentityContext` 优先 + `LoginHelper` 兜底，微服务下游站内信实时推送可正常取票订阅）。
 - 许可证为 Apache License 2.0。
 
 ## 适合解决什么

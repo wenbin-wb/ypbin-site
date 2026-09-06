@@ -21,6 +21,8 @@ ypbin-admin 主分支 `main` 为**微服务形态**，根 POM 声明多个 Maven
 跨服务调用约定：auth/ai **不直连共享库**，一律经 `ISystemClient` Feign 调 system 服务；
 网关校验 token 后签发 `X-User-Id/X-Tenant-Id/...` 身份头，下游经 `IdentityContext` 读取当前用户。
 
+**URL 路由约定**：对外 URL 第一段 = 服务短名（`system`/`auth`/`ai`），网关按短名路由并 `StripPrefix=1` 剥掉短名段，服务内 Controller 写纯资源路径（`/system/user/list` → 剥 `system` → 服务收 `/user/list`）。Controller 内不再带服务域前缀；新增接口挂所属服务短名即可，网关路由不随接口改动。免登录端点（验证码/分享/开放/SSE 订阅）在网关 Nacos `exclude-paths` 声明，URL 同样带短名（`/auth/captcha`、`/ai/share/**`、`/system/ypbin/sse`）。
+
 另维护**单体版 `boot` 分支**：`ypbin-admin-system`（公共 + 业务域 `cn.ypbin.admin.common` + `cn.ypbin.admin.modules/{ai,auth,job,system}`）+ `ypbin-admin-server`（启动与装配），
 当前用户走 `UserContext`/`LoginHelper`（sa-token 会话）。适合不需要服务拆分的场景，详见 [部署文档](/guide/admin/deployment)。
 

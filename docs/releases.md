@@ -10,10 +10,18 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 | 产品 | 通道 | 版本 | 状态 |
 | --- | --- | --- | --- |
 | ypbin-starter | 稳定 | `v${VERSION}` | 已发布，建议生产接入时使用 |
-| ypbin-admin | 开发 | `1.0.0-SNAPSHOT` | 尚未声明稳定发布，依赖 starter `${VERSION}` |
-| ypbin-admin-ui | private | `5.7.0` | 工作区版本，不应解读为公共 npm 稳定包 |
+| ypbin-admin | 开发 | `@ADMIN_VERSION@` | 尚未声明稳定发布，依赖 starter `${VERSION}` |
+| ypbin-admin-ui | private | `@ADMIN_UI_VERSION@` | 工作区版本，不应解读为公共 npm 稳定包 |
 
 ## ypbin-starter 版本历史
+
+### v2.2.1 — 2026-09-07
+
+**微服务 SSE 修复**：SSE 订阅/换票端点用户解析兼容网关身份头形态。共 36 个模块。
+
+**修复**
+
+- **SSE 用户解析双形态**（security）：`SecuritySseUserIdResolver` 改为 `IdentityContext`（网关身份头，微服务下游）优先、`LoginHelper.getUserIdSafely()`（Sa-Token 会话，单体/网关侧）兜底——微服务下游的站内信实时推送可正常取票订阅（此前误报"登录状态已过期"）。
 
 ### v2.2.0 — 2026-09-05
 

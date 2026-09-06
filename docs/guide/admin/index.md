@@ -5,7 +5,7 @@ description: 在本地开发环境编译与配置 ypbin-admin。
 
 # admin 快速开始
 
-<VersionScope version="1.0.0-SNAPSHOT" status="development" />
+<VersionScope version="@ADMIN_VERSION@" status="development" />
 
 ## 一键部署（生产，推荐）
 
@@ -64,4 +64,4 @@ admin 主分支为微服务形态，包含 common、gateway、auth、service（s
 
 ## 状态说明
 
-admin 当前版本 `1.0.0-SNAPSHOT`，依赖 starter 的 `${VERSION}` 稳定版，适合本地联调和二次开发。
+admin 当前版本 `@ADMIN_VERSION@`，依赖 starter 的 `${VERSION}` 稳定版，适合本地联调和二次开发。
