@@ -40,7 +40,7 @@ description: ypbin 的常见问题与解答，答案以本站文档与源码为�
 
 ## admin-ui 为什么是 private 包？
 
-admin-ui 是私有部署的工作区版本，不对外分发，`@ADMIN_UI_VERSION@` 不应解读为公共 npm 稳定包。
+admin-ui 是私有部署的工作区版本，不对外分发，`5.7.0` 不应解读为公共 npm 稳定包。
 
 ## 文档和截图如何保证真实？
 
