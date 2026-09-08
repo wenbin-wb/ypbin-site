@@ -30,20 +30,25 @@ description: 微服务版（main）一键部署、单体版（boot）部署、�
 
 ### 一键部署（推荐）
 
-新服务器零配置一键安装微服务版（Nacos/MySQL/Redis + 4 个后端服务 + xxl-job-admin + 前端）：
+新服务器零配置一键安装微服务版（Nacos/MySQL/Redis + 5 个后端服务 + xxl-job-admin + 前端）：
 
 ```bash
+# 1. 默认部署主分支（main）
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
+
+# 2. 部署指定特性分支（例如 feature/miniapp-backend）
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh) -b feature/miniapp-backend
+
+# 3. 全自动静默部署（跳过交互确认，CI/CD 适用）
+bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh) -b feature/miniapp-backend -y
 ```
 
-- 默认部署目录：`/opt/ypbin/main`
-- 全自动模式：加 `-y`
-- 无 Docker 环境可用 `NO_DOCKER=1`（需外部 Nacos/Redis/MySQL）
-- 常用环境变量：
-  - `YPBIN_ROOT`（默认 `/opt/ypbin/main`）
-  - `BRANCH`（默认 `main`）
-  - `MYSQL_ROOT_PASSWORD`、`AI_MODEL_SECRET_KEY`
-  - `ADMIN_UI_PORT`（默认 19000）
+- **参数支持**：
+  - `-b, --branch <name>`：指定部署的代码分支（默认 `main`；也可传环境变量 `BRANCH=...`）；
+  - `--root <dir>`：指定部署目录（默认根据分支自动隔离，如 `/opt/ypbin/<branch>`，杜绝多分支代码与配置互相覆盖）；
+  - `-y, --yes`：跳过所有交互确认；
+- **无 Docker 环境**：设置 `NO_DOCKER=1`（需外部 Nacos/Redis/MySQL）；
+- **常用环境变量覆盖**：`BRANCH`、`YPBIN_ROOT`、`MYSQL_ROOT_PASSWORD`、`AI_MODEL_SECRET_KEY`、`ADMIN_UI_PORT`（默认 19000）。
 
 ### 前端构建
 
