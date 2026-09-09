@@ -401,24 +401,61 @@
   transition: color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ---------- 宽表文档（配置参考等）：正文加宽 + 表格横向滚动 ---------- */
+/* ---------- 宽表文档（配置参考等）：正文加宽 + 表格内部滚动 + 冻结表头 ---------- */
 .vp-doc,
 .VPDoc .content-container {
   max-width: 58rem;
 }
 .table-scroll {
-  overflow-x: auto;
+  overflow: auto; /* 横/纵都在容器内滚动：横向滚动条贴近表格，不再需要拖到页面底部 */
+  max-height: min(68vh, 40rem); /* 长表限高，整页不被几百行撑高 */
   -webkit-overflow-scrolling: touch;
   margin: 1rem 0;
+  border: 1px solid var(--yp-line);
+  border-radius: 0.5rem;
 }
 .table-scroll table {
-  width: max-content;
-  min-width: 100%;
-  border-collapse: collapse;
+  width: 100%;
+  min-width: max-content;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table-scroll thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--yp-panel-soft, var(--yp-panel));
+  box-shadow: inset 0 -1px 0 var(--yp-line-strong, var(--yp-line));
+  white-space: nowrap;
+}
+.table-scroll th,
+.table-scroll td {
+  padding: 0.4rem 0.65rem; /* 行紧凑 */
+  vertical-align: top;
+  text-align: left;
+}
+.table-scroll tbody tr:hover {
+  background: var(--yp-panel);
+}
+.table-scroll td:first-child code {
+  white-space: normal;
+  word-break: break-word;
+}
+.table-scroll .cfg-src {
+  display: block;
+  font-size: 0.72em;
+  opacity: 0.66;
+}
+.table-scroll .cfg-value {
+  white-space: normal;
+  word-break: break-word;
 }
 @media (max-width: 760px) {
   .vp-doc,
   .VPDoc .content-container {
     max-width: 100%;
+  }
+  .table-scroll {
+    max-height: 60vh;
   }
 }

@@ -42,7 +42,7 @@ const shortSource = (source) => {
 const sourceLine = (entry) => (entry.sources ?? []).map((s) => esc(shortSource(s))).join(' · ')
 
 function table(entries) {
-  const head = '| 配置项 | 类型 | 默认值 | 说明 | 来源 |\n|---|---|---|---|---|'
+  const head = '| 配置项 | 类型 | 默认值 | 说明 |\n|---|---|---|---|'
   const rows = entries.map((entry) => {
     // 配置项列：code span 内不转义实体（否则 _ 等显示为字面乱码）
     const key = codeSpan(entry.key)
@@ -60,16 +60,17 @@ function table(entries) {
     if (allowed) parts.push(`可选值：${esc(allowed)}`)
     const notes = entry.safetyNotes ?? entry.notes
     if (notes && notes !== '—') parts.push(`<strong>注意</strong>：${esc(notes)}`)
+    // 源码出处并入说明末尾小字（不占独立列，避免窄列各自排布抬高行高）
+    const srcLine = sourceLine(entry)
+    if (srcLine && srcLine !== '—') parts.push(`<span class="cfg-src">来源：${srcLine}</span>`)
     const descCell = parts.join('<br>')
     const def = entry.defaultValue ?? entry.default
     const defCell = def != null && String(def).length > 50
       ? `<code class="cfg-value">${esc(def)}</code>`
       : esc(def)
-    // 来源列：独立小字，不再挤进配置项列
-    const srcCell = `<span class="cfg-src">${sourceLine(entry)}</span>`
-    return `| ${configCell} | ${typeCell} | ${defCell} | ${descCell} | ${srcCell} |`
+    return `| ${configCell} | ${typeCell} | ${defCell} | ${descCell} |`
   }).join('\n')
-  // 宽表外包滚动容器：避免横向溢出把页面撑破
+  // 宽表外包滚动容器：避免横向溢出把页面撑破；限高后表头 sticky 随容器滚动
   return `\n<div class="table-scroll">\n\n${head}\n${rows}\n\n</div>\n`
 }
 
