@@ -49,6 +49,8 @@ bash <(curl -fsSL https://gitee.com/wenbin_wb/ypbin-admin/raw/main/deploy/instal
 
 The script installs dependencies, generates randomized credentials into `.env`, builds and starts the services, then prompts interactively for ports and deployment mode. Step-by-step environment variables and troubleshooting are covered in the [Admin deployment checklist](/guide/admin/deployment) (Chinese docs available).
 
+**China network notes** (detail in the [Chinese deployment guide](/guide/admin/deployment)): if GitHub is unreachable the installer auto-falls-back to the Gitee mirror (`gitee.com/wenbin_wb/ypbin-*`, create mirrors + enable auto-sync first); infrastructure images (`redis/mysql/nacos/xxl-job/nginx`) are tried against public accelerator prefixes, or can be imported from another host via `docker save | gzip | ssh <host> 'gunzip | docker load'` when all public mirrors are blocked; apt sources are auto-switched to Aliyun mirrors and the Docker Compose plugin / Maven are installed accordingly. Change the seeded `admin` password on first login (seed lives in `deploy/sql/002-data.sql`; infra secrets are randomly generated into `deploy/.env` with mode 600).
+
 ## Security notes
 
 The seed account shipped for local bootstrap exists only for first-run initialization and integration testing: change or remove it before any real deployment. API keys and secrets shown in documentation or examples are demo values and must never be used in production. Internal endpoints and deployment keys are covered in the [Admin deployment checklist](/guide/admin/deployment) (Chinese docs available).

@@ -56,6 +56,33 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/d
 - **常用环境变量覆盖**：`BRANCH`、`YPBIN_ROOT`、`MYSQL_ROOT_PASSWORD`、`AI_MODEL_SECRET_KEY`、`ADMIN_UI_PORT`（默认 19000）。
 - **凭据环境变量**：`NACOS_AUTH_TOKEN`/`NACOS_AUTH_IDENTITY_KEY`/`NACOS_AUTH_IDENTITY_VALUE`/`INTERNAL_TOKEN`/`REDIS_PASSWORD` 无需手传，install.sh 首次运行自动随机生成并写入 `deploy/.env`（见下）。
 
+
+### 网络受限环境（国内服务器/镜像拉取不可达）
+
+国内服务器常见：GitHub 不可达（脚本自动降级 Gitee 镜像）、Docker Hub 基础镜像拉不下来。处理优先级：
+
+1. **代码源**：脚本自动探测 GitHub（3s 快超时）→ 不可达切 Gitee 同名镜像（`GITEE_REPO` 可覆盖，默认 `gitee.com/wenbin_wb`）；两者都不可达时显式 `YPBIN_REPO=https://<代理或镜像前缀>`。
+2. **基础镜像（redis/mysql/nacos/xxl-job/nginx）**：
+   - 首选：给 Docker 配置可达的 `registry-mirrors`（如云厂商专属加速器）或脚本自动尝试的公共前缀（`docker.m.daocloud.io` 等，装不上会逐源探活并跳过不通项）；
+   - 若公共源在你的网络全部不可用（2026 年起大面积停服，表现为 `/v2/` 握手 401/302 但 blob 拉取卡死）：在另一台能拉镜像的机器执行
+     `docker save redis:7-alpine mysql:8.4 nacos/nacos-server:v3.2.4 xuxueli/xxl-job-admin:3.4.2 nginx:alpine | gzip | ssh <服务器> 'gunzip | docker load'`
+     导入后再跑脚本（脚本已用 legacy builder，`FROM eclipse-temurin:21-jre` 也会优先用本地 `docker load` 的镜像，不再联网解析）。
+3. **apt/maven/node**：脚本会自动把官方 apt 源切阿里镜像、启用 universe（maven 所在组件）、装 docker-compose-plugin 走阿里 docker-ce 源；Maven 走 aliyun、Node/pnpm 走 npmmirror（npm 缺 `libatomic1` 时先 `apt-get install -y libatomic1`）。
+
+### 初始登录凭据
+
+部署完成后各类口令的位置速查（**首次登录后请立即修改业务密码**）：
+
+| 项 | 默认/来源 | 存储 |
+|---|---|---|
+| 超管 `admin` 登录 | 种子 SQL `deploy/sql/002-data.sql` 内 bcrypt（注释标明明文，上线前必须改） | MySQL `sys_user.password`（bcrypt，不可逆，**明文不落配置文件**） |
+| 租户测试用户 | 同上种子（`123456`） | MySQL |
+| MySQL / Redis / Nacos token / INTERNAL_TOKEN | `install.sh` 首次运行**随机生成** | `部署目录/deploy/.env`（chmod 600）+ Nacos 共享配置（占位符替换） |
+| Nacos 控制台 | `nacos/nacos` | Nacos 自身 |
+| XXL-JOB 控制台 | `admin/123456` | xxl-job DB |
+
+> 上线建议：删除/更换种子测试账号口令；`.env` 仅本机 root 可读；生产启用密钥管理（Secret 管理）并定期轮换。
+
 ### 凭据与 .env
 
 - **一键随机生成**：首次运行 install.sh 生成 `deploy/.env`（`chmod 600`），自动随机生成 `MYSQL_ROOT_PASSWORD`、`NACOS_AUTH_TOKEN`（Base64 且解码后 ≥32 字节）、`NACOS_AUTH_IDENTITY_KEY/VALUE`、`REDIS_PASSWORD`（Docker 模式 16 字节 hex）、`INTERNAL_TOKEN`（64 位 hex，`/internal/**` 服务间 Feign 守卫共享凭证）、`AI_MODEL_SECRET_KEY`。
