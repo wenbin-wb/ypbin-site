@@ -1,5 +1,5 @@
 {
-  "starter": "${VERSION}",
+  "starter": "2.2.3",
   "starterStatus": "stable",
   "admin": "1.0.0-SNAPSHOT",
   "adminStatus": "development",
