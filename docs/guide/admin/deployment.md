@@ -33,6 +33,10 @@ description: 微服务版（main）一键部署、单体版（boot）部署、�
 新服务器零配置一键安装微服务版（Nacos/MySQL/Redis + 5 个后端服务 + xxl-job-admin + 前端）：
 
 ```bash
+# 0. 仓库源自动探测（默认 GitHub，3s 快超时不可达时自动降级 Gitee 同名镜像，均不可达需显式 YPBIN_REPO=...）
+#    国内服务器直接走 Gitee 入口（需先在 Gitee 建 ypbin-admin/starter/admin-ui 镜像并开启自动同步）：
+# bash <(curl -fsSL https://gitee.com/wenbin-wb/ypbin-admin/raw/main/deploy/install.sh)
+
 # 1. 默认部署主分支（main）
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
 

@@ -40,7 +40,11 @@ Development baseline: Java 21 and Spring Boot 4.1.0, with starter versions suppl
 A fresh server for the microservices form is deployed with one command:
 
 ```bash
+# When GitHub is reachable:
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
+# Mainland-China servers (GitHub blocked): the script auto-detects GitHub (3s timeout) and
+# falls back to the Gitee mirror (gitee.com/wenbin-wb/ypbin-*; create mirrors + auto-sync first):
+bash <(curl -fsSL https://gitee.com/wenbin-wb/ypbin-admin/raw/main/deploy/install.sh)
 ```
 
 The script installs dependencies, generates randomized credentials into `.env`, builds and starts the services, then prompts interactively for ports and deployment mode. Step-by-step environment variables and troubleshooting are covered in the [Admin deployment checklist](/guide/admin/deployment) (Chinese docs available).
