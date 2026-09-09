@@ -21,11 +21,21 @@ ypbin-starter is a capability collection for Spring Boot. Cross-cutting concerns
 
 When several Spring Boot services keep re-implementing unified responses, exceptions, security, data access, cache, object storage or API docs, each starter module can be pulled in on demand instead of copying infrastructure code into business repositories. Starter is not a complete business system — if you want a ready-made admin backend on top of it, see [ypbin-admin](/en/products/admin).
 
-## Module boundaries
+## Module layers
 
-Modules cover dependency management, core, Web, JSON, data, cache, security, API docs, storage, logging, tooling, and extended capabilities such as multi-tenancy, generic CRUD, data permission, Excel, captcha, messaging, sensitive-word filtering, i18n, request encryption, social sign-in, request signing, async execution, job scheduling (built-in and XXL-JOB), commercial licensing and AI conversation — plus cloud components (registry/config, gateway, load balancing, observability and traffic protection) for microservice deployment. The precise capability set of each module is defined by the corresponding release source and its documentation.
+Modules are grouped by dependency direction: an upper layer may depend on lower ones, while the foundation layer never depends upward on extensions or microservice layers. The full set maps one-to-one onto the modules of the root aggregator POM — **36 modules** in total.
 
-The layered module map with per-module manuals is available in the [Docs center](/en/guide).
+| Layer | Modules | Role |
+| --- | --- | --- |
+| Foundation (L1) | `core` · `web` · `data` · `json` · `cache` · `security` · `log` · `tools` · `i18n` · `api-doc` · `storage` | No Spring Cloud dependency; usable in a monolith (11) |
+| Data and security enhancements | `excel` · `captcha` · `api-crypto` · `sign` · `sensitive-words` · `license` | Common data and security capabilities (6) |
+| Messaging and platform | `messaging` · `async` · `job` · `xxljob` · `social` | In-site messages/SMS push, async execution, scheduling and social sign-in (5) |
+| Intelligence | `ai` | Spring AI conversation, multi-turn memory and optional RAG (1) |
+| Business skeleton (L2) | `extension-crud` · `extension-tenant` · `extension-datapermission` | Generic business scaffolds layered on the foundation (3) |
+| Microservices (L3) | `cloud-core` · `cloud-nacos` · `cloud-loadbalancer` · `cloud-gateway` · `cloud-observability` · `cloud-sentinel` | Distributed capabilities for Spring Cloud deployments (6) |
+| Aggregation and versions | `dependencies` · `bom` · `app-web` · `app-cloud` | Unified dependency versions and out-of-the-box starter aggregations (4) |
+
+Every module is a real Maven artifact: importing it triggers auto-configuration under the `ypbin.*` prefix, and its precise capability set is defined by the corresponding release source and its documentation. The layered map with per-module manuals is available in the [Docs center](/en/guide), and each layer is expanded into its own module pages in the [Starter module overview](/guide/starter/modules/) (Chinese docs available).
 
 ## Quick start
 

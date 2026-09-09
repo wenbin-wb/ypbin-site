@@ -125,7 +125,8 @@ export default defineConfig({
         { text: '快速开始', items: [{ text: 'starter', link: '/guide/starter/' }, { text: 'admin', link: '/guide/admin/' }, { text: 'admin-ui', link: '/guide/admin-ui/' }] },
         {
           text: 'Starter 模块文档',
-          collapsed: true,
+          // 默认展开：与"快速开始/专题教程/配置参考"等兄弟组一致，模块手册直达无需二次展开
+          collapsed: false,
           items: [
             { text: '模块总览', link: '/guide/starter/modules/' },
             { text: '聚合与版本', link: '/guide/starter/modules/aggregate' },

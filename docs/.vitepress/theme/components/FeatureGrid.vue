@@ -1,5 +1,16 @@
 <script setup lang="ts">
-const groups = [
+import { computed } from 'vue'
+import { useIsEn } from '../composables/useIsEn'
+
+const isEn = useIsEn()
+
+interface FeatureGroup {
+  name: string
+  desc: string
+  items: string[]
+}
+
+const zhGroups: FeatureGroup[] = [
   {
     name: '开箱即用的后台',
     desc: '一个管理系统的完整骨架，不是玩具。',
@@ -21,20 +32,80 @@ const groups = [
     items: ['AI 对话：模型配置表驱动、SSE 流式', '多轮记忆持久化、用量统计', '站内信 SSE 实时推送', '通知公告富文本定时发布']
   }
 ]
+
+const enGroups: FeatureGroup[] = [
+  {
+    name: 'A backend that works out of the box',
+    desc: 'The complete skeleton of a management system — not a toy.',
+    items: [
+      'RBAC users / roles / departments / positions / menus',
+      'Multi-tenant row-level isolation + permission templates',
+      'Annotation-driven data permission',
+      'Online users / operation logs / dictionaries / parameters'
+    ]
+  },
+  {
+    name: 'Business security built in',
+    desc: 'Production security requirements on by default.',
+    items: [
+      'Login brute-force protection (account + IP dual-dimension lockout)',
+      'Anti-replay API signing, field encryption, data masking',
+      'XSS filtering, behavioral captcha, social sign-in',
+      'Commercial license signing (national crypto SM2/SM4)'
+    ]
+  },
+  {
+    name: 'Performance and reliability',
+    desc: 'Cache, concurrency and logging pitfalls designed out.',
+    items: [
+      'Multi-level cache (Caffeine + Redis) with triple protection',
+      'Rate limiting / idempotency as atomic Redis + Lua',
+      'Async log persistence, dynamic scheduled jobs',
+      'Zero-N+1 reference translation at serialization time'
+    ]
+  },
+  {
+    name: 'AI and messaging',
+    desc: 'Modern business capabilities, ready to use.',
+    items: [
+      'AI chat: model-configuration-table driven, SSE streaming',
+      'Multi-turn memory persistence, usage accounting',
+      'In-site messages pushed over SSE in real time',
+      'Rich-text notice and announcement scheduling'
+    ]
+  }
+]
+
+const t = computed(() =>
+  isEn.value
+    ? {
+        kicker: 'Capability landscape',
+        title: 'Everything you need — pick on demand.',
+        desc: 'One foundation (ypbin-starter), one admin backend (ypbin-admin) and one frontend (ypbin-admin-ui): three layers, 36 independently published Maven modules. Import only what you use — unused modules never touch the classpath.',
+        linkText: 'View the layered starter capability map',
+        linkHref: '/en/products/starter',
+        groups: enGroups
+      }
+    : {
+        kicker: '能力全景',
+        title: '你要的都有，按需取用。',
+        desc: '一个地基（ypbin-starter）、一套后台（ypbin-admin）与一个前端（ypbin-admin-ui），三层边界、36 个 Maven 模块独立发布：用哪个引哪个，用不到的模块不进 classpath。',
+        linkText: '查看 starter 分层能力图谱',
+        linkHref: '/products/starter',
+        groups: zhGroups
+      }
+)
 </script>
 
 <template>
   <section class="home-section feature-section" aria-labelledby="feature-title">
     <div class="section-heading">
-      <p class="section-kicker">能力全景</p>
-      <h2 id="feature-title">你要的都有，按需取用。</h2>
-      <p>
-        一个地基（ypbin-starter）、一套后台（ypbin-admin）与一个前端（ypbin-admin-ui），
-        三层边界、36 个 Maven 模块独立发布：用哪个引哪个，用不到的模块不进 classpath。
-      </p>
+      <p class="section-kicker">{{ t.kicker }}</p>
+      <h2 id="feature-title">{{ t.title }}</h2>
+      <p>{{ t.desc }}</p>
     </div>
     <div class="feature-grid">
-      <article v-for="g in groups" :key="g.name" class="feature-card">
+      <article v-for="g in t.groups" :key="g.name" class="feature-card">
         <h3>{{ g.name }}</h3>
         <p class="feature-card__desc">{{ g.desc }}</p>
         <ul>
@@ -42,6 +113,6 @@ const groups = [
         </ul>
       </article>
     </div>
-    <a class="text-link" href="/products/starter">查看 starter 分层能力图谱 <span aria-hidden="true">→</span></a>
+    <a class="text-link" :href="t.linkHref">{{ t.linkText }} <span aria-hidden="true">→</span></a>
   </section>
 </template>

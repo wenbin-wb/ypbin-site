@@ -400,3 +400,25 @@
 .vp-doc a {
   transition: color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* ---------- 宽表文档（配置参考等）：正文加宽 + 表格横向滚动 ---------- */
+.vp-doc,
+.VPDoc .content-container {
+  max-width: 58rem;
+}
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+}
+.table-scroll table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+@media (max-width: 760px) {
+  .vp-doc,
+  .VPDoc .content-container {
+    max-width: 100%;
+  }
+}
