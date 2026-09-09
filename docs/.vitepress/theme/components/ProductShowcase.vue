@@ -6,6 +6,7 @@ const { isDark } = useData()
 
 const screenshots = [
   { id: 'dashboard', label: '运行概览', description: '用户、角色、菜单与在线会话的真实统计。' },
+  { id: 'users', label: '用户管理', description: '用户列表的状态过滤、导入导出与授权维护。' },
   { id: 'roles', label: '角色权限', description: '数据范围、启停状态与角色维护。' },
   { id: 'menus', label: '动态菜单', description: '后端菜单、权限标识与页面组件。' },
   { id: 'licenses', label: '商业授权', description: '授权签发、审批、交付与运行状态。' },
@@ -38,7 +39,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
         >
           <img
             :src="isDark ? `/screenshots/admin-ui/${item.id}-dark.webp` : `/screenshots/admin-ui/${item.id}.webp`"
-            :alt="`ypbin-admin ${item.label}真实运行截图`"
+            :alt="`ypbin-admin ${item.label} 真实运行截图`"
             width="2560"
             height="1440"
             loading="lazy"
@@ -48,7 +49,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       </figure>
     </div>
     <div class="showcase-proof">
-      <span>6 张已验证截图</span>
+      <span>6 张精选截图 · 已采集核验</span>
       <code>admin-ui@543cb63e</code>
       <a href="/screenshots/admin-ui/manifest.json">查看采集清单与哈希 <span aria-hidden="true">→</span></a>
     </div>

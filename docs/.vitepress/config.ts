@@ -1,12 +1,15 @@
 import { defineConfig } from 'vitepress'
 
 const siteUrl = 'https://ypbin.cn'
-const description = 'ypbin 将可复用的系统级基础能力沉到业务之下，从 Spring Boot starter 到管理服务与 Vue 3 管理前端。'
+const descriptionZh = 'ypbin 将可复用的系统级基础能力沉到业务之下，从 Spring Boot starter 到管理服务与 Vue 3 管理前端。'
+const descriptionEn =
+  'ypbin puts reusable, system-level capabilities beneath your business logic — from a Spring Boot starter to the admin backend and a Vue 3 admin frontend.'
+const githubUrl = 'https://github.com/wenbin-wb'
 
 export default defineConfig({
   lang: 'zh-CN',
   title: 'ypbin',
-  description,
+  description: descriptionZh,
   // 默认浅色为主(不随系统),右上角可手动切换深色;切换偏好持久化到 localStorage
   // 注:VitePress 1.6.x 的 appearance 仅支持 initialValue:'dark',浅色起始为默认行为,
   // 配合下方 localStorage 脚本把历史 auto 偏好强制为 light,实现"默认浅色、不随系统"
@@ -16,19 +19,84 @@ export default defineConfig({
   lastUpdated: true,
   sitemap: { hostname: siteUrl },
   head: [
-    // 官网默认浅色为主:历史访问者可能残留 vitepress 的 auto 主题偏好(跟随系统),转为 light 让浅色默认生效;用户手动选择的 dark/light 不受影响
-    ['script', {}, `try{if(localStorage.getItem('vitepress-theme-appearance')==='auto')localStorage.setItem('vitepress-theme-appearance','light')}catch(e){}`],
+    // 官网默认深色为主:无偏好/auto(跟随系统)记录统一初始为 dark;用户手动选择的 light/dark 不受影响
+    ['script', {}, `try{const m=localStorage.getItem('vitepress-theme-appearance');if(!m||m==='auto')localStorage.setItem('vitepress-theme-appearance','dark')}catch(e){}`],
     ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }],
     ['link', { rel: 'icon', href: '/brand/favicon.svg', type: 'image/svg+xml' }],
     ['meta', { name: 'theme-color', content: '#080B10' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'ypbin' }],
-    ['meta', { property: 'og:title', content: 'ypbin — 把系统级基建，沉到业务之下' }],
-    ['meta', { property: 'og:description', content: description }],
-    ['meta', { property: 'og:url', content: siteUrl }],
     ['meta', { property: 'og:image', content: `${siteUrl}/brand/og-cover.svg` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }]
   ],
+  locales: {
+    // 中文默认语言:顶层 lang/description/head/themeConfig 即 root locale 的配置
+    root: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      link: '/',
+      title: 'ypbin',
+      description: descriptionZh,
+      head: [
+        ['meta', { property: 'og:title', content: 'ypbin — 把系统级基建，沉到业务之下' }],
+        ['meta', { property: 'og:description', content: descriptionZh }],
+        ['meta', { property: 'og:url', content: siteUrl }]
+      ]
+    },
+    en: {
+      label: 'English',
+      lang: 'en-US',
+      link: '/en/',
+      title: 'ypbin',
+      description: descriptionEn,
+      head: [
+        ['meta', { property: 'og:title', content: 'ypbin — system-level infrastructure, beneath your business logic' }],
+        ['meta', { property: 'og:description', content: descriptionEn }],
+        ['meta', { property: 'og:url', content: `${siteUrl}/en/` }]
+      ],
+      themeConfig: {
+        // 英文门面导航:顶层页面见 docs/en/**,与中文导航同构
+        nav: [
+          {
+            text: 'Products',
+            items: [
+              { text: 'starter', link: '/en/products/starter' },
+              { text: 'admin', link: '/en/products/admin' },
+              { text: 'admin-ui', link: '/en/products/admin-ui' }
+            ]
+          },
+          { text: 'Architecture', link: '/en/architecture' },
+          { text: 'Docs', link: '/en/guide' },
+          { text: 'Releases', link: '/en/releases' },
+          { text: 'Security', link: '/en/security' }
+        ],
+        sidebar: {
+          // 产品页沿用"仅产品组"侧栏,与中文版 /products/ 对齐
+          '/en/products/': [
+            { text: 'Products', items: [{ text: 'ypbin-starter', link: '/en/products/starter' }, { text: 'ypbin-admin', link: '/en/products/admin' }, { text: 'ypbin-admin-ui', link: '/en/products/admin-ui' }] }
+          ],
+          // 其余英文页(文档中心 /en/guide 等)共享全站目录;营销型顶层页通过 frontmatter sidebar:false 不显示
+          '/en/': [
+            { text: 'Explore', items: [{ text: 'Home', link: '/en/' }, { text: 'Architecture', link: '/en/architecture' }, { text: 'Security', link: '/en/security' }, { text: 'Releases', link: '/en/releases' }, { text: 'FAQ', link: '/en/faq' }] },
+            { text: 'Products', items: [{ text: 'ypbin-starter', link: '/en/products/starter' }, { text: 'ypbin-admin', link: '/en/products/admin' }, { text: 'ypbin-admin-ui', link: '/en/products/admin-ui' }] },
+            { text: 'Docs center', items: [{ text: 'Guides overview', link: '/en/guide' }] }
+          ]
+        },
+        socialLinks: [{ icon: 'github', link: githubUrl, ariaLabel: 'View ypbin on GitHub' }],
+        footer: {
+          message: `<a href="/">简体中文</a> · English`,
+          copyright: '© 2026 ypbin · Documentation reflects the corresponding release sources.'
+        },
+        lastUpdated: { text: 'Last updated' },
+        docFooter: { prev: 'Previous', next: 'Next' },
+        outline: { level: [2, 3], label: 'On this page' },
+        returnToTopLabel: 'Back to top',
+        sidebarMenuLabel: 'Menu',
+        darkModeSwitchLabel: 'Appearance',
+        langMenuLabel: 'Language'
+      }
+    }
+  },
   transformHead({ pageData }) {
     const path = pageData.relativePath.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
     const canonical = `${siteUrl}/${path}`.replace(/\/$/, path ? '' : '/')
@@ -37,6 +105,14 @@ export default defineConfig({
   themeConfig: {
     logo: { light: '/brand/logo-mark.svg', dark: '/brand/logo-mark.svg', alt: 'ypbin' },
     siteTitle: 'ypbin',
+    // 语言切换总是回到对方语言首页;页面级对应关系由 docs/en/** 内容内的链接提供
+    // (深文档仅中文,路径换前缀会 404,故不用 VitePress 默认的对应路径跳转)
+    i18nRouting: false,
+    socialLinks: [{ icon: 'github', link: githubUrl, ariaLabel: '在 GitHub 上查看' }],
+    footer: {
+      message: `简体中文 · <a href="/en/">English</a>`,
+      copyright: '© 2026 ypbin · 文档事实以对应版本源码为准。'
+    },
     nav: [
       { text: '产品', items: [{ text: 'starter', link: '/products/starter' }, { text: 'admin', link: '/products/admin' }, { text: 'admin-ui', link: '/products/admin-ui' }] },
       { text: '架构', link: '/architecture' },
@@ -109,6 +185,7 @@ export default defineConfig({
     outline: { level: [2, 3], label: '本页目录' },
     returnToTopLabel: '返回顶部',
     sidebarMenuLabel: '目录',
-    darkModeSwitchLabel: '外观'
+    darkModeSwitchLabel: '外观',
+    langMenuLabel: '切换语言'
   }
 })

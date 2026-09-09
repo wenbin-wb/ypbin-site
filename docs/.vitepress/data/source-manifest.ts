@@ -19,23 +19,23 @@ export interface RoadmapItem {
 }
 
 export const sourceManifest = {
-  verifiedAt: '2026-09-07',
-  stableStarterVersion: '2.2.1',
+  verifiedAt: '2026-09-09',
+  stableStarterVersion: '2.2.3',
   roadmap: [
-    { id: 'starter', label: 'ypbin-starter', item: '2.2.1 已发布（SSE 用户解析兼容微服务身份头）', scope: 'SSE 修复' },
-    { id: 'admin', label: 'ypbin-admin', item: '网关短名路由化：URL 第一段=服务短名，StripPrefix 统一剥前缀', scope: '网关架构' },
-    { id: 'admin-ui', label: 'ypbin-admin-ui', item: '特殊段 URL 补短名（captcha/share/widget/SSE）对齐网关路由', scope: 'API 对齐' }
+    { id: 'starter', label: 'ypbin-starter', item: 'v2.2.3 稳定版已发布：可重复读超限 413 契约化、@PlatformAccess 双形态取用户、多级缓存过期语义收敛', scope: '已发布' },
+    { id: 'admin', label: 'ypbin-admin', item: '微服务 main 形态主线：服务短名路由、/internal/** 令牌守卫、.env 随机化一键部署', scope: '1.0.0-SNAPSHOT' },
+    { id: 'admin-ui', label: 'ypbin-admin-ui', item: 'web-antd v5.7.0：文件下载/导入基础设施与状态过滤、权限码契约随 admin 演进', scope: '私有工作区' }
   ] satisfies readonly RoadmapItem[],
   products: [
     {
       id: 'starter',
       name: 'ypbin-starter',
       description: '面向 Spring Boot 的系统级基础能力集合。',
-      version: '2.2.1',
+      version: '2.2.3',
       status: 'stable',
       runtime: 'Java 21 · Spring Boot 4.1.0',
       scaleLabel: '36 模块 · 544 类 · 166 测试',
-      facts: ['稳定版 v2.2.1 已发布', '36 个 Maven 模块（含 XXL-JOB 接入壳）', 'Apache-2.0 开源协议']
+      facts: ['稳定版 v2.2.3 已发布', '36 个 Maven 模块（含 XXL-JOB 接入壳）', 'Apache-2.0 开源协议']
     },
     {
       id: 'admin',
@@ -45,7 +45,7 @@ export const sourceManifest = {
       status: 'development',
       runtime: 'Java 21 · Spring Boot 4.1.0',
       scaleLabel: '330 类 · 38 张业务表（28 基础 + 10 AI）',
-      facts: ['依赖 starter 2.2.1', '微服务形态：common/gateway/auth/service + xxl-job-admin 调度', 'URL 第一段=服务短名，网关统一剥前缀']
+      facts: ['依赖 starter 2.2.3', '微服务形态：common/gateway/auth/service + xxl-job-admin 调度', 'URL 第一段=服务短名，网关统一剥前缀']
     },
     {
       id: 'admin-ui',

@@ -1,9 +1,9 @@
 ---
 layout: home-custom
-title: ypbin — 把系统级基建，沉到业务之下
-description: 从 Spring Boot starter 到后台服务与 Vue 3 管理前端，构建边界清楚、状态可核验的系统基础能力。
+title: ypbin — 系统级基础能力 · 后台服务 · Vue 3 管理前端
+description: ypbin 提供 Spring Boot 系统级基础能力集合（ypbin-starter）、企业级后台服务（ypbin-admin）与配套 Vue 3 管理前端（ypbin-admin-ui）：把缓存、安全、并发等易踩坑的系统级细节内建为默认，业务代码只写业务。
 head:
   - - meta
     - name: keywords
-      content: ypbin, Spring Boot starter, Java 21, Vue 3, 后台管理系统
+      content: ypbin, ypbin-starter, Spring Boot starter, Spring Boot 4.1, Java 21, Maven Central, ypbin-admin, 后台管理系统, ypbin-admin-ui, Vue 3, 微服务
 ---

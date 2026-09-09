@@ -23,6 +23,7 @@ const targets = [
   'docs/guide/admin/index.md',
   'docs/products/starter.md',
   'docs/products/admin.md',
+  'docs/products/admin-ui.md',
   'docs/guide/compatibility.md',
   'docs/architecture.md',
   'docs/guide/faq.md',
@@ -30,7 +31,8 @@ const targets = [
 
 /** releases.md 特殊：仅「版本状态」顶表（前 16 行）参与注入，历史条目保留真实版本号不漂移 */
 const RELEASES_HEADER_LINES = 16
-const releasesFile = 'docs/releases.md'
+// 版本状态表仅顶表参与注入：中文 releases + 英文 releases（en 占位符行同样落在前 16 行）
+const releasesFiles = ['docs/releases.md', 'docs/en/releases.md']
 
 const mapping = {
   '@STARTER_VERSION@': releases.starter,
@@ -53,8 +55,8 @@ for (const target of targets) {
   await writeFile(file, content)
 }
 
-// releases.md：仅顶表参与注入，避免历史条目标题被占位符漂移
-{
+// 中英文 releases：仅顶表参与注入，避免历史条目标题被占位符漂移
+for (const releasesFile of releasesFiles) {
   const file = resolve(root, releasesFile)
   const lines = (await readFile(file, 'utf8')).split('\n')
   let header = lines.slice(0, RELEASES_HEADER_LINES).join('\n')

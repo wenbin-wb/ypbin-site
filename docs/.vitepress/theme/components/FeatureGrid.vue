@@ -8,7 +8,7 @@ const groups = [
   {
     name: '业务安全内建',
     desc: '生产安全要求，默认就位。',
-    items: ['登录防爆破（错误锁定 + 有效期）', '接口签名防重放、字段加密、数据脱敏', 'XSS 过滤、验证码、第三方登录', 'License 商业授权（国密签发）']
+    items: ['登录防爆破（账号 + IP 双维锁定）', '接口签名防重放、字段加密、数据脱敏', 'XSS 过滤、行为验证码、第三方登录', 'License 商业授权（国密 SM2/SM4 签发）']
   },
   {
     name: '性能与可靠性',
@@ -28,7 +28,10 @@ const groups = [
     <div class="section-heading">
       <p class="section-kicker">能力全景</p>
       <h2 id="feature-title">你要的都有，按需取用。</h2>
-      <p>不绑死全家桶——36 个模块独立发布，用哪个引哪个，用不到的模块不进 classpath。</p>
+      <p>
+        一个地基（ypbin-starter）、一套后台（ypbin-admin）与一个前端（ypbin-admin-ui），
+        三层边界、36 个 Maven 模块独立发布：用哪个引哪个，用不到的模块不进 classpath。
+      </p>
     </div>
     <div class="feature-grid">
       <article v-for="g in groups" :key="g.name" class="feature-card">
@@ -39,5 +42,6 @@ const groups = [
         </ul>
       </article>
     </div>
+    <a class="text-link" href="/products/starter">查看 starter 分层能力图谱 <span aria-hidden="true">→</span></a>
   </section>
 </template>
