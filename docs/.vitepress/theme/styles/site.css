@@ -416,9 +416,31 @@
 }
 .table-scroll table {
   width: 100%;
-  min-width: max-content;
+  min-width: 0;
   border-collapse: separate;
   border-spacing: 0;
+  /* 固定列宽：避免浏览器把宽度全分给首列导致说明列被压成一行一字 */
+  table-layout: fixed;
+}
+.table-scroll th,
+.table-scroll td {
+  overflow-wrap: anywhere;
+}
+.table-scroll th:nth-child(1),
+.table-scroll td:nth-child(1) {
+  width: 24%;
+}
+.table-scroll th:nth-child(2),
+.table-scroll td:nth-child(2) {
+  width: 10%;
+}
+.table-scroll th:nth-child(3),
+.table-scroll td:nth-child(3) {
+  width: 18%;
+}
+.table-scroll th:nth-child(4),
+.table-scroll td:nth-child(4) {
+  width: 48%; /* 说明列拿最大宽度 */
 }
 .table-scroll thead th {
   position: sticky;
@@ -457,5 +479,15 @@
   }
   .table-scroll {
     max-height: 60vh;
+  }
+  /* 小屏固定比例过窄：恢复按内容宽度 + 横向滚动 */
+  .table-scroll table {
+    table-layout: auto;
+    width: max-content;
+    min-width: 760px;
+  }
+  .table-scroll th,
+  .table-scroll td {
+    width: auto !important;
   }
 }
