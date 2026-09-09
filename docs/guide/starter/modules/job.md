@@ -50,7 +50,9 @@ public class DbJobExecutionListener implements JobExecutionListener {
 }
 ```
 
-**多实例防重**：默认开启（`JobDefinition.concurrentGuard`），执行入口抢分布式锁（锁键带触发时间片），只有抢到的节点执行、其余回调 `onSkip`。**需引入 `ypbin-starter-tools` 提供分布式锁**；未引入时退化为单机无锁（单节点安全，多节点会重复执行）。
+**防重双保险**：默认开启（`JobDefinition.concurrentGuard`）。执行入口先做**任务级内存互斥**（单节点上同一任务绝不同时执行——慢执行跨触发间隔时本节点不会双跑，后续触发直接防重跳过），再做 **per-slice 分布式锁**抢占（锁键带触发时间片，只有抢到的节点执行、其余回调 `onSkip`；长任务不会持锁挡住下一次触发）。内存互斥仅单节点生效，跨节点防重仍由分布式 per-slice 锁承担。**需引入 `ypbin-starter-tools` 提供分布式锁**；未引入时退化为单机无锁（单节点安全，多节点会重复执行）。
+
+> `JobDefinition.timeoutSeconds` 语义：**仅作分布式锁 TTL 放大依据，不是执行超时**——长任务按「timeoutSeconds + 5」秒持锁，防止执行期间锁被提前释放导致双跑；starter 未实现真实执行超时/中断（任务的超时回收需在执行器或宿主侧处理），`<= 0` 时锁 TTL 取默认值。
 
 ```yaml
 ypbin:

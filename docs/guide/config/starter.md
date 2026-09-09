@@ -449,6 +449,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.tools.lock.enabled`<br><span class="cfg-src">java.lang.Boolean · spring-configuration-metadata.json:1 · additional-spring-configuration-metadata.json:1 · ToolsAutoConfiguration.java:110</span> | true | 是否启用分布式锁切面 @DistributedLock。存在 Redis 时用分布式锁，否则退化为单机内存锁。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.tools.rate-limit.distributed`<br><span class="cfg-src">java.lang.Boolean · spring-configuration-metadata.json:1 · additional-spring-configuration-metadata.json:1 · ToolsAutoConfiguration.java:137</span> | true | 限流存储是否优先使用 Redis 分布式实现（存在 StringRedisTemplate 时生效），否则使用内存兜底。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.tools.rate-limit.enabled`<br><span class="cfg-src">java.lang.Boolean · spring-configuration-metadata.json:1 · additional-spring-configuration-metadata.json:1 · ToolsAutoConfiguration.java:78</span> | true | 是否启用限流切面 @RateLimit。<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.tools.rate-limit.trust-forwarded`<br><span class="cfg-src">java.lang.Boolean · RateLimitProperties.java:1</span> | false | IP 限流键是否信任 X-Forwarded-For 等转发头：false（默认）取真实对端地址（request.getRemoteAddr），防伪造转发头绕过限流；位于可信反向代理之后需显式开启为 true 以按真实客户端 IP 限流。<br>可选值：—<br><strong>注意</strong>：— |
 
 ## ypbin-starter-web
 
@@ -464,6 +465,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.web.repeatable-read.enabled`<br><span class="cfg-src">java.lang.Boolean · spring-configuration-metadata.json:1 · additional-spring-configuration-metadata.json:1 · WebAutoConfiguration.java:92</span> | false | 是否启用可重复读请求过滤器，把带 body 的请求包装为可重复读，供 XSS、签名、日志等下游复用。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.web.xss.enabled`<br><span class="cfg-src">java.lang.Boolean · XssProperties.java:32 · WebAutoConfiguration.java:112</span> | false | 是否启用 XSS 过滤，默认关闭（需显式开启）<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.web.xss.excludes`<br><span class="cfg-src">java.util.List&lt;java.lang.String&gt; · XssProperties.java:35</span> | — | 放行路径（这些路径不做 XSS 清洗），支持 Ant 风格<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.web.repeatable-read.max-body-bytes`<br><span class="cfg-src">java.lang.Long · RepeatableReadProperties.java:1</span> | 10485760 | 单请求可重复读缓存体的最大字节数（默认 10MB，取值范围 (0, 64MB]）；超限请求在过滤器层拒绝缓存并直接返回统一响应（HTTP 200 + code=413），防止超大请求体占满内存。非法配置在装配期即失败。<br>可选值：—<br><strong>注意</strong>：— |
 | `spring.mvc.throw-exception-if-no-handler-found`<br><span class="cfg-src">java.lang.Boolean · WebDefaultsEnvironmentPostProcessor.java:48</span> | true | 未匹配处理器时抛出异常，以便统一输出 JSON 404。<br>可选值：—<br><strong>注意</strong>：— |
 | `spring.web.resources.add-mappings`<br><span class="cfg-src">java.lang.Boolean · WebDefaultsEnvironmentPostProcessor.java:50</span> | false | 是否启用默认静态资源映射；starter 默认关闭以确保未知路径进入统一 404。<br>可选值：—<br><strong>注意</strong>：— |
 

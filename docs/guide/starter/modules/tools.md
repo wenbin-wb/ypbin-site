@@ -13,8 +13,9 @@ public void sendSms(Long userId) { ... }
 ```
 
 - `key` 支持 SpEL，可按用户等业务维度限流；留空则用方法全限定名。
-- `byIp = true`（默认）时把客户端 IP 纳入限流键。
+- `byIp = true`（默认）时把客户端 IP 纳入限流键。IP 默认取**真实对端地址**（`request.getRemoteAddr()`），不信任转发头——若服务位于可信反向代理之后、且需按真实客户端 IP 限流，请显式开启 `ypbin.tools.rate-limit.trust-forwarded=true`（默认 false，否则所有客户端共享代理出口 IP 一个限流桶）。
 - 分布式版基于 `StringRedisTemplate` + Lua 脚本，多节点共享窗口。
+- 取客户端 IP 也可直接用工具 `RequestUtils.getClientIp()`（默认信任 `X-Forwarded-For`/`X-Real-IP` 等转发头，取首个非 `unknown` 条目，适合展示场景）；安全敏感场景应显式传 `RequestUtils.getClientIp(false)` 只取真实对端地址，`getClientIp(true)` 则显式信任转发头——限流模块内部即按上面的 `trust-forwarded` 配置选择取值分支。
 
 **幂等** `@Idempotent`（防重复提交，有 Redis 用 Redis+Lua，否则内存）：
 
@@ -24,6 +25,8 @@ public void create(OrderReq req) { ... }
 ```
 
 同一幂等键在 `interval` 秒内的重复调用被拒绝；`key` 支持 SpEL，留空则用「方法 + 参数指纹」。
+
+业务方法抛异常时切面会自动调用存储的 `release()` **释放占位键**，失败请求可**立即重试**，不必等 `interval` 窗口自然过期；只有成功路径保留窗口防重复提交。内置 Redis/内存存储均已实现 `release()`（删除占位）；`IdempotentStore` 接口新增**默认空实现的 `release()` 扩展点**——自定义存储不覆盖该方法时，失败后仍需等窗口过期才能重试（向后兼容）。
 
 **分布式锁** `@DistributedLock`（有 Redis 时为跨节点分布式锁，否则单机内存锁）：
 
@@ -58,6 +61,8 @@ byte[] pt = AesUtils.decryptBytes(ct, key);
 String b64Key = AesUtils.generateKeyBase64(256);   // 密钥 Base64 存取
 byte[] derived = AesUtils.deriveKey("口令", AesUtils.generateSalt(16), 256);  // PBKDF2 口令派生
 ```
+
+`encrypt`/`decrypt` 也支持直接传字符串密钥（UTF-8 字节），**入口即校验长度必须为 16/24/32 字节**（对应 AES-128/192/256），不合法立即抛 `IllegalArgumentException`（fail-fast，避免运行期才发现密钥配错）。
 
 **国密 SM4/SM2**（基于 BouncyCastle，合规场景）：
 

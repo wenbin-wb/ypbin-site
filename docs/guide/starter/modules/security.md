@@ -73,6 +73,8 @@ public class DbLoginClientProvider implements LoginClientProvider {
 }
 ```
 
+**登录回验（可选）**：实现并注册 `LoginVerifyProvider` 后，每次登录成功（Sa-Token 已落库会话后）自动回调 `verify(loginId, loginType)` 做二次校验（如禁用账号、风控拦截）；回验失败会**先回收刚建立的 token/会话再抛异常**，杜绝"幽灵登录态"。`LoginHelper.login(...)` 与 Sa-Token 直接登录都会触发。
+
 **Token 续期**：Sa-Token 是「续期」机制，不是 OAuth2 的 access+refresh 双令牌——不换 token，延长现有 token 有效期。两层超时：
 
 ```yaml
@@ -126,7 +128,7 @@ public class MyPermissionProvider implements PermissionProvider {
 }
 ```
 
-引入本模块后会自动对接 data 的审计字段（用当前登录用户填充 createUser/updateUser）。
+引入本模块后会自动对接 data 的审计字段（审计人经 `UserContext` 双形态取值：微服务身份头优先、Sa-Token 会话回退，两种部署形态下都能填充 createUser/updateUser，微服务形态不会恒空）。
 
 **密码编码器** `PasswordEncoderUtil`：BCrypt 加密（自带随机盐），校验用 `matches` 而非比较密文：
 
@@ -167,7 +169,7 @@ if (!result.passed()) {
 }
 ```
 
-错误锁定用 `PasswordAttemptLimiter`（登录流程）。账号标识大小写归一，计数默认按 `账号:IP` 维度：
+错误锁定用 `PasswordAttemptLimiter`（登录流程）。账号标识大小写归一，失败计数按**双维**同步叠加：`(账号, IP)` 单维与**账号全局维**（同一次失败两维都 +1），任一维度达到阈值即锁定；账号维锁定时长更长（单维的固定倍数，默认 3 倍），轮换 IP 无法绕过：
 
 ```java
 limiter.checkLocked(username, ip);        // 登录前：已锁定抛 AccountLockedException
@@ -185,7 +187,7 @@ LockStatus status = limiter.getLockStatus(username, ip); // 是否锁定/失败�
 limiter.unlock(username);                                // 管理员解锁：清除该账号全部维度（无需知道被哪些 IP 锁）
 ```
 
-计数默认存 Redis（有 Redis 时自动用，多节点共享）、否则内存，锁定时长即计数键 TTL、到期自动解锁。
+判定以账号全局维优先（账号维达阈值即视为锁定，即使当前 IP 维度未达；`getLockStatus` 反映两维中的更高者）。计数默认存 Redis（有 Redis 时自动用，多节点共享）、否则内存，锁定时长即计数键 TTL、到期自动解锁：账号维键 TTL 为配置锁定时长的 **3 倍**（更长），`(账号, IP)` 维按配置锁定时长。
 
 密码有效期用 `PasswordExpiration`（纯计算，"强制改密"的登录拦截编排由业务侧结合用户表的最后改密时间实现）：
 
@@ -223,6 +225,7 @@ OnlineUserHelper.record(ip, browser, os);   // 可选：记录终端信息供在
 
 - `IdentityHeaders`：身份头常量（`X-User-Id`/`X-User-Name`/`X-Tenant-Id`/`X-Dept-Id`/`X-Roles`），网关签发与下游读取共用。
 - `IdentityHeaderFilter`：Servlet 服务装配，解析身份头构建 `LoginUser` 写入 `IdentityContext`，请求结束清理。开关 `ypbin.security.identity.enabled`（**默认关闭**——安全默认：仅当服务位于可信网关之后、且网关负责清洗外部头并签发内部身份头时显式开启，避免外部伪造 `X-User-Id` 直达业务服务被当作已认证用户）。
+- 畸形头容错：`Long` 型身份头（userId/tenantId/deptId）解析失败按"该字段缺失"处理，仅记 debug、不中断请求。
 - `IdentityContext`：当前用户上下文（ThreadLocal），提供 `getUserId()`/`getUsername()`/`getTenantId()`/`isLogin()`（均返回 `Optional`）。
 
 ```yaml
@@ -243,8 +246,8 @@ Long userId = IdentityContext.getUserId().orElse(null);
 
 `@PlatformAccess` 标注平台级接口（仅平台用户可访问，租户用户禁止）：
 
-- 切面从 `IdentityContext` 取当前用户，经 `PlatformUserChecker` SPI 判定是否平台用户；非平台用户抛 403。
-- `PlatformUserChecker` 默认拒绝（fail-closed，未实现 SPI 时 `@PlatformAccess` 资源全部拒绝；未登录直接 403），业务方实现并注册为 Bean 即启用严格校验。
+- 切面经 `UserContext` 双形态取当前用户（微服务身份头优先、Sa-Token 会话回退，两种部署形态都能取到真实 userId），再经 `PlatformUserChecker` SPI 判定是否平台用户；未登录或非平台用户抛 403。
+- `PlatformUserChecker` 默认拒绝（fail-closed，未实现 SPI 时 `@PlatformAccess` 资源全部拒绝；未登录直接 403、不把 null 交给判定器，避免默认实现误放行），业务方实现并注册为 Bean 即启用严格校验。
 
 ```yaml
 ypbin:

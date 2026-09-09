@@ -36,8 +36,10 @@ Content-Type: application/json
 
 请求体：
 {
-  "username": "admin",
-  "password": "pt5aQ5E6t8dkVkMp"
+  "username": "<登录账号>",
+  "password": "<口令>",
+  "captchaId": "<行为验证码 ID>",
+  "captchaTrack": "<行为验证码轨迹>"
 }
 
 响应 data：
@@ -46,8 +48,9 @@ Content-Type: application/json
 }
 ```
 
-- 默认账号 admin / pt5aQ5E6t8dkVkMp（实际种子以 `V2__data.sql` 为准，注释标明"密码统一 pt5aQ5E6t8dkVkMp（与前端演示登录一致）"）
-- 登录接口有频率限制（60 秒内最多 10 次）
+- `captchaId`/`captchaTrack` 仅当登录行为验证码开关开启时为必填（见 [验证码](#4-验证码)），关闭时可不传。
+- 初始账号与口令由部署种子/初始化流程提供（微服务版 deploy 种子 `002-data.sql`、单体版 Flyway `V2__data.sql`），**登录页与前端源码不再内置演示口令**；任何共享/测试或生产环境首登后必须立即改密。
+- 登录防护：账号密码登录不依赖接口频控，采用「错误尝试锁定 + 可选行为验证码」——错误锁定按 账号 + IP 双维度（`PASSWORD_ERROR_LOCK_COUNT` 次 / `PASSWORD_LOCK_MINUTES` 分钟）；`LOGIN_CAPTCHA_ENABLED=true` 时登录强制校验行为验证码，一次性消费、校验失败即拒绝（防脚本爆破）。
 
 ### 2.2 第三方登录（OAuth）
 
@@ -76,6 +79,7 @@ GET  /auth/social/bindings  → string[]
 
 - 首次使用某平台登录：自动创建用户（用户名格式 `{platform}_{openId}`）并绑定
 - 已绑定过：直接登录
+- 平台可用性由后台系统参数 `SOCIAL_{PLATFORM}_ENABLED` 控制；auth 每 5 分钟重拉启用平台，授权跳转与回调前即时校验 `enabled`，停用平台即时不可登录（无需等待定时窗口）
 
 ### 2.3 手机验证码登录
 
@@ -121,6 +125,27 @@ POST /auth/logout
 
 后端返回 `code: 401`，HTTP 200。前端拦截器检测到 401 应清除 token 并跳转登录页。
 
+### 2.8 内部服务调用（/internal/**，服务间 Feign 专用）
+
+system 服务的 `/internal/**` 端点仅供 auth/ai 经 `ISystemClient` Feign **直连**调用（调用不经网关，网关 `exclude-paths` 亦不含该段，不对外路由）：
+
+```
+GET   /internal/permissions?userId=       → string[]（用户权限码）
+GET   /internal/role-codes?userId=        → string[]（用户角色码）
+GET   /internal/routes?userId=            → RouteResp[]（登录后动态菜单）
+GET   /internal/user-by-username?username= → SysUser（登录用）
+GET   /internal/user-by-phone?phone=      → SysUser（手机验证码登录用）
+GET   /internal/search-users?keyword=     → SysUser[]（最多 10 条）
+GET   /internal/config-by-key?configKey=  → ConfigValue（敏感键脱敏）
+POST  /internal/verify-password?userId=&rawPassword= → boolean（按用户频控）
+GET   /internal/social-auth-config?source= → SocialAuthConfig（含 ClientSecret，仅内部传递）
+GET   /internal/social-auth-configs       → SocialAuthConfig[]（仅已启用平台）
+```
+
+- 调用方须携带请求头 `X-Internal-Token`，值与共享配置 `ypbin.internal.token` 一致（三服务共享，见 [部署文档](/guide/admin/deployment)）；Feign 拦截器自动携带。
+- system 本地守卫仅拦截 `/internal/**` 校验该头：**未配置凭证即 fail-closed 拒绝**（`code=401`）；外部经网关转发到 `/system/internal/**` 的请求因缺该头同样被拒。
+- 安全约束：`config-by-key` 对键名以 `_SECRET`/`_PASSWORD`/`_TOKEN`/`_ACCESS_KEY`/`_PRIVATE_KEY`/`_API_KEY` 结尾的敏感参数整键脱敏（保留末 4 位）；`verify-password` 每用户每分钟最多 10 次；授权配置含 ClientSecret 明文、仅限内部传递。
+
 ## 3. 个人中心
 
 ```
@@ -135,6 +160,9 @@ PUT  /system/user/profile/password → 修改密码 { "oldPassword": "...", "new
 GET  /auth/captcha             → 获取行为验证码（滑块/旋转/点选），开关由 LOGIN_CAPTCHA_ENABLED 控制
 POST /auth/captcha/verify?id=xxx → 校验验证码，请求体为 ImageCaptchaTrack（前端采集的行为轨迹）
 ```
+
+- 开关默认关闭：获取接口返回空 `data`，账号密码登录不校验验证码；
+- 开关开启后：账号密码登录**强制**要求 `captchaId` + `captchaTrack`，验证码一次性消费、校验失败直接拒绝登录。
 
 ## 5. 系统管理接口
 
@@ -432,7 +460,7 @@ DELETE /ai/chat/sessions/{id}               → 删除会话
 GET    /ai/chat/sessions/{id}/messages      → AiChatMessageResp[]（会话消息历史）
 POST   /ai/chat/send                        → 发送消息（同步），返回 AiChatMessageResp
 POST   /ai/chat/stream                      → 发送消息（流式 SSE，text/event-stream）
-POST   /ai/chat/sessions/{id}/regenerate    → 重新生成最后一条响应
+POST   /ai/chat/sessions/{id}/regenerate    → 重新生成最后一条响应（服务端删除最后一条助手消息后按最后一条用户消息重生成并落库，避免前端重发造成重复消息/重复计费）
 PUT    /ai/chat/sessions/{id}/title?title=xxx → 更新会话标题
 PUT    /ai/chat/sessions/{id}/pin           → 置顶/取消置顶会话
 ```
@@ -440,17 +468,19 @@ PUT    /ai/chat/sessions/{id}/pin           → 置顶/取消置顶会话
 ### 8.1 AI 角色
 
 ```
-GET    /ai/roles                 → AiChatRole[]（角色列表）
-POST   /ai/roles                 → 新增角色
-PUT    /ai/roles/{id}            → 编辑角色
-DELETE /ai/roles/{id}            → 删除角色
-PUT    /ai/roles/{id}/favorite   → 收藏/取消收藏角色
+GET    /ai/roles?status=          → AiChatRoleResp[]（角色列表）
+POST   /ai/roles                  → 新增角色
+PUT    /ai/roles/{id}             → 编辑角色
+DELETE /ai/roles/{id}             → 删除角色
+PUT    /ai/roles/{id}/favorite    → 收藏/取消收藏角色
 ```
+
+- `status` 可选：缺省仅返回启用（1），传 0/1 可精确过滤（管理端用于找回已停用角色）。
 
 ### 8.2 模型配置（平台级）
 
 ```
-GET    /ai/models?modelType=     → AiModelConfigResp[]（模型配置列表）
+GET    /ai/models?modelType=&status= → AiModelConfigResp[]（模型配置列表）
 POST   /ai/models                → 新增模型配置
 PUT    /ai/models/{id}           → 编辑模型配置
 DELETE /ai/models/{id}           → 删除模型配置
@@ -459,6 +489,8 @@ PUT    /ai/models/{id}/status/{status} → 启用/停用模型
 POST   /ai/models/{id}/duplicate → 复制模型配置
 POST   /ai/models/{id}/test      → 连通性测试
 ```
+
+- `modelType`/`status` 均可选；`status` 缺省仅返回启用，传 0/1 精确过滤（管理端找回已停用模型）。
 
 ### 8.3 知识库
 
@@ -487,12 +519,14 @@ GET    /ai/knowledge-bases/{id}/documents/{docId}/chunks  → 文档全量分块
 ### 8.4 Prompt 模板
 
 ```
-GET    /ai/prompt-templates           → AiPromptTemplateResp[]
-POST   /ai/prompt-templates           → 新增
-PUT    /ai/prompt-templates/{id}      → 编辑
-DELETE /ai/prompt-templates/{id}      → 删除
+GET    /ai/prompt-templates?status=  → AiPromptTemplateResp[]
+POST   /ai/prompt-templates          → 新增
+PUT    /ai/prompt-templates/{id}     → 编辑
+DELETE /ai/prompt-templates/{id}     → 删除
 PUT    /ai/prompt-templates/{id}/status/{status} → 启用/停用
 ```
+
+- `status` 可选：缺省仅返回启用，传 0/1 精确过滤（管理端找回已停用模板）。
 
 ### 8.5 用量统计（平台级）
 
@@ -528,7 +562,7 @@ POST /ai/widget/{token}/ask        → 匿名提问（请求体 { "question": ".
 GET  /ai/widget/embed.js           → 挂件嵌入脚本（application/javascript，无需令牌）
 ```
 
-> AI 相关接口的请求/响应结构以源码为准（见 `system/ai/controller/` 下各 Controller）。
+> AI 相关接口的请求/响应结构以源码为准（见 `ypbin-service/ypbin-ai` 各 Controller，路径前缀 `/ai/` 由网关短名路由剥除）。
 
 ## 9. 开放接口
 
@@ -599,13 +633,16 @@ POST /system/open-api/demo   → 标注 @ApiSign，需通过签名校验，返�
 
 | 键 | 默认值 | 说明 |
 |---|---|---|
-| LOGIN_CAPTCHA_ENABLED | false | 登录验证码开关 |
+| LOGIN_CAPTCHA_ENABLED | false | 账号密码登录是否强制行为验证码（开启后登录必须携带 captchaId/captchaTrack，一次性消费） |
 | LOGIN_SMS_ENABLED | false | 短信验证码登录开关 |
 | PASSWORD_MIN_LENGTH | 8 | 密码最小长度 |
-| PASSWORD_ERROR_LOCK_COUNT | 5 | 登录错误锁定阈值 |
+| PASSWORD_ERROR_LOCK_COUNT | 5 | 登录错误锁定阈值（账号 + IP 维度） |
 | PASSWORD_LOCK_MINUTES | 15 | 锁定时长(分钟) |
 | SMS_CODE_EXPIRE_SECONDS | 300 | 短信验证码有效期 |
 | SOCIAL_{PLATFORM}_CLIENT_ID | (空) | 第三方登录 ClientId，PLATFORM 为 GITHUB/GITEE/QQ/WECHAT_OPEN/ALIPAY/DINGTALK |
 | SOCIAL_{PLATFORM}_CLIENT_SECRET | (空) | 第三方登录 ClientSecret |
 | SOCIAL_{PLATFORM}_REDIRECT_URI | (空) | 第三方登录回调地址 |
+| SOCIAL_{PLATFORM}_ENABLED | false | 第三方登录平台启用开关（停用后 auth 每 5 分钟重拉生效，授权/回调即时拒绝） |
+
+> 密码策略默认 8–32 位且必须同时包含数字与字母（`PASSWORD_REQUIRE_DIGIT`/`PASSWORD_REQUIRE_LETTER` 等系统参数控制，`_SECRET`/`_PASSWORD` 结尾的键在列表中脱敏展示）。
 

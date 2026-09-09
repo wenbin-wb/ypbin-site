@@ -18,13 +18,27 @@ ypbin-admin 主分支 `main` 为**微服务形态**，根 POM 声明多个 Maven
 | `ypbin-service-api` | Feign 接口与跨服务共享 DTO/实体（`ypbin-system-api` / `ypbin-ai-api`） |
 | `xxl-job-admin` | XXL-JOB 任务调度中心（独立中间件）：业务定时任务的定义/调度日志/触发由它统一管理 |
 
-跨服务调用约定：auth/ai **不直连共享库**，一律经 `ISystemClient` Feign 调 system 服务；
-网关校验 token 后签发 `X-User-Id/X-Tenant-Id/...` 身份头，下游经 `IdentityContext` 读取当前用户。
+跨服务调用约定：auth/ai **不直连共享库**，一律经 `ISystemClient` Feign 直连 system 服务，`ISystemClient` 的 basePath 固定为 `/internal`（调用不经网关，见下文守卫）；
+网关校验 token 后清洗外部传入的身份头、按会话重新签发 `X-User-Id/X-Tenant-Id/X-Roles` 等内部身份头，下游经 `IdentityContext` 读取当前用户。
+身份头过滤依赖 `ypbin.security.identity.enabled` **显式开启**（starter 2.2.2 起默认关闭，防外部伪造头直达服务），共享配置 `ypbin-common.yaml` 已显式开启。
 
 **URL 路由约定**：对外 URL 第一段 = 服务短名（`system`/`auth`/`ai`），网关按短名路由并 `StripPrefix=1` 剥掉短名段，服务内 Controller 写纯资源路径（`/system/user/list` → 剥 `system` → 服务收 `/user/list`）。Controller 内不再带服务域前缀；新增接口挂所属服务短名即可，网关路由不随接口改动。免登录端点（验证码/分享/开放/SSE 订阅）在网关 Nacos `exclude-paths` 声明，URL 同样带短名（`/auth/captcha`、`/ai/share/**`、`/system/ypbin/sse`）。
 
 另维护**单体版 `boot` 分支**：`ypbin-admin-system`（公共 + 业务域 `cn.ypbin.admin.common` + `cn.ypbin.admin.modules/{ai,auth,job,system}`）+ `ypbin-admin-server`（启动与装配），
 当前用户走 `UserContext`/`LoginHelper`（sa-token 会话）。适合不需要服务拆分的场景，详见 [部署文档](/guide/admin/deployment)。
+
+## 内部 Feign 端点守卫（/internal/**）
+
+system 服务只面向**服务间调用**暴露 `/internal/**` 内部端点（auth/ai 经 `ISystemClient` 查询权限/角色/路由/用户/系统参数/社交绑定等），不加入网关免登录白名单；外部即便经网关转发命中该段，也因缺少令牌被本地守卫拒绝：
+
+- **令牌机制**：system 本地守卫（`InternalTokenGuardInterceptor`，仅注册拦截 `/internal/**`）校验请求头 `X-Internal-Token` 与配置凭证一致才放行；凭证配置键为 `ypbin.internal.token`（共享配置 `ypbin-common.yaml`，值由部署 `.env` 的 `INTERNAL_TOKEN` 随机生成、install.sh 导入 Nacos 时替换，auth/system/ai 三服务共享一致值）。
+- **携带与拒绝**：Feign 侧 `InternalTokenFeignConfiguration` 拦截器每次调用自动从同一配置键读取并写入凭证头，未配置时告警不携带（服务端拒绝，不静默放行）；凭证未配置时守卫 **fail-closed** 整体拒绝（`R.code=401`）。服务间 Feign 直连**不经网关**，登录态由网关签发并透传身份头，`/internal/**` 鉴权不依赖登录会话。
+- **纵深防御**：
+  - `/internal/config-by-key` 对键名以 `_SECRET` / `_PASSWORD` / `_TOKEN` / `_ACCESS_KEY` / `_PRIVATE_KEY` / `_API_KEY` 结尾的敏感参数**整键脱敏**（仅保留末 4 位，其余打码），短信/邮件等密钥类配置禁止经 internal 明文出网；
+  - `/internal/verify-password` 按用户维度频控（每分钟最多 10 次），防任意 userId 在线口令爆破；
+  - 社交平台授权配置（含 ClientSecret 明文）仅限内部传递，`listSocialAuthConfigs` 只返回已启用平台。
+
+**社交平台启停跨进程生效**：auth 与 system 各自持有独立的平台注册表。auth 启动后每 5 分钟经 Feign 全量重拉已启用平台配置并重建注册表（删除停用平台、注册/更新启用平台）；授权跳转与回调前再经 `ensurePlatformRegistered` 即时读取最新配置校验 `enabled`——平台已停用直接拒绝、配置有变即时重建，不依赖定时窗口（system 侧配置变更会主动失效对应共享缓存键）。
 
 ## 与 starter 的分工
 

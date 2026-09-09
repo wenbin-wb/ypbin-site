@@ -12,7 +12,7 @@ ypbin:
   sign:
     enabled: true
     mode: ANNOTATION          # ANNOTATION（仅 @ApiSign 接口）或 GLOBAL（全局，按 skip-path 排除）
-    algorithm: HMAC_SHA256    # 或 MD5（兼容旧系统）
+    algorithm: HMAC_SHA256    # 推荐；或 MD5（仅兼容旧系统，已标记废弃）
     timeout: 60               # 签名有效期(秒)
     replay-protect: true      # nonce 防重放（有 Redis 用 Redis，否则内存）
     apps:
@@ -31,6 +31,8 @@ ypbin:
 @PostMapping("/open/order")
 public R<Void> createOrder(@RequestBody OrderReq req) { ... }
 ```
+
+> `MD5` 算法（`SignAlgorithm.MD5`）已标记废弃，仅为兼容旧系统保留，新系统一律使用 `HMAC_SHA256`。
 
 **第三方对接方**用 `SignClient` 生成签名（算法需与服务端一致）：
 

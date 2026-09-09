@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-10T14:24:06.036Z",
+  "generatedAt": "2026-09-09T00:00:00.000Z",
   "sourceRoot": "C:/Users/Administrator/IdeaProjects/starter/ypbin-starter",
   "methodology": [
     "扫描全部 @ConfigurationProperties（含 @Bean 方法绑定）与 PREFIX 常量",
@@ -11098,6 +11098,29 @@
               "line": 78
             }
           ]
+        },
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.tools.rate-limit.trust-forwarded",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": false,
+          "required": false,
+          "requiredWhen": null,
+          "description": "IP 限流键是否信任 X-Forwarded-For 等转发头：false（默认）取真实对端地址（request.getRemoteAddr），防伪造转发头绕过限流；位于可信反向代理之后需显式开启为 true 以按真实客户端 IP 限流。",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "default": false,
+          "values": [],
+          "notes": [],
+          "sources": [
+            {
+              "kind": "source",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/limiter/RateLimitProperties.java",
+              "line": 1
+            }
+          ]
         }
       ],
       "standardHostProperties": []
@@ -11449,6 +11472,29 @@
               "kind": "java-property",
               "path": "ypbin-starter-web/src/main/java/cn/ypbin/starter/web/autoconfigure/XssProperties.java",
               "line": 35
+            }
+          ]
+        },
+        {
+          "module": "ypbin-starter-web",
+          "key": "ypbin.web.repeatable-read.max-body-bytes",
+          "type": "java.lang.Long",
+          "defaultDefined": true,
+          "defaultValue": 10485760,
+          "required": false,
+          "requiredWhen": null,
+          "description": "单请求可重复读缓存体的最大字节数（默认 10MB，取值范围 (0, 64MB]）；超限请求在过滤器层拒绝缓存并直接返回统一响应（HTTP 200 + code=413），防止超大请求体占满内存。非法配置在装配期即失败。",
+          "allowedValues": [],
+          "enablement": null,
+          "safetyNotes": [],
+          "default": 10485760,
+          "values": [],
+          "notes": [],
+          "sources": [
+            {
+              "kind": "source",
+              "path": "ypbin-starter-web/src/main/java/cn/ypbin/starter/web/autoconfigure/RepeatableReadProperties.java",
+              "line": 1
             }
           ]
         }

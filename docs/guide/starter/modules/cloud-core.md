@@ -32,7 +32,18 @@ ypbin:
 （含下游业务码与提示），由全局异常处理器转换为 HTTP 200 + `R.code` 的错误响应。
 
 **CircuitBreaker 默认开启**：模块自动注入最低优先级默认值 `spring.cloud.openfeign.circuitbreaker.enabled=true`，
-使 Resilience4j 熔断实际参与 Feign 调用链。关闭方式：
+使 Resilience4j 熔断实际参与 Feign 调用链，并同步注入一组 resilience4j 默认熔断/超时参数（可被业务配置整体或逐项覆盖）：
+
+| resilience4j 默认项 | 默认值 | 说明 |
+|--------|--------|------|
+| `resilience4j.timelimiter.configs.default.timeout-duration` | `10s` | TimeLimiter 超时（库内建默认仅 1s，未配置时慢接口会被误杀） |
+| `resilience4j.circuitbreaker.configs.default.sliding-window-size` | `20` | 计数滑动窗口大小 |
+| `resilience4j.circuitbreaker.configs.default.failure-rate-threshold` | `50` | 失败率阈值（%），超限熔断打开 |
+| `resilience4j.circuitbreaker.configs.default.minimum-number-of-calls` | `10` | 最少调用次数，不足不参与熔断判定 |
+| `resilience4j.circuitbreaker.configs.default.permitted-number-of-calls-in-half-open-state` | `10` | 半开态放行探测数 |
+| `resilience4j.circuitbreaker.configs.default.wait-duration-in-open-state` | `10s` | 熔断打开维持时长，到期转半开 |
+
+关闭方式：
 
 ```yaml
 ypbin:
