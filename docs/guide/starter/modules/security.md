@@ -222,14 +222,14 @@ OnlineUserHelper.record(ip, browser, os);   // 可选：记录终端信息供在
 微服务架构下服务间不各自校验 token，由**网关统一校验并签发可信身份头**，下游服务从身份头构建当前用户：
 
 - `IdentityHeaders`：身份头常量（`X-User-Id`/`X-User-Name`/`X-Tenant-Id`/`X-Dept-Id`/`X-Roles`），网关签发与下游读取共用。
-- `IdentityHeaderFilter`：Servlet 服务自动装配，解析身份头构建 `LoginUser` 写入 `IdentityContext`，请求结束清理。开关 `ypbin.security.identity.enabled`（默认开）。
+- `IdentityHeaderFilter`：Servlet 服务装配，解析身份头构建 `LoginUser` 写入 `IdentityContext`，请求结束清理。开关 `ypbin.security.identity.enabled`（**默认关闭**——安全默认：仅当服务位于可信网关之后、且网关负责清洗外部头并签发内部身份头时显式开启，避免外部伪造 `X-User-Id` 直达业务服务被当作已认证用户）。
 - `IdentityContext`：当前用户上下文（ThreadLocal），提供 `getUserId()`/`getUsername()`/`getTenantId()`/`isLogin()`（均返回 `Optional`）。
 
 ```yaml
 ypbin:
   security:
     identity:
-      enabled: true            # 是否装配身份头过滤器（默认开）
+      enabled: true            # 是否装配身份头过滤器（默认关闭，需显式开启）
 ```
 
 ```java
@@ -244,7 +244,7 @@ Long userId = IdentityContext.getUserId().orElse(null);
 `@PlatformAccess` 标注平台级接口（仅平台用户可访问，租户用户禁止）：
 
 - 切面从 `IdentityContext` 取当前用户，经 `PlatformUserChecker` SPI 判定是否平台用户；非平台用户抛 403。
-- `PlatformUserChecker` 默认放行（不假设业务），业务方实现并注册为 Bean 即启用严格校验。
+- `PlatformUserChecker` 默认拒绝（fail-closed，未实现 SPI 时 `@PlatformAccess` 资源全部拒绝；未登录直接 403），业务方实现并注册为 Bean 即启用严格校验。
 
 ```yaml
 ypbin:
