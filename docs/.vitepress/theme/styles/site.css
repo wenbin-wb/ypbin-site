@@ -432,7 +432,7 @@
 }
 .table-scroll th:nth-child(2),
 .table-scroll td:nth-child(2) {
-  width: 10%;
+  width: 13%;
 }
 .table-scroll th:nth-child(3),
 .table-scroll td:nth-child(3) {
@@ -440,7 +440,7 @@
 }
 .table-scroll th:nth-child(4),
 .table-scroll td:nth-child(4) {
-  width: 48%; /* 说明列拿最大宽度 */
+  width: 45%; /* 说明列拿最大宽度 */
 }
 .table-scroll thead th {
   position: sticky;
