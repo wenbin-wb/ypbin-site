@@ -5,7 +5,7 @@ description: 与 ypbin-admin 配套、由后端动态路由驱动的 Vue 3 管�
 
 # ypbin-admin-ui
 
-<StatusBadge status="private" label="web-antd v@ADMIN_UI_VERSION@ · private" />
+<StatusBadge status="private" label="web-antd v5.7.0 · private" />
 
 > 在线访问：https://admin.ypbin.cn（admin-ui 前端，需连接 admin 后端接口）
 
@@ -47,7 +47,7 @@ pnpm dev:antd
 
 ## 版本与状态
 
-<VersionScope version="web-antd v@ADMIN_UI_VERSION@ · 私有工作区" status="private" />
+<VersionScope version="web-antd v5.7.0 · 私有工作区" status="private" />
 
 private 表示该工作区不作为公共 npm 包发布，不代表产品状态稳定；`web-antd` 应用版本随 Vben 5 基线发布，与 admin 的接口契约和权限模型共同演进。当前三端版本状态见 [发布状态](/releases)。
 

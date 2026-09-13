@@ -1,9 +1,9 @@
 {
-  "starter": "2.2.3",
+  "starter": "${VERSION}",
   "starterStatus": "stable",
   "admin": "1.0.0-SNAPSHOT",
   "adminStatus": "development",
   "adminUi": "5.7.0",
   "adminUiStatus": "private",
-  "updatedAt": "2026-09-09"
+  "updatedAt": "2026-09-13"
 }
