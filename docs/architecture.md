@@ -20,7 +20,7 @@ ypbin-starter
 
 ## 基础能力层：starter
 
-starter 将横切能力拆成 36 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
+starter 将横切能力拆成 38 个 Maven 模块。业务项目通过 BOM 获得统一版本，再按需引入模块。该层不拥有 admin 的系统菜单、用户或角色等业务数据。各模块的分层与用法见 [Starter 模块文档](/guide/starter/modules/)。
 
 ## 业务装配层：admin
 
@@ -47,7 +47,7 @@ admin-ui 负责浏览器端交互。页面可见性不独立于后端权限；�
 
 ## 版本流
 
-稳定接入以 starter v${VERSION} 为基线（Java 21 / Spring Boot 4.1）。正在联调的 admin 1.0.0-SNAPSHOT 使用 starter ${VERSION}；admin-ui 5.7.0 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
+稳定接入以 starter v@STARTER_VERSION@ 为基线（Java 21 / Spring Boot 4.1）。正在联调的 admin @ADMIN_VERSION@ 使用 starter @STARTER_VERSION@；admin-ui @ADMIN_UI_VERSION@ 是私有工作区版本。各产品的当前版本状态见 [发布状态](/releases)。
 
 ## 不在当前承诺内
 

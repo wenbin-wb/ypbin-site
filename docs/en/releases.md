@@ -9,9 +9,9 @@ description: Version status of the three ypbin products and the ypbin-starter re
 
 | Product | Channel | Version | Status |
 | --- | --- | --- | --- |
-| ypbin-starter | Stable | `v${VERSION}` | Released; use for production integrations |
-| ypbin-admin | Development | `1.0.0-SNAPSHOT` | Not yet a stable release; built on starter `${VERSION}` |
-| ypbin-admin-ui | Private | `5.7.0` | Workspace-only version; not a public npm stable package |
+| ypbin-starter | Stable | `v@STARTER_VERSION@` | Released; use for production integrations |
+| ypbin-admin | Development | `@ADMIN_VERSION@` | Not yet a stable release; built on starter `@STARTER_VERSION@` |
+| ypbin-admin-ui | Private | `@ADMIN_UI_VERSION@` | Workspace-only version; not a public npm stable package |
 
 ## Release history
 

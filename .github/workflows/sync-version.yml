@@ -38,19 +38,25 @@ jobs:
           echo "VERSION=$V" >> "$GITHUB_OUTPUT"
           echo "最新 starter 版本：$V"
 
-      - name: 更新 releases.json 并注入文档
+      - name: 更新 releases.json（版本号唯一事实源）
+        # 版本通过环境变量传入、在 JS 里读 process.env：之前把值拼进 node -e 的字符串，
+        # 由于外层是双引号 shell 串，'\${VERSION}' 逃逸后变成 JS 里的字面量 '${VERSION}'，
+        # 结果把 releases.json 写成了未展开的占位符。改环境变量后与 shell 引用规则解耦。
+        env:
+          VERSION: ${{ steps.version.outputs.VERSION }}
         run: |
-          VERSION="${{ steps.version.outputs.VERSION }}"
           node -e "
             const fs=require('fs');
             const p='docs/.vitepress/data/releases.json';
             const j=JSON.parse(fs.readFileSync(p,'utf8'));
-            j.starter='\${VERSION}';
+            j.starter=process.env.VERSION;
             j.updatedAt=new Date().toISOString().slice(0,10);
             fs.writeFileSync(p,JSON.stringify(j,null,2)+'\n');
           "
-          node scripts/inject-versions.mjs
-          git add -A
+          # 只提交 releases.json 这一处改动。文档源文件必须保留 @STARTER_VERSION@ 占位符，
+          # 由 pnpm build 内部 inject → 构建 → restore；此处若先行 inject 再提交，
+          # 会把注入后的真实版本写死进文档、永久丢失占位符（占位符一旦丢失，后续注入全部失效）。
+          git add docs/.vitepress/data/releases.json
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "docs(release): 同步 starter v$VERSION 版本到文档" || echo "无变更需提交"
           git push
 

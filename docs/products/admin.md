@@ -5,7 +5,7 @@ description: 基于 ypbin-starter 组装的企业级后台服务——微服务 
 
 # ypbin-admin
 
-<StatusBadge status="development" label="1.0.0-SNAPSHOT 开发中" />
+<StatusBadge status="development" label="@ADMIN_VERSION@ 开发中" />
 
 > 在线体验：https://admin.ypbin.cn
 
@@ -47,12 +47,12 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/d
 
 ## 版本与状态
 
-<VersionScope version="admin 1.0.0-SNAPSHOT · 依赖 starter v${VERSION}" status="development" />
+<VersionScope version="admin @ADMIN_VERSION@ · 依赖 starter v@STARTER_VERSION@" status="development" />
 
 | 产品 | 版本 | 状态 |
 | --- | --- | --- |
-| ypbin-admin | 1.0.0-SNAPSHOT | 开发中，依赖 starter v${VERSION} |
-| ypbin-starter | v${VERSION} | 稳定版，Maven Central |
+| ypbin-admin | @ADMIN_VERSION@ | 开发中，依赖 starter v@STARTER_VERSION@ |
+| ypbin-starter | v@STARTER_VERSION@ | 稳定版，Maven Central |
 
 ## 下一步
 

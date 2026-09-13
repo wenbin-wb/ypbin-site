@@ -1,11 +1,11 @@
 ---
 title: ypbin-starter
-description: 36 个 Maven 模块的 Spring Boot 系统级基础能力集合——分层能力图谱、快速接入与版本状态。
+description: 38 个 Maven 模块的 Spring Boot 系统级基础能力集合——分层能力图谱、快速接入与版本状态。
 ---
 
 # ypbin-starter
 
-<StatusBadge status="stable" label="v${VERSION} 稳定版" />
+<StatusBadge status="stable" label="v@STARTER_VERSION@ 稳定版" />
 
 ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web、JSON、数据访问、缓存、安全、存储、日志、消息、任务与云组件等横切能力，并按需拆分为可选择的 Maven 模块，用不到的模块不进 classpath。
 
@@ -42,7 +42,7 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
     <dependency>
       <groupId>cn.ypbin</groupId>
       <artifactId>ypbin-starter-bom</artifactId>
-      <version>${VERSION}</version>
+      <version>@STARTER_VERSION@</version>
       <type>pom</type>
       <scope>import</scope>
     </dependency>
@@ -61,11 +61,11 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
 
 ## 版本与状态
 
-<VersionScope version="稳定版 v${VERSION} · 历史稳定版 1.3.0" status="stable" />
+<VersionScope version="稳定版 v@STARTER_VERSION@ · 历史稳定版 1.3.0" status="stable" />
 
 | 通道 | 版本 | 基线 | 状态 |
 | --- | --- | --- | --- |
-| 稳定版 | v${VERSION} | Java 21 · Spring Boot 4.1.0 | 已发布 Maven Central，建议生产接入 |
+| 稳定版 | v@STARTER_VERSION@ | Java 21 · Spring Boot 4.1.0 | 已发布 Maven Central，建议生产接入 |
 | 历史稳定版 | v1.3.0 | Java 17 · Spring Boot 3.5 | 仍可接入，不再获得新能力 |
 
 发布历史与兼容性见 [发布状态](/releases) 与 [兼容性说明](/guide/compatibility)。
