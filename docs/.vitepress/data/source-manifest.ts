@@ -19,7 +19,7 @@ export interface RoadmapItem {
 }
 
 export const sourceManifest = {
-  verifiedAt: '2026-09-09',
+  verifiedAt: '2026-09-13',
   stableStarterVersion: '2.2.3',
   roadmap: [
     { id: 'starter', label: 'ypbin-starter', item: 'v2.2.3 稳定版已发布：可重复读超限 413 契约化、@PlatformAccess 双形态取用户、多级缓存过期语义收敛', scope: '已发布' },
@@ -34,8 +34,8 @@ export const sourceManifest = {
       version: '2.2.3',
       status: 'stable',
       runtime: 'Java 21 · Spring Boot 4.1.0',
-      scaleLabel: '36 模块 · 544 类 · 166 测试',
-      facts: ['稳定版 v2.2.3 已发布', '36 个 Maven 模块（含 XXL-JOB 接入壳）', 'Apache-2.0 开源协议']
+      scaleLabel: '38 模块 · 594 Java 源文件 · 181 测试',
+      facts: ['稳定版 v2.2.3 已发布', '38 个 Maven 模块（含 XXL-JOB 接入壳与架构约束测试模块）', 'Apache-2.0 开源协议']
     },
     {
       id: 'admin',

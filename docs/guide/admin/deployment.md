@@ -131,6 +131,30 @@ scp -r apps/web-antd/dist/* root@<服务器IP>:/opt/ypbin/main/ypbin-admin/admin
 - **租户缺上下文默认拒绝（fail-closed）**：`ypbin.tenant.fail-on-missing-tenant` 默认 `true`，无租户上下文且未显式声明忽略的查询返回业务码 409（「缺少租户上下文」），不再静默查空。登录、匿名分享、定时任务等路径已在代码中显式放行；若升级后出现该错误，说明该路径漏了 `@TenantIgnore` / `TenantContext.executeIgnore`，应补声明而非关闭开关。
 - **网关不再默认放行 `/actuator/**`**：默认只放行 `health` / `info`。若需经网关访问其它 actuator 端点（如 `metrics`），须在 `ypbin-gateway.yaml` 的 `ypbin.gateway.auth.exclude-paths` 中显式声明。
 - **Feign 超时默认生效**：连接 5s / 读取 10s（原先未显式配置，使用库默认读取 60s）。若存在耗时超过 10s 的服务间调用，需在 Nacos 配置中放宽 `spring.cloud.openfeign.client.config.default.read-timeout`。
+- **网关身份头签名已默认启用**：由 `GATEWAY_SIGN_TOKEN` 驱动，网关签发 `X-Gateway-Signed`，auth/system/ai 校验来源；system/ai 的 Nacos 配置为 `require-trusted-source: true`，**密钥缺失即拒绝启动**。
+- **AI 模型密钥加密密钥改为必填**：`AI_MODEL_SECRET_KEY`（16/24/32 字节）不再有内置默认值，install.sh 未拿到该值会直接终止。它**必须长期保持不变**——换值后库内已存的模型 API Key 无法解密。
+
+### 重新部署顺序（重要）
+
+`GATEWAY_SIGN_TOKEN` 由网关签发、下游校验，且下游配置了 `require-trusted-source: true`（缺密钥即拒绝启动），因此**不能随意并行重启**。正确顺序：
+
+```bash
+# 1. 先跑 install.sh：随机生成/补齐 GATEWAY_SIGN_TOKEN 写入 .env，并把占位符替换后导入 Nacos
+#    （沿用旧 .env 时会自动补生成缺失的键，不会覆盖已有值）
+bash deploy/install.sh
+
+# 2. 先重启网关——它是签发方，必须最先具备密钥
+docker compose -f deploy/docker-compose.yml up -d --force-recreate ypbin-gateway
+
+# 3. 再重启下游服务：auth → system → ai
+docker compose -f deploy/docker-compose.yml up -d --force-recreate ypbin-auth ypbin-system ypbin-ai
+```
+
+::: warning 常见错误
+- **先重启下游**：Nacos 里 `trusted-source-token` 还是空值 → 下游 fail-fast 拒绝启动，表现为启动即退出；
+- **只改代码不重跑 install.sh**：`.env` 与 Nacos 里没有 `GATEWAY_SIGN_TOKEN`，下游同样拒绝启动；
+- **网关与下游密钥不一致**：网关签出的标记头下游认不出来，身份头会被判为不可信来源，表现为请求 401/403（而不是放行），日志中可见来源校验失败。
+:::
 
 ## 单体版（boot 分支）
 

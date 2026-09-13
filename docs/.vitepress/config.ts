@@ -127,7 +127,8 @@ export default defineConfig({
           text: '项目脚手架',
           collapsed: false,
           items: [
-            { text: '生成项目与测试基座', link: '/guide/starter/scaffold' }
+            { text: '生成项目与测试基座', link: '/guide/starter/scaffold' },
+            { text: '2.x → 3.x 迁移指南', link: '/guide/starter/migration-2x-to-3x' }
           ]
         },
         {
