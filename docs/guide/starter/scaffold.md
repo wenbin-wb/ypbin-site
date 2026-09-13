@@ -104,3 +104,32 @@ class MyCacheIT {
 | `MappingJackson2HttpMessageConverter` | `JacksonJsonHttpMessageConverter` | Jackson 3 包名不变（`org.springframework.http.converter.json`），类名去掉 `2` |
 
 > 验证方式：`mvn -o clean test-compile -Dmaven.compiler.showDeprecation=true`，主源码与测试源码均应零废弃告警；例外（如需覆盖旧算法兼容行为）用 `@SuppressWarnings("deprecation")` 并注明意图。
+
+## 空值语义：`@NullMarked` + NullAway（模块级试点）
+
+只加 `@NullMarked` 注解而不做校验是**危险的**：它的语义是「未标注即非空」，一旦有返回值、参数或字段实际可能为 `null` 而没标 `@Nullable`，注解就在说谎——IDE 与静态分析会据此做出错误的非空假设，比不标注更糟。
+
+所以本项目采用「注解 + 编译期校验」一起上，并按模块逐个推进（当前已完成 `ypbin-starter-core`）：
+
+```bash
+# 校验某个已纳管的模块（CI 已在跑 core）
+mvn -Pnullaway -pl ypbin-starter-core compile
+```
+
+试点实测：`core`（15 个主源码文件）上线即报出 **15 处**问题，全部是「代码确实可空但没标注」，其中 **4 处是真实潜在 NPE**——`SpringUtils` 直接解引用尚未就绪的 `applicationContext`（`getBean` ×2、`getEventPublisher`、`getEnvironment`），未就绪时抛的是无信息的 `NullPointerException`。已改为统一的 `requireApplicationContext()` 断言：仍然失败、不放行，但错误信息直接说明原因与替代做法。
+
+### 逐模块纳管的步骤
+
+1. 该模块 pom 显式声明 `org.jspecify:jspecify`（不要只靠 `spring-core` 的传递依赖）；
+2. 在模块根包加 `package-info.java`，标注 `@NullMarked`（对该包及子包生效）；
+3. 从 `ypbin-starter-core/pom.xml` 复制 `nullaway` profile（profile 内的模块名与 `AnnotatedPackages` 改成目标包）；
+4. `mvn -Pnullaway -pl <模块> compile` 修完报告的问题——**优先甄别真问题**（漏判空 → 潜在 NPE），必要时给字段/参数/返回值补 `@Nullable`；
+5. 把该模块加进 CI 的「空值语义检查（NullAway）」步骤。
+
+### 工具链坑（都已踩过）
+
+- **必须 `fork=true`**：Error Prone 依赖的一组 `add-exports`/`add-opens` 参数只对 javac 启动器生效，非 fork（in-process）会以 `IllegalAccessError` 崩溃；
+- **必须 `--should-stop=ifError=FLOW`**：fork 模式下 javac 默认策略为 `INIT`，Error Prone 不接受；
+- **`-Xplugin:` 整条必须写在一行**：XML 里的换行会被当成独立参数传给 javac，报 `invalid flag`；
+- **`annotationProcessorPaths` 是覆盖而非追加**：目标模块原有的处理器（如 `spring-boot-configuration-processor`）必须一并列入，否则配置元数据不再生成、元数据漂移门禁会失败；
+- **本工具链下不要用 `JSpecifyMode=true`**（NullAway 0.11.3 + error_prone_core 2.36.0 + JDK 21 fork javac）：实测会让 javac 无任何诊断地失败；用 `-XepOpt:NullAway:AnnotatedPackages=<包>` 声明同一范围即可，包上的 `@NullMarked` 仍保留供 IDE 与其他 JSpecify 工具识别。
