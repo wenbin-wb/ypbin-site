@@ -10,15 +10,17 @@
     "pnpm": ">=11.0.0"
   },
   "scripts": {
+    "docs:config": "node scripts/generate-config-docs.mjs",
+    "docs:sync-metadata": "node scripts/sync-starter-config-metadata.mjs",
+    "docs:check-metadata": "node scripts/sync-starter-config-metadata.mjs --check",
+    "screenshots:validate": "node tools/screenshots/validate-manifest.mjs",
+    "typecheck": "vue-tsc --noEmit",
+    "check:content": "node scripts/check-content.mjs",
+    "check": "pnpm docs:config && pnpm screenshots:validate && pnpm typecheck && pnpm check:content && pnpm build",
     "dev": "vitepress dev docs",
     "build": "node scripts/inject-versions.mjs inject && vitepress build docs && node scripts/inject-versions.mjs restore && pagefind --site docs/.vitepress/dist",
     "preview": "vitepress preview docs",
-    "typecheck": "vue-tsc --noEmit",
-    "check:content": "node scripts/check-content.mjs",
-    "docs:config": "node scripts/generate-config-docs.mjs",
     "screenshots:capture": "node tools/screenshots/capture-admin-ui.mjs",
-    "screenshots:validate": "node tools/screenshots/validate-manifest.mjs",
-    "check": "pnpm docs:config && pnpm screenshots:validate && pnpm typecheck && pnpm check:content && pnpm build",
     "search:pagefind": "pnpm dlx pagefind@1.5.2 --site docs/.vitepress/dist"
   },
   "dependencies": {

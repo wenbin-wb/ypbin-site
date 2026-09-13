@@ -64,3 +64,11 @@ Set<Object> top10 = RedisUtils.zReverseRange("rank", 0, 9);
 ```
 
 分工：与实现无关的通用缓存走 `CacheService`/`CacheUtils`；Redis 专属结构走 `RedisUtils`。
+
+**值序列化（Jackson 3）**：`redisTemplate` 采用 String 键 + JSON 值，底层为 Spring Data Redis 4 的 `GenericJacksonJsonRedisSerializer`（Jackson 3），复用容器 `JsonMapper` 的时间/大数字规则并写入多态类型信息（元素带 `@class`），保证读回时能还原具体类型而非退化为 `LinkedHashMap`。序列化在共享 `JsonMapper` 的**构建器副本**上进行，不会把 `@class` 混入 HTTP 响应。
+
+**不可变集合已做规范化（重要）**：JDK 不可变集合（`List.of()`、`Map.of()`、`Set.of()`、`Stream.toList()` 的产物）是 **final 类型**，`As.PROPERTY` 形态无法向其写入类型标识，序列化器会**静默丢弃类型信息**，导致读回时抛 `SerializationException`（缺少类型 id）。可变集合（`ArrayList`/`HashMap`）不受影响。因此写入前由 `ImmutableCollectionNormalizer` 将集合规范化为 `ArrayList`/`LinkedHashMap`/`LinkedHashSet`——语义等价，读回的是可变实现。
+
+> 本项目自身的返回约定大量使用 `List.of()`/`toList()`（含空集合兜底），因此该规范化是**必需**的，不能省略。回归由 `RedisJacksonJsonRoundTripIT` 锁定（默认跳过，设置 `YPBIN_TEST_REDIS_PASSWORD` 后对真实 Redis 校验含不可变集合在内的各形态往返）。
+
+> 从 Jackson 2 基线升级时注意：若此前使用 `GenericJackson2JsonRedisSerializer`，**多态类型信息由 Jackson 3 写入/读取**，滚动升级期间新旧实例混跑可能出现反序列化失败，建议停机切换或先清理缓存键。

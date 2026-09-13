@@ -31,9 +31,12 @@ ypbin:
     auth:
       enabled: true
       exclude-paths:
-        - /actuator/**
+        - /actuator/health          # 默认仅放行健康探针
+        - /actuator/info
         - /swagger-ui/**
 ```
+
+> **默认放行范围已收窄**：不再默认放行 `/actuator/**`。`env` / `heapdump` / `shutdown` 等敏感端点若经网关暴露，会造成信息泄露与远程操作风险；确需暴露时请显式声明，建议只放行 `health` / `info`。
 
 ```java
 @Component
@@ -44,6 +47,10 @@ public class JwtAuthProvider implements GatewayAuthProvider {
     }
 }
 ```
+
+**入口身份头清洗**：`HeaderSanitizeGlobalFilter` 以最高优先级移除客户端传入的身份类请求头（`X-User-Id` / `X-Tenant-Id` / `X-Roles` 等），仅由认证提供者签发可信版本，防止调用方伪造身份被下游误信。
+
+**链路 ID 防日志注入**：`RequestIdGlobalFilter` 对客户端传入的 `X-Request-Id` 校验长度（≤128）与字符集，含 CRLF / 控制字符 / ANSI 转义或超长时一律丢弃并重新生成，避免伪造日志行。
 
 **Swagger 文档聚合**：自动从 Gateway 路由表解析 `lb://service-name` 生成 Swagger UI 下拉列表：
 

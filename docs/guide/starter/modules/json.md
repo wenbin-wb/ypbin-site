@@ -10,6 +10,7 @@ description: 序列化 模块能力说明与配置参考。
 - `LocalDateTime/LocalDate/LocalTime` 统一格式（默认 `yyyy-MM-dd HH:mm:ss` 等）。
 - Long/BigInteger/BigDecimal 序列化为字符串，规避前端 JS 大数精度丢失。
 - 反序列化忽略未知字段。
+- 非 ASCII 字符统一转义输出，规避部分客户端的编码歧义。
 
 ```yaml
 ypbin:
@@ -17,6 +18,10 @@ ypbin:
     date-time-format: yyyy-MM-dd HH:mm:ss
     write-big-number-as-string: true   # 默认 true
 ```
+
+> **Jackson 3 基线**：Spring Boot 4.x 的主序列化器为 Jackson 3（`tools.jackson.*`），本模块只定制 Jackson 3 的 `JsonMapper`，不再装配 Jackson 2 兼容层（`spring-boot-jackson2`）。
+>
+> 注意 **Jackson 3 仍保留 Jackson 2 的注解包**（`com.fasterxml.jackson.annotation`，官方在依赖中注明 *Annotations remain at Jackson 2.x group id*）：`@JsonIgnore`、`@JsonInclude`、`@JacksonAnnotationsInside` 等 import 无需改动，这不算 Jackson 2 运行时残留。另一处行为差异是 Jackson 3 的 `JacksonException` 继承 `RuntimeException`（Jackson 2 为受检 `IOException`），自定义序列化/反序列化代码的 catch 子句需相应调整。
 
 **数据脱敏** `@Sensitive`：响应字段序列化时自动打码，不改动库中原值：
 

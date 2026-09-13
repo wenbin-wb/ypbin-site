@@ -57,3 +57,32 @@ ypbin:
 - **缓存窗口**：服务端明确返回有效后，窗口内 `@LicenseCheck(online=true)` 直接放行、不再发 HTTP；「放行但不明确有效」进入更短的放行窗口，连续多次不明确裁决后自动升级为更长的退避窗口，均在窗口到期后重新联机——服务恢复后吊销可被及时感知，故障期间也不会被高频调用打爆。缓存命中判断与实际联机调用之间做了单飞（single-flight），并发请求在缓存未命中时只会有一次真正的 HTTP 调用。
 - **安全提示**：机器指纹经请求参数上报，生产环境联机校验服务建议启用 HTTPS，减少指纹在公网传输被窃听的风险。
 - **依赖说明**：`ypbin-starter-sign` 是可选依赖，仅启用联机校验时引入；未引入则 HTTP 联机校验不装配，纯离线授权不受影响。
+
+## 联机校验：声明式外部 API 客户端
+
+联机校验对接供应方开放平台（外部第三方 API），实现为 Spring **声明式 HTTP 接口**（`@HttpExchange`）
+而不是手写 `HttpClient`，也不是 Feign：
+
+```java
+@HttpExchange(url = "/open/license/verify")
+public interface LicenseVerifyApi {
+    @GetExchange
+    LicenseVerifyResponse verify(
+        @RequestParam("accessKey") String accessKey,
+        @RequestParam("timestamp") String timestamp,
+        @RequestParam("nonce") String nonce,
+        @RequestParam("sign") String sign,
+        @RequestParam("licenseId") String licenseId,
+        @RequestParam(value = "fingerprint", required = false) String fingerprint);
+}
+```
+
+**为什么不是 Feign**：这是外部 API，没有服务发现、负载均衡与本地降级需求；Feign 的 Spring Cloud
+依赖栈属于过度引入。声明式接口由 Spring 生成代理，签名参数拼装、JSON 序列化、超时与异常转换交由框架。
+
+两处易踩的实现细节（已由测试锁定）：
+
+- **空参数必须省略**：服务端按「实际收到的参数集合」重算签名，多送一个 `fingerprint=` 会导致验签不一致，
+  故声明 `required = false` 并在空值时传 `null`（`@RequestParam` 默认必填，传 `null` 会直接抛异常）。
+- **放宽响应 Content-Type**：部分开放平台对 JSON 响应未正确声明 `application/json`；若严格要求，
+  在 `FAIL_OPEN` 策略下会永久静默放行、吊销永远感知不到，故转换器接受 `*/*`。

@@ -125,6 +125,13 @@ scp -r apps/web-antd/dist/* root@<服务器IP>:/opt/ypbin/main/ypbin-admin/admin
 - 初始管理员口令来自部署种子/初始化流程，首登后**立即修改**；共享、测试或生产环境不得继续使用开发种子口令。
 - 如需对外 HTTPS，在网关/nginx 层终止 TLS。
 
+### 升级注意（会话序列化与租户 fail-closed）
+
+- **Sa-Token 会话序列化已切到 Jackson 3**：统一到 Jackson 3 后，会话存储由 `sa-token-redis-jackson`（绑定 Jackson 2）改为 `sa-token-redis-template` + `sa-token-jackson3`。auth 与 gateway 必须**同时升级**，否则两侧会话格式不一致会导致 token 校验失败。Redis 中的存量会话可能无法反序列化，**升级后用户需重新登录**；建议选低峰发布，或发布前清理 `sa-token` 相关键。
+- **租户缺上下文默认拒绝（fail-closed）**：`ypbin.tenant.fail-on-missing-tenant` 默认 `true`，无租户上下文且未显式声明忽略的查询返回业务码 409（「缺少租户上下文」），不再静默查空。登录、匿名分享、定时任务等路径已在代码中显式放行；若升级后出现该错误，说明该路径漏了 `@TenantIgnore` / `TenantContext.executeIgnore`，应补声明而非关闭开关。
+- **网关不再默认放行 `/actuator/**`**：默认只放行 `health` / `info`。若需经网关访问其它 actuator 端点（如 `metrics`），须在 `ypbin-gateway.yaml` 的 `ypbin.gateway.auth.exclude-paths` 中显式声明。
+- **Feign 超时默认生效**：连接 5s / 读取 10s（原先未显式配置，使用库默认读取 60s）。若存在耗时超过 10s 的服务间调用，需在 Nacos 配置中放宽 `spring.cloud.openfeign.client.config.default.read-timeout`。
+
 ## 单体版（boot 分支）
 
 如需单体部署，使用 boot 分支脚本：

@@ -77,6 +77,47 @@ public class MyModelConfigResolver implements AiModelConfigResolver {
 | `ypbin.ai.rag.max-context-length` | 8000 | 检索上下文最大字符数 |
 
 > 历史消息窗口统一由 `ypbin.ai.memory.window-size` 控制，`AiChatProperties` 不存在 `window-size` 字段，`ypbin.ai.chat.window-size` 是死键不会生效（见 application.yml 注释与 `AiChatProperties` 源码）。
+>
+> `ypbin.ai.rag.enabled=true` 时若容器内没有 `AiEmbeddingConfigResolver` 实现，装配阶段会**直接抛出可操作的错误**（而非难以定位的 `NoSuchBeanDefinitionException`）；需要 RAG 请提供该 Bean，否则保持开关为 `false`。
+
+## 向量库落盘（合并写 + 原子替换）
+
+`ypbin.ai.rag.simple-store-path` 配置后，向量库会持久化到本地文件。整库序列化本身是 O(N)，
+**每次 `add()` 都同步落盘**会让批量入库退化为 O(N²)（第 k 批重写前 k 批全部数据）。为此落盘做了两件事：
+
+| 机制 | 说明 |
+|---|---|
+| 并发合并（恒生效） | 同一时刻只有一个线程真正写文件，写入期间到达的变更只额外触发一轮，循环复查脏标记保证**最后一次变更必然落盘** |
+| 原子替换 | 先写同目录 `*.tmp`，再 `ATOMIC_MOVE` 覆盖目标文件——避免写文件中途退出留下半个 JSON 导致下次启动加载失败 |
+| 防抖合并（可选） | `ypbin.ai.rag.persist-debounce-ms`（默认 `0` = 写透）；设为正值（如 `1000`）可把顺序 N 次变更合并为约 1 次落盘 |
+
+```yaml
+ypbin:
+  ai:
+    rag:
+      simple-store-path: ./data/vector-store.json
+      persist-debounce-ms: 1000   # 批量导入时开启；正常关闭会强制落盘
+```
+
+> **取舍**：开启防抖后，硬崩溃（SIGKILL/断电）可能丢失最近一个防抖窗口内的增量；正常关闭由销毁钩子
+> 强制落盘。向量库可由原始文档重建，故对导入类场景可接受；若要求每次写入都持久，保持默认 `0`。
+
+## 用户提交 URL 的 SSRF 防护
+
+知识库从 URL / sitemap / RSS 导入时，目标是**用户可控的外部地址**，必须按不可信输入处理。推荐直接复用 Spring Boot 4.1 内置的 `InetAddressFilter`（`spring-boot-http-client`），它由框架维护完整的特殊用途网段清单，比自行枚举更全面且随版本更新：
+
+```java
+/** 仅放行公网可路由地址；其余（环回、链路本地、私网、CGNAT、组播、文档/基准测试保留段）一律拦截 */
+private static final InetAddressFilter EXTERNAL_ADDRESS_FILTER = InetAddressFilter.externalAddresses();
+
+private static boolean isBlockedAddress(InetAddress address) {
+    return !EXTERNAL_ADDRESS_FILTER.matches(address);
+}
+```
+
+`externalAddresses()` 的语义是 `routable() AND NOT (multicast() OR specialPurpose())`，已覆盖 `100.64.0.0/10`（CGNAT，云厂商元数据服务段如 100.100.100.200）在内的特殊用途网段。
+
+> **不要全局默认拦截内网地址**：微服务之间通过 `lb://` 调用解析出的正是内网 IP，对出站 HTTP 客户端一刀切套用 `externalAddresses()` 会切断所有服务间调用。SSRF 防护应按用途收口在「抓取用户提交 URL」这类具体路径上。除地址校验外，还应同时设置请求超时与响应体上限，并**禁止跟随重定向**（重定向可绕过域名层校验）。
 
 ## 记忆与建表
 

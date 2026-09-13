@@ -9,6 +9,24 @@ permissions:
   contents: read
 
 jobs:
+  metadata-drift:
+    name: 校验 starter 配置元数据未漂移
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # 站点自包含生成配置参考，但副本必须与 starter 上游一致，故一并检出比对
+      - uses: actions/checkout@v4
+        with:
+          repository: wenbin-wb/ypbin-starter
+          path: ypbin-starter
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+      - name: 校验元数据副本与上游一致
+        env:
+          STARTER_REPO_ROOT: ${{ github.workspace }}/ypbin-starter
+        run: node scripts/sync-starter-config-metadata.mjs --check
+
   verify:
     runs-on: ubuntu-latest
     steps:

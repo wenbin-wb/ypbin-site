@@ -27,6 +27,8 @@ ypbin:
       weight-metadata-key: weight
       default-weight: 1
       fallback-to-stable: true  # 灰度实例匹配不到时是否回退正式实例
+      allowed-versions:         # 允许通过请求头指定的灰度版本白名单（留空=不限制）
+        - gray
       prior-ip-patterns:
         - 10.20.0.*
 ```
@@ -35,3 +37,5 @@ ypbin:
 - 请求头有灰度版本 → 只选匹配 metadata 的实例，无匹配时按 `fallback-to-stable` 决定是否回退正式实例。
 - 请求头无灰度版本 → 默认只选无版本标记的正式实例。
 - 配置 `version` → 自动以低优先级写入 Nacos discovery metadata，无需手动维护。
+
+> **建议配置 `allowed-versions`**：请求头由客户端完全可控，若不限制，外部调用方可任意指定版本，把流量导向灰度甚至未加固的实例。配置白名单后只有枚举内的版本值会被采纳，其余一律忽略并按正式实例路由。留空表示不限制（兼容既有行为）。
