@@ -76,7 +76,7 @@ public ThreadPoolTaskExecutor taskExecutor(TaskDecorator contextAwareTaskDecorat
 
 各模块（如 tenant）自行注册 `ContextPropagator` Bean，无需你手动列举要透传的内容。
 
-**树形结构工具** `TreeUtils`：菜单、部门、分类等实现 `TreeNode` 接口后，一行代码把扁平列表组装成树（O(n)）：
+**树形结构工具** `TreeUtils`：菜单、部门、分类等实现 `TreeNode` 接口后，一行代码把扁平列表组装成树（O(n)：父 ID 索引与 ID 集合各遍历一次建立，根判定不再逐节点线性扫描——该处曾退化为 O(n²)，现由调用计数的单测守卫）：
 
 ```java
 public class MenuNode implements TreeNode<MenuNode, Long> {

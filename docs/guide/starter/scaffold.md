@@ -107,6 +107,31 @@ java -jar target/benchmarks.jar -f 1 -wi 2 -i 3 -r 1s -w 1s       # 快速冒烟
 - 可精确断言的复杂度/正确性由单元测试兜底（并发合并、防抖合并、原子替换、集合空值语义等，见 `PersistCoordinatorTest`、`ImmutableCollectionNormalizerTest`）；
 - 模块只依赖 L1 基础能力，且被分层规则列入「可横跨各层」的开发工具（不参与运行时依赖）。
 
+::: warning 复杂度必须用「确定性计数」而不是挂钟来守
+本项目在这里踩过一次：早期基准用 `rootId * 1_000_000 + child` 造节点 ID，子 ID 与根 ID 撞号，使
+`TreeUtils.build` 的内部线性扫描**提前命中**，于是测出「规模 10 倍、耗时 11.1 倍 ≈ 线性」，并据此宣称 O(n)——
+而它当时实际是 O(n²)。教训有两条：
+
+1. **基准要覆盖最坏形态**，只测一种数据形态会把退化掩盖成线性。现在树组装基准同时测「父在前」与「父在后」；
+2. **能确定性断言的复杂度不要用挂钟断言**。`TreeUtilsTest#buildShouldBeLinearInNodeCount` 直接统计
+   `getId()` 调用次数并断言 < 6n（修复前 n=4000 时约 1.0·n² ≈ 1600 万次，修复后约 2n），
+   这才是防退化的门禁；基准只负责给出量级参考。
+:::
+
+::: tip 基线示例（2 核开发机、快速冒烟档 `-wi 2 -i 3`，误差较大，仅示意量级）
+| 基准 | 规模 | 耗时 |
+|---|---|---|
+| `TreeUtilsBenchmark.buildParentsFirst` | 1000 节点 | ≈73 µs |
+| `TreeUtilsBenchmark.buildParentsFirst` | 10000 节点 | ≈1048 µs |
+| `TreeUtilsBenchmark.buildChildrenFirst`（最坏形态） | 1000 节点 | ≈87 µs |
+| `TreeUtilsBenchmark.buildChildrenFirst`（最坏形态） | 10000 节点 | ≈666 µs |
+| `RequestIdUtilsBenchmark.sanitizeValid` | — | ≈18 ns |
+| `RequestIdUtilsBenchmark.generate` | — | ≈377 ns |
+| `RedisSerializerBenchmark.serialize` | — | ≈2.0 µs |
+| `RedisSerializerBenchmark.deserialize` | — | ≈6.9 µs |
+
+最坏形态在规模放大 10 倍后没有出现 n² 级爆炸（这正是修复前会发生的），做严肃对比请用完整运行
+（默认 3 轮预热 + 5 轮测量）并在同一台机器上比较。
 ::: tip 基线示例（2 核开发机、快速冒烟档，仅示意量级与增长倍率）
 | 基准 | 规模 | 耗时 |
 |---|---|---|

@@ -37,8 +37,8 @@ export const sourceManifest = {
       version: releases.starter,
       status: 'stable',
       runtime: 'Java 21 · Spring Boot 4.1.0',
-      scaleLabel: '38 模块 · 594 Java 源文件 · 181 测试',
-      facts: [`稳定版 v${releases.starter} 已发布`, '38 个 Maven 模块（含 XXL-JOB 接入壳与架构约束测试模块）', 'Apache-2.0 开源协议']
+      scaleLabel: '39 模块 · 603 Java 源文件 · 182 测试',
+      facts: [`稳定版 v${releases.starter} 已发布`, '39 个 Maven 模块（37 常规 + 2 开发专用：架构约束测试与 JMH 性能基线）', 'Apache-2.0 开源协议']
     },
     {
       id: 'admin',
