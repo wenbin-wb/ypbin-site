@@ -89,6 +89,37 @@ class MyCacheIT {
 - **架构约束测试**：`ypbin-starter-architecture-tests`（不发布）用 ArchUnit 把编码铁律变为构建失败——分层依赖、`@Bean` 覆盖语义、`@Transactional` 显式 `rollbackFor`、禁字段注入、禁 `printStackTrace`/`System.out`，以及字节码不可见的源码规则（禁内联全限定类名、Lombok `@Data` 边界、`@AutoConfiguration` 注册、集合字面量工厂、`EnvironmentPostProcessor` 注册）。规则自带**有效性自检**，防止规则写错却永远通过。
 - **运行时注册可见性**：`RegistrationDiscoveryTest` 用 Spring Boot 实际使用的 `SpringFactoriesLoader` 加载 classpath 上的 `spring.factories`，断言所有 `EnvironmentPostProcessor` 都能被发现——源码扫描只能证明「写对了键」，这一步才能证明「Boot 真的找得到」。
 
+## 性能基线（JMH）
+
+热路径的性能退化（尤其**复杂度**从 O(n) 退化为 O(n²)）不会被单元测试发现，也不该用挂钟断言去卡 CI——共享 runner 上必然抖动，只会带来假失败。因此单独提供不发布的度量模块 `ypbin-starter-benchmarks`：
+
+```bash
+mvn -pl ypbin-starter-benchmarks -am package -DskipTests
+java -jar ypbin-starter-benchmarks/target/benchmarks.jar          # 完整（3 轮预热 + 5 轮测量）
+java -jar target/benchmarks.jar -f 1 -wi 2 -i 3 -r 1s -w 1s       # 快速冒烟，只看量级
+```
+
+覆盖三类热路径：树组装（`TreeUtils.build`）、链路 ID 校验与生成（`RequestIdUtils`，每请求路径）、缓存值序列化（`RedisJsonSerializerFactory` 的写路径含不可变集合规范化、读路径多态还原）。
+
+**该模块只量化，不做门禁**：
+
+- 绝对值不可移植（随机器/负载变化），**看的是同一台机器上改动前后的对比，以及规模放大的增长倍率**；
+- 可精确断言的复杂度/正确性由单元测试兜底（并发合并、防抖合并、原子替换、集合空值语义等，见 `PersistCoordinatorTest`、`ImmutableCollectionNormalizerTest`）；
+- 模块只依赖 L1 基础能力，且被分层规则列入「可横跨各层」的开发工具（不参与运行时依赖）。
+
+::: tip 基线示例（2 核开发机、快速冒烟档，仅示意量级与增长倍率）
+| 基准 | 规模 | 耗时 |
+|---|---|---|
+| `TreeUtilsBenchmark.build` | 1000 节点 | ≈86 µs |
+| `TreeUtilsBenchmark.build` | 10000 节点 | ≈962 µs |
+| `RequestIdUtilsBenchmark.sanitizeValid` | — | ≈20 ns |
+| `RequestIdUtilsBenchmark.generate` | — | ≈409 ns |
+| `RedisSerializerBenchmark.serialize` | — | ≈2.5 µs |
+| `RedisSerializerBenchmark.deserialize` | — | ≈7.6 µs |
+
+节点规模放大 10 倍、耗时放大 11.1 倍 ≈ 线性，印证 `TreeUtils.build` 的 O(n) 声明（若退化为 O(n²) 应约 100 倍）。快速冒烟档误差较大，做严肃对比请用完整运行。
+:::
+
 ## 与 Spring Boot 4.1 / Spring Framework 7 的写法对齐
 
 脚手架默认按新基线写法生成，避免接入方从旧教程抄到已废弃的 API：
