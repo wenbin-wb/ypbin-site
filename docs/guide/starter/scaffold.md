@@ -164,26 +164,43 @@ java -jar target/benchmarks.jar -f 1 -wi 2 -i 3 -r 1s -w 1s       # 快速冒烟
 
 > 验证方式：`mvn -o clean test-compile -Dmaven.compiler.showDeprecation=true`，主源码与测试源码均应零废弃告警；例外（如需覆盖旧算法兼容行为）用 `@SuppressWarnings("deprecation")` 并注明意图。
 
-## 空值语义：`@NullMarked` + NullAway（模块级试点）
+## 空值语义：`@NullMarked` + NullAway（已推广至 cache/data/web/cloud-core）
 
 只加 `@NullMarked` 注解而不做校验是**危险的**：它的语义是「未标注即非空」，一旦有返回值、参数或字段实际可能为 `null` 而没标 `@Nullable`，注解就在说谎——IDE 与静态分析会据此做出错误的非空假设，比不标注更糟。
 
-所以本项目采用「注解 + 编译期校验」一起上，并按模块逐个推进（当前已完成 `ypbin-starter-core`）：
+所以本项目采用「注解 + 编译期校验」一起上，并按模块逐个推进。**当前已纳管 5 个模块**：`core`、`cache`、`data`、`web`、`cloud-core`（合计修出 **54 处**「实际可空却标注非空」，其中起点模块 `core` 的 4 处是真实潜在 NPE）。
 
 ```bash
-# 校验某个已纳管的模块（CI 已在跑 core）
-mvn -Pnullaway -pl ypbin-starter-core compile
+# 校验全部已纳管模块（CI 的「空值语义检查」步骤就是这样跑的）
+MODULES="$(for pom in ./*/pom.xml; do
+  dir="$(dirname "$pom")"
+  [ -d "$dir/src/main/java" ] || continue
+  grep -q '<nullaway.packages>' "$pom" && printf '%s\n' "${dir#./}"
+done | paste -sd, -)"
+mvn -Pnullaway -pl "$MODULES" compile --fail-at-end
 ```
 
-试点实测：`core`（15 个主源码文件）上线即报出 **15 处**问题，全部是「代码确实可空但没标注」，其中 **4 处是真实潜在 NPE**——`SpringUtils` 直接解引用尚未就绪的 `applicationContext`（`getBean` ×2、`getEventPublisher`、`getEnvironment`），未就绪时抛的是无信息的 `NullPointerException`。已改为统一的 `requireApplicationContext()` 断言：仍然失败、不放行，但错误信息直接说明原因与替代做法。
+::: warning 一定要加 `--fail-at-end`
+多模块检查时若不加 `-fae`，Maven 会在**第一个**失败模块处停止——后面的模块「没报错」其实只是**没跑到**。
+本仓库就在这上面栽过：一次四模块检查只看到 `web` 的报错，误以为 `cache`/`data` 干净，实际它们各有 14 处与 12 处。
+:::
+
+纳管后的三类典型修法（都是「让注解与实现一致」，不是为了让检查闭嘴）：
+
+| 现象 | 修法 |
+|---|---|
+| 方法确实会在未命中/解析失败时返回 `null`（如缓存 `get`、`XssCleaner.clean` 的「null 进 null 出」、MyBatis `getNullableResult`、Spring Data `RedisSerializer` 契约） | 给返回值/参数补 `@Nullable`，并同步接口与静态工具类的透传方法 |
+| 字段由**框架**填充而非构造器初始化（MyBatis-Plus 的 `@TableField(fill=…)`/主键、Spring Boot 的 `@ConfigurationProperties` 绑定） | 在该字段或类上标 `@SuppressWarnings("NullAway.Init")` 并写明原因——这是框架装配语义，不是真的「忘了初始化」 |
+| 静态持有器（`CacheUtils`/`RedisUtils`/`FieldEncryptorHolder`）延迟初始化 | 字段标 `@Nullable` + 用**局部变量**做双重检查（`current = field; if (current == null) { … }`），这样原来的判空逻辑会被 NullAway 真正校验 |
 
 ### 逐模块纳管的步骤
 
 1. 该模块 pom 显式声明 `org.jspecify:jspecify`（不要只靠 `spring-core` 的传递依赖）；
 2. 在模块根包加 `package-info.java`，标注 `@NullMarked`（对该包及子包生效）；
-3. 从 `ypbin-starter-core/pom.xml` 复制 `nullaway` profile（profile 内的模块名与 `AnnotatedPackages` 改成目标包）；
-4. `mvn -Pnullaway -pl <模块> compile` 修完报告的问题——**优先甄别真问题**（漏判空 → 潜在 NPE），必要时给字段/参数/返回值补 `@Nullable`；
-5. 把该模块加进 CI 的「空值语义检查（NullAway）」步骤。
+3. 在该模块 pom 的 `<properties>` 里声明 `<nullaway.packages>本模块根包</nullaway.packages>`
+   ——配置本体在父 pom `ypbin-starter-dependencies` 的 `nullaway` profile 里，模块侧只需这一行；
+4. `mvn -Pnullaway -pl <模块> compile -fae` 修完报告的问题（按上表甄别，必要时补 `@Nullable`）；
+5. **无需改 CI**：CI 步骤按「含主源码且声明了 `nullaway.packages`」自动发现参与模块。
 
 ### 工具链坑（都已踩过）
 
