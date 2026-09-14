@@ -169,11 +169,18 @@ java -jar target/benchmarks.jar -f 1 -wi 2 -i 3 -r 1s -w 1s       # 快速冒烟
 
 > 验证方式：`mvn -o clean test-compile -Dmaven.compiler.showDeprecation=true`，主源码与测试源码均应零废弃告警；例外（如需覆盖旧算法兼容行为）用 `@SuppressWarnings("deprecation")` 并注明意图。
 
-## 空值语义：`@NullMarked` + NullAway（已推广至 cache/data/web/cloud-core）
+## 空值语义：`@NullMarked` + NullAway（已纳管 21 个模块）
 
 只加 `@NullMarked` 注解而不做校验是**危险的**：它的语义是「未标注即非空」，一旦有返回值、参数或字段实际可能为 `null` 而没标 `@Nullable`，注解就在说谎——IDE 与静态分析会据此做出错误的非空假设，比不标注更糟。
 
-所以本项目采用「注解 + 编译期校验」一起上，并按模块逐个推进。**当前已纳管 5 个模块**：`core`、`cache`、`data`、`web`、`cloud-core`（合计修出 **54 处**「实际可空却标注非空」，其中起点模块 `core` 的 4 处是真实潜在 NPE）。
+所以本项目采用「注解 + 编译期校验」一起上，并按模块逐个推进。**当前已纳管 21 个模块**（共修复 **113 处**「实际可空却标注非空」，其中起点模块 `core` 的 4 处是真实潜在 NPE）；剩余 12 个大模块（`security`/`messaging`/`tools`/`license`/`storage`/`ai`/`json`/`log`/`sign`/`cloud-gateway`/`extension-tenant`/`job`）待推广。
+
+纳管一个新模块只需一条命令（幂等，自动推导包根、生成 `@NullMarked` 的 `package-info.java`、声明属性与依赖）：
+
+```bash
+node tools/rollout-nullaway.mjs ypbin-starter-log ypbin-starter-json   # 指定模块
+node tools/rollout-nullaway.mjs --all-pending                         # 全部尚未纳管的模块
+```
 
 ```bash
 # 校验全部已纳管模块（CI 的「空值语义检查」步骤就是这样跑的）
@@ -204,7 +211,8 @@ mvn -Pnullaway -pl "$MODULES" compile --fail-at-end
 2. 在模块根包加 `package-info.java`，标注 `@NullMarked`（对该包及子包生效）；
 3. 在该模块 pom 的 `<properties>` 里声明 `<nullaway.packages>本模块根包</nullaway.packages>`
    ——配置本体在父 pom `ypbin-starter-dependencies` 的 `nullaway` profile 里，模块侧只需这一行；
-4. `mvn -Pnullaway -pl <模块> compile -fae` 修完报告的问题（按上表甄别，必要时补 `@Nullable`）；
+4. `mvn -Pnullaway -pl <模块> clean compile -fae` 修完报告的问题（按上表甄别，必要时补 `@Nullable`）；
+   **注意**：抽取违规时必须同时确认「编译错误数 = 0」——编译失败会让 javac 提前中止，`error: [NullAway]` 计数为 0 只是「没跑到」；
 5. **无需改 CI**：CI 步骤按「含主源码且声明了 `nullaway.packages`」自动发现参与模块。
 
 ### 工具链坑（都已踩过）
