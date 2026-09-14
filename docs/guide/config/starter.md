@@ -41,7 +41,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
 | `ypbin.api-crypto.enabled` | `boolean` | true | 是否启用接口加解密，默认开启（仍需方法上标注 @ApiEncrypt 才生效）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ApiCryptoProperties.java:32</span> |
-| `ypbin.api-crypto.key` | `string` | — | 默认 AES 实现的密钥，长度需为 16/24/32 字节。配置后才装配默认加解密器<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：ApiCryptoProperties.java:35</span> |
+| `ypbin.api-crypto.key` | `string` | — | 默认 AES 实现的密钥，长度需为 16/24/32 字节。配置后才装配默认加解密器<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：ApiCryptoProperties.java:37</span> |
 
 </div>
 
@@ -197,17 +197,17 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.cloud.loadbalancer.allowed-versions` | `list<String>` | — | 允许通过请求头指定的灰度版本白名单。<br>可选值：—<br><strong>注意</strong>：留空即不限制，外部调用方可任意指定版本把流量导向灰度/未加固实例；生产建议显式枚举。<br><span class="cfg-src">来源：LoadBalancerProperties.java:70</span> |
-| `ypbin.cloud.loadbalancer.default-weight` | `integer` | 1 | metadata 未配置或配置非法时使用的默认权重<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:49</span> |
-| `ypbin.cloud.loadbalancer.enabled` | `boolean` | true | 是否启用版本灰度负载均衡，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:34</span> |
-| `ypbin.cloud.loadbalancer.fallback-to-stable` | `boolean` | true | 灰度版本无匹配实例时是否回退到正式实例<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:52</span> |
-| `ypbin.cloud.loadbalancer.metadata-key` | `string` | version | 服务实例 metadata 中保存版本的 key<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:43</span> |
-| `ypbin.cloud.loadbalancer.prefer-stable-without-version` | `boolean` | true | 无版本请求是否优先选择未标记版本的正式实例<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:55</span> |
-| `ypbin.cloud.loadbalancer.prior-ip-patterns` | `list<String>` | — | 优先 IP 通配列表，例如 10.20.0.8&#42;、10.20.0.&#42;<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:58</span> |
-| `ypbin.cloud.loadbalancer.register-nacos-metadata` | `boolean` | true | 是否把当前服务版本写入 Nacos discovery metadata<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:61</span> |
-| `ypbin.cloud.loadbalancer.version` | `string` | — | 当前服务实例版本；配置后可自动写入 Nacos metadata<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:37</span> |
-| `ypbin.cloud.loadbalancer.version-headers` | `list<String>` | — | 请求头中的灰度版本名，按顺序取第一个非空值<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:40</span> |
-| `ypbin.cloud.loadbalancer.weight-metadata-key` | `string` | weight | 服务实例 metadata 中保存权重的 key<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:46</span> |
+| `ypbin.cloud.loadbalancer.allowed-versions` | `list<String>` | — | 允许通过请求头指定的灰度版本白名单。<br>可选值：—<br><strong>注意</strong>：留空即不限制，外部调用方可任意指定版本把流量导向灰度/未加固实例；生产建议显式枚举。<br><span class="cfg-src">来源：LoadBalancerProperties.java:73</span> |
+| `ypbin.cloud.loadbalancer.default-weight` | `integer` | 1 | metadata 未配置或配置非法时使用的默认权重<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:52</span> |
+| `ypbin.cloud.loadbalancer.enabled` | `boolean` | true | 是否启用版本灰度负载均衡，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:37</span> |
+| `ypbin.cloud.loadbalancer.fallback-to-stable` | `boolean` | true | 灰度版本无匹配实例时是否回退到正式实例<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:55</span> |
+| `ypbin.cloud.loadbalancer.metadata-key` | `string` | version | 服务实例 metadata 中保存版本的 key<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:46</span> |
+| `ypbin.cloud.loadbalancer.prefer-stable-without-version` | `boolean` | true | 无版本请求是否优先选择未标记版本的正式实例<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:58</span> |
+| `ypbin.cloud.loadbalancer.prior-ip-patterns` | `list<String>` | — | 优先 IP 通配列表，例如 10.20.0.8&#42;、10.20.0.&#42;<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:61</span> |
+| `ypbin.cloud.loadbalancer.register-nacos-metadata` | `boolean` | true | 是否把当前服务版本写入 Nacos discovery metadata<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:64</span> |
+| `ypbin.cloud.loadbalancer.version` | `string` | — | 当前服务实例版本；配置后可自动写入 Nacos metadata<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:40</span> |
+| `ypbin.cloud.loadbalancer.version-headers` | `list<String>` | — | 请求头中的灰度版本名，按顺序取第一个非空值<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:43</span> |
+| `ypbin.cloud.loadbalancer.weight-metadata-key` | `string` | weight | 服务实例 metadata 中保存权重的 key<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerProperties.java:49</span> |
 | `spring.cloud.nacos.discovery.metadata.<metadata-key>` | `string` | — | 当前服务版本写入 Nacos metadata 的动态标准键。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoadBalancerEnvironmentPostProcessor.java:56</span> |
 
 </div>
@@ -220,23 +220,23 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.cloud.nacos.application-description` | `string` | — | 应用描述兜底值；为空时不注入 info.desc。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:47</span> |
-| `ypbin.cloud.nacos.application-name` | `string` | — | 应用名兜底值；为空时不注入 spring.application.name。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:44</span> |
-| `ypbin.cloud.nacos.bean-definition-overriding-enabled` | `boolean` | false | 是否允许 Bean 覆盖；默认不开启，避免掩盖重复 Bean 问题。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:80</span> |
-| `ypbin.cloud.nacos.config-file-extension` | `string` | yaml | Nacos 配置文件后缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:62</span> |
-| `ypbin.cloud.nacos.config-import` | `string` | — | 显式指定 Nacos ConfigData 导入地址；为空时按 prefix/profile/applicationName 自动生成。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:56</span> |
-| `ypbin.cloud.nacos.config-import-check-enabled` | `boolean` | false | Nacos config import 检查开关。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:71</span> |
-| `ypbin.cloud.nacos.config-import-enabled` | `boolean` | true | 是否注入 Nacos ConfigData 导入默认值。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:53</span> |
-| `ypbin.cloud.nacos.config-prefix` | `string` | application | Nacos 公共配置前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:59</span> |
-| `ypbin.cloud.nacos.default-profile` | `string` | dev | 默认 profile；仅在无 active profile 时以低优先级写入 spring.profiles.default。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:38</span> |
-| `ypbin.cloud.nacos.default-profile-enabled` | `boolean` | true | 无 active profile 时是否注入默认 profile。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:35</span> |
-| `ypbin.cloud.nacos.enabled` | `boolean` | true | 是否启用 Nacos 启动增强。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:32</span> |
-| `ypbin.cloud.nacos.fail-on-multiple-preset-profiles` | `boolean` | true | 是否禁止 dev/test/prod 同时激活。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:41</span> |
-| `ypbin.cloud.nacos.include-application-profile-config` | `boolean` | true | 是否加载应用 profile 级配置，如 order-service-dev.yaml。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:68</span> |
-| `ypbin.cloud.nacos.include-profile-config` | `boolean` | true | 是否加载 profile 级配置，如 application-dev.yaml。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:65</span> |
-| `ypbin.cloud.nacos.logging-default-config-enabled` | `boolean` | false | 是否启用 Nacos 默认日志配置。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:74</span> |
-| `ypbin.cloud.nacos.management-info-process-enabled` | `boolean` | true | 是否开启 Actuator process info。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:77</span> |
-| `ypbin.cloud.nacos.service-version` | `string` | — | 服务版本兜底值；为空时不注入 info.version。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:50</span> |
+| `ypbin.cloud.nacos.application-description` | `string` | — | 应用描述兜底值；为空时不注入 info.desc。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:50</span> |
+| `ypbin.cloud.nacos.application-name` | `string` | — | 应用名兜底值；为空时不注入 spring.application.name。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:47</span> |
+| `ypbin.cloud.nacos.bean-definition-overriding-enabled` | `boolean` | false | 是否允许 Bean 覆盖；默认不开启，避免掩盖重复 Bean 问题。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:83</span> |
+| `ypbin.cloud.nacos.config-file-extension` | `string` | yaml | Nacos 配置文件后缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:65</span> |
+| `ypbin.cloud.nacos.config-import` | `string` | — | 显式指定 Nacos ConfigData 导入地址；为空时按 prefix/profile/applicationName 自动生成。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:59</span> |
+| `ypbin.cloud.nacos.config-import-check-enabled` | `boolean` | false | Nacos config import 检查开关。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:74</span> |
+| `ypbin.cloud.nacos.config-import-enabled` | `boolean` | true | 是否注入 Nacos ConfigData 导入默认值。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:56</span> |
+| `ypbin.cloud.nacos.config-prefix` | `string` | application | Nacos 公共配置前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:62</span> |
+| `ypbin.cloud.nacos.default-profile` | `string` | dev | 默认 profile；仅在无 active profile 时以低优先级写入 spring.profiles.default。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:41</span> |
+| `ypbin.cloud.nacos.default-profile-enabled` | `boolean` | true | 无 active profile 时是否注入默认 profile。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:38</span> |
+| `ypbin.cloud.nacos.enabled` | `boolean` | true | 是否启用 Nacos 启动增强。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:35</span> |
+| `ypbin.cloud.nacos.fail-on-multiple-preset-profiles` | `boolean` | true | 是否禁止 dev/test/prod 同时激活。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:44</span> |
+| `ypbin.cloud.nacos.include-application-profile-config` | `boolean` | true | 是否加载应用 profile 级配置，如 order-service-dev.yaml。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:71</span> |
+| `ypbin.cloud.nacos.include-profile-config` | `boolean` | true | 是否加载 profile 级配置，如 application-dev.yaml。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:68</span> |
+| `ypbin.cloud.nacos.logging-default-config-enabled` | `boolean` | false | 是否启用 Nacos 默认日志配置。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:77</span> |
+| `ypbin.cloud.nacos.management-info-process-enabled` | `boolean` | true | 是否开启 Actuator process info。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:80</span> |
+| `ypbin.cloud.nacos.service-version` | `string` | — | 服务版本兜底值；为空时不注入 info.version。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosProperties.java:53</span> |
 | `spring.application.name` | `string` | — | 服务名；影响 Nacos 注册和应用级配置 DataId。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:48</span> |
 | `spring.profiles.active` | `string` | — | 显式激活的环境 profile。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:50</span> |
 | `spring.profiles.default` | `string` | dev | 无 active profile 时的默认环境；可由 ypbin.cloud.nacos.default-profile 控制。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:52</span> |
@@ -669,15 +669,15 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.xxl-job.access-token` | `string` |  | 执行器通讯 Token（与 admin 端保持一致，为空则不做校验）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:43</span> |
-| `ypbin.xxl-job.address` | `string` | — | 执行器注册地址（为空时自动注册本机 IP）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:49</span> |
-| `ypbin.xxl-job.admin-addresses` | `string` | — | 调度中心地址（多个逗号分隔），如 http&#58;//localhost:8080/xxl-job-admin<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:40</span> |
-| `ypbin.xxl-job.appname` | `string` | — | 执行器名称（AppName），admin 端按此注册与路由<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:46</span> |
-| `ypbin.xxl-job.enabled` | `boolean` | false | 是否启用 XXL-JOB 执行器<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:37</span> |
-| `ypbin.xxl-job.ip` | `string` | — | 执行器 IP（为空自动获取）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:52</span> |
-| `ypbin.xxl-job.log-path` | `string` | — | 执行器日志保存路径（为空使用默认临时目录）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:58</span> |
-| `ypbin.xxl-job.log-retention-days` | `integer` | 30 | 执行器日志保存天数（默认 30）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:61</span> |
-| `ypbin.xxl-job.port` | `integer` | 9999 | 执行器端口（执行器与 admin 通讯用，默认 9999）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:55</span> |
+| `ypbin.xxl-job.access-token` | `string` |  | 执行器通讯 Token（与 admin 端保持一致，为空则不做校验）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:46</span> |
+| `ypbin.xxl-job.address` | `string` | — | 执行器注册地址（为空时自动注册本机 IP）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:52</span> |
+| `ypbin.xxl-job.admin-addresses` | `string` | — | 调度中心地址（多个逗号分隔），如 http&#58;//localhost:8080/xxl-job-admin<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:43</span> |
+| `ypbin.xxl-job.appname` | `string` | — | 执行器名称（AppName），admin 端按此注册与路由<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:49</span> |
+| `ypbin.xxl-job.enabled` | `boolean` | false | 是否启用 XXL-JOB 执行器<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:40</span> |
+| `ypbin.xxl-job.ip` | `string` | — | 执行器 IP（为空自动获取）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:55</span> |
+| `ypbin.xxl-job.log-path` | `string` | — | 执行器日志保存路径（为空使用默认临时目录）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:61</span> |
+| `ypbin.xxl-job.log-retention-days` | `integer` | 30 | 执行器日志保存天数（默认 30）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:64</span> |
+| `ypbin.xxl-job.port` | `integer` | 9999 | 执行器端口（执行器与 admin 通讯用，默认 9999）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:58</span> |
 
 </div>
 
