@@ -7,8 +7,15 @@ updates:
       day: monday
     open-pull-requests-limit: 10
     groups:
+      # 开发工具链整体一组（含 typescript / vue-tsc / vitepress 构建链），保证同批升级
       dev-tooling:
         dependency-type: development
+      # 站点运行时生态同版本升级
+      vue:
+        patterns:
+          - "vue"
+          - "@vue/*"
+          - "vitepress"
     labels:
       - dependencies
 
