@@ -50,9 +50,9 @@ cd ../demo-admin && mvn test
 
 集成测试需要真实中间件。该模块提供统一的三级解析策略，让同一套测试在任意环境都能合理工作：
 
-1. **外部实例优先**：设置了 `YPBIN_TEST_REDIS_PASSWORD` / `YPBIN_TEST_MYSQL_URL` 等环境变量时直接复用；
-2. **容器回退**：未提供外部实例且本机 Docker 可用时，用 Testcontainers 拉起 Redis/MySQL；
-3. **条件跳过**：两者都不可用时测试**跳过而非失败**，避免无中间件的开发机产生假失败。
+1. **外部实例优先**：设置了 `YPBIN_TEST_REDIS_PASSWORD` / `YPBIN_TEST_MYSQL_URL` / `YPBIN_TEST_NACOS_ADDR` 等变量时直接复用；
+2. **容器回退**：未提供外部实例且本机 Docker 可用时，用 Testcontainers 拉起 Redis/MySQL/Nacos；
+3. **条件跳过**：两者都不可用时测试**跳过而非失败**（`@EnabledIfRedisAvailable` / `@EnabledIfMySqlAvailable` / `@EnabledIfNacosAvailable`），避免无中间件的开发机产生假失败。
 
 ```xml
 <dependency>
@@ -79,7 +79,7 @@ class MyCacheIT {
 - `mvn test`：只跑单元测试（surefire 默认排除 `**/*IT.java`）。
 - `mvn -Pit verify`：额外执行 `**/*IT.java`（failsafe）；无中间件时会条件跳过。
 - **执行器唯一**：`*IT.java` 只由 failsafe 执行。模块里不要再声明模块级 `it` profile 或 surefire/compiler 的 `testExcludes` 覆盖——那会把 IT 塞回 surefire，绕过统一门禁，还会让 `mvn test` 意外拉起容器。
-- **容器模式优先**：有 Docker 的机器（含 CI）会真实拉起 Redis/MySQL/Nacos 容器真跑，无需外部中间件。注意 Nacos 客户端固定按「服务端口 + 1000」连 gRPC，容器必须把 8848/9848 绑定到**相隔 1000 的连续宿主端口**，否则会以 `Client not connected, current status:STARTING` 失败；Nacos 3 镜像还强制要求 `NACOS_AUTH_TOKEN` 等鉴权三件套。仅 `FeignCrossServiceIT` 需显式给 `-Dypbin.it.nacos-addr`，未给则跳过。
+- **容器模式优先**：有 Docker 的机器（含 CI）会真实拉起 Redis/MySQL/Nacos 容器真跑，**无需外部中间件**（跨服务 Feign 调用的 `FeignCrossServiceIT` 也已容器化）。Nacos 的端口约定与鉴权三件套等细节已收敛到 `ContainerSupport`，使用方只需 `@EnabledIfNacosAvailable` + `ContainerSupport.nacosServerAddress()`；外部实例仍可用 `-Dypbin.it.nacos-addr=host:8848` 或 `YPBIN_TEST_NACOS_ADDR` 覆盖。
 - CI 中由独立的「集成测试（Testcontainers）」job 执行，GitHub 托管 runner 自带 Docker，会真实拉起容器。
 
 ## 供应链与架构约束
