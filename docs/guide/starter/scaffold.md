@@ -89,6 +89,11 @@ class MyCacheIT {
 
 - **SBOM**：`mvn -Psbom verify` 生成 CycloneDX 物料清单（各模块 `target/bom.json` 与聚合 BOM），CI 归档为构建产物。
 - **依赖更新**：四仓均启用 Dependabot，按 Spring 族/测试族分组提交，减少噪音。
+- **依赖版本收敛**：`mvn -Pdep-convergence validate`（enforcer 的 `dependencyConvergence` 规则）——同一构件在依赖树里出现多个版本即构建失败。**为什么需要**：Maven 对「同深度、不同版本」的传递依赖按声明顺序择一，既不确定也无提示，宿主可能拿到与库构建时不同的版本。本仓库借此查到两处真实分叉：`commons-io`（POI 5.5.1 要 2.21.0，commons-csv/commons-compress 要 2.20.0）与 victools `jsonschema-*`（Spring AI 2.0 要 5.0.0，openai-java-core 要 4.38.0）。版本统一钉在 `ypbin-starter-dependencies` 的 `dependencyManagement`。
+  ::: tip 别用 `dependency:analyze` 替代它
+  对 starter/BOM 这类项目，`dependency:analyze` 的「未使用声明」几乎全是假阳性（`spring-boot-starter-web`、`mybatis-plus-...-starter`、`configuration-processor` 都被判未使用，但分别是运行期与注解处理期必需），照它删依赖会直接坏掉自动装配。真正可执行的是**版本收敛**。
+  :::
+- **发布前置门禁**：`bash tools/preflight.sh` 一次跑全五道门禁（全量构建含 35 项架构测试、NullAway、依赖收敛、集成测试、配置元数据漂移）。`-Prelease` 会让承载非发布模块的 profile 失效、架构门禁不再进入发布反应堆，所以发布前必须单独跑一次；脚本在 Docker 不可用时**显式失败**而不是静默跳过集成测试。
 - **架构约束测试**：`ypbin-starter-architecture-tests`（不发布）用 ArchUnit 把编码铁律变为构建失败——分层依赖、`@Bean` 覆盖语义、`@Transactional` 显式 `rollbackFor`、禁字段注入、禁 `printStackTrace`/`System.out`，以及字节码不可见的源码规则（禁内联全限定类名、Lombok `@Data` 边界、`@AutoConfiguration` 注册、集合字面量工厂、`EnvironmentPostProcessor` 注册）。规则自带**有效性自检**，防止规则写错却永远通过。
 - **运行时注册可见性**：`RegistrationDiscoveryTest` 用 Spring Boot 实际使用的 `SpringFactoriesLoader` 加载 classpath 上的 `spring.factories`，断言所有 `EnvironmentPostProcessor` 都能被发现——源码扫描只能证明「写对了键」，这一步才能证明「Boot 真的找得到」。
 
