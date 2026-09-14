@@ -44,7 +44,10 @@ cd ../demo-admin && mvn test
 
 生成的项目自带：`spring-boot-starter-parent`（平台版本与 starter 基线对齐）、starter BOM、可运行启动类、示例接口/任务、单元测试、`.gitignore` 与 README。
 
-> 生成器会把 starter 当前版本（根 pom 的 `revision`）与 Spring Boot 版本写入生成项目，因此生成即与本地/远端 BOM 版本一致。
+> 生成器写入生成项目的是 starter **最新已发布版本**（取自 `CHANGELOG.md` 第一条 `## [X.Y.Z] - 日期`）与 Spring Boot 版本。
+> 之所以不用根 pom 的 `revision`：按 `RELEASING.md` 第 6 步，发布后 `revision` 会立刻推进到**下一迭代快照**
+> （如 `3.1.0-SNAPSHOT`），把它写进生成项目会让宿主依赖一个尚未发布的坐标、在别人机器上无法解析。
+> 仅在 CHANGELOG 解析不到时才回退到 `revision` 并告警，此时生成项目的依赖可能是未发布坐标。
 
 ## 测试基座 `ypbin-starter-test`
 
