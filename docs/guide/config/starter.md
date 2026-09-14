@@ -420,8 +420,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.log.access.enabled` | `boolean` | false | 是否启用全量访问日志切面，默认关闭（与 @Log 注解版互补，按需开启）<br>可选值：—<br><strong>注意</strong>：请求体、响应体和请求头可能包含凭据或个人信息，生产环境需掩码并控制留存。<br><span class="cfg-src">来源：AccessLogProperties.java:34</span> |
 | `ypbin.log.access.exclude-path-patterns` | `list<String>` | — | 排除路径（静态资源、健康检查等）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AccessLogProperties.java:37</span> |
 | `ypbin.log.access.mask-headers` | `list<String>` | — | 敏感请求头关键字（头名小写包含即掩码值），默认掩码授权/会话相关头<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AccessLogProperties.java:40</span> |
-| `ypbin.log.enabled` | `boolean` | true | 是否启用操作日志，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LogProperties.java:34</span> |
-| `ypbin.log.includes` | `set<Include>` | — | 全局默认采集项，为空时使用 Include#defaultIncludes()<br>可选值：—<br><strong>注意</strong>：请求体、响应体和请求头可能包含凭据或个人信息，生产环境需掩码并控制留存。<br><span class="cfg-src">来源：LogProperties.java:37</span> |
+| `ypbin.log.enabled` | `boolean` | true | 是否启用操作日志，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LogProperties.java:37</span> |
+| `ypbin.log.includes` | `set<Include>` | — | 全局默认采集项，为空时使用 Include#defaultIncludes()<br>可选值：—<br><strong>注意</strong>：请求体、响应体和请求头可能包含凭据或个人信息，生产环境需掩码并控制留存。<br><span class="cfg-src">来源：LogProperties.java:40</span> |
 
 </div>
 
@@ -433,31 +433,31 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.mail.default-encoding` | `string` | UTF-8 | 编码<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:64</span> |
+| `ypbin.mail.default-encoding` | `string` | UTF-8 | 编码<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:70</span> |
 | `ypbin.mail.enabled` | `boolean` | true | 条件开关：ypbin.mail.enabled=true 时装配 MailAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailAutoConfiguration.java:45</span> |
-| `ypbin.mail.from` | `string` | — | 发件人邮箱，为空时取 #username<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:49</span> |
-| `ypbin.mail.from-name` | `string` | — | 发件人显示名，可空<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:52</span> |
-| `ypbin.mail.host` | `string` | — | SMTP 服务器地址<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:37</span> |
-| `ypbin.mail.password` | `string` | — | 密码/授权码<br>可选值：—<br><strong>注意</strong>：使用环境变量或密钥服务，禁止提交明文。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：MailConfig.java:46</span> |
-| `ypbin.mail.port` | `integer` | 465 | SMTP 端口<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:40</span> |
-| `ypbin.mail.protocol` | `string` | smtp | 协议，默认 smtp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:55</span> |
-| `ypbin.mail.ssl-enabled` | `boolean` | true | 是否启用 SSL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:58</span> |
-| `ypbin.mail.starttls-enabled` | `boolean` | false | 是否启用 STARTTLS<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:61</span> |
-| `ypbin.mail.timeout` | `integer` | 10000 | 连接/读取超时（毫秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:67</span> |
-| `ypbin.mail.username` | `string` | — | 账号<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:43</span> |
-| `ypbin.mqtt.automatic-reconnect` | `boolean` | true | 是否自动重连<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:59</span> |
-| `ypbin.mqtt.clean-session` | `boolean` | true | 是否清除会话（false 时 broker 保留会话与离线消息，配合 QoS≥1 实现可靠投递）<br>可选值：—<br><strong>注意</strong>：可靠投递需结合 clean-session=false、QoS 1/2、持久化目录和 Broker 会话策略。<br><span class="cfg-src">来源：MqttProperties.java:53</span> |
-| `ypbin.mqtt.client-id` | `string` | — | 客户端 ID（为空则自动生成）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:38</span> |
-| `ypbin.mqtt.connection-timeout` | `integer` | 10 | 连接超时（秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:47</span> |
-| `ypbin.mqtt.default-qos` | `integer` | 1 | 默认发布 QoS（0/1/2）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:56</span> |
-| `ypbin.mqtt.enabled` | `boolean` | false | 是否启用 MQTT，默认关闭（需显式开启）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:32</span> |
-| `ypbin.mqtt.keep-alive-interval` | `integer` | 60 | 心跳间隔（秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:50</span> |
-| `ypbin.mqtt.max-inflight` | `integer` | 10 | 最大在途（未确认）消息数，QoS1/2 高吞吐时调大。注意不可设为 0（会阻塞所有 QoS≥1 发布）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:65</span> |
-| `ypbin.mqtt.max-reconnect-delay` | `integer` | 30000 | 自动重连的最大间隔（毫秒），指数退避的上限<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:62</span> |
-| `ypbin.mqtt.password` | `string` | — | 密码<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：MqttProperties.java:44</span> |
-| `ypbin.mqtt.persistence-dir` | `string` | — | 消息持久化目录。配置后用文件持久化（进程重启后 QoS1/2 未确认消息不丢）， 为空则用内存持久化（重启丢失）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:71</span> |
-| `ypbin.mqtt.url` | `string` | — | Broker 地址，如 tcp&#58;//127.0.0.1:1883<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:35</span> |
-| `ypbin.mqtt.username` | `string` | — | 用户名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:41</span> |
+| `ypbin.mail.from` | `string` | — | 发件人邮箱，为空时取 #username<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:54</span> |
+| `ypbin.mail.from-name` | `string` | — | 发件人显示名，可空<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:58</span> |
+| `ypbin.mail.host` | `string` | — | SMTP 服务器地址<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:41</span> |
+| `ypbin.mail.password` | `string` | — | 密码/授权码<br>可选值：—<br><strong>注意</strong>：使用环境变量或密钥服务，禁止提交明文。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：MailConfig.java:50</span> |
+| `ypbin.mail.port` | `integer` | 465 | SMTP 端口<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:44</span> |
+| `ypbin.mail.protocol` | `string` | smtp | 协议，默认 smtp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:61</span> |
+| `ypbin.mail.ssl-enabled` | `boolean` | true | 是否启用 SSL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:64</span> |
+| `ypbin.mail.starttls-enabled` | `boolean` | false | 是否启用 STARTTLS<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:67</span> |
+| `ypbin.mail.timeout` | `integer` | 10000 | 连接/读取超时（毫秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:73</span> |
+| `ypbin.mail.username` | `string` | — | 账号<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:47</span> |
+| `ypbin.mqtt.automatic-reconnect` | `boolean` | true | 是否自动重连<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:62</span> |
+| `ypbin.mqtt.clean-session` | `boolean` | true | 是否清除会话（false 时 broker 保留会话与离线消息，配合 QoS≥1 实现可靠投递）<br>可选值：—<br><strong>注意</strong>：可靠投递需结合 clean-session=false、QoS 1/2、持久化目录和 Broker 会话策略。<br><span class="cfg-src">来源：MqttProperties.java:56</span> |
+| `ypbin.mqtt.client-id` | `string` | — | 客户端 ID（为空则自动生成）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:41</span> |
+| `ypbin.mqtt.connection-timeout` | `integer` | 10 | 连接超时（秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:50</span> |
+| `ypbin.mqtt.default-qos` | `integer` | 1 | 默认发布 QoS（0/1/2）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:59</span> |
+| `ypbin.mqtt.enabled` | `boolean` | false | 是否启用 MQTT，默认关闭（需显式开启）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:35</span> |
+| `ypbin.mqtt.keep-alive-interval` | `integer` | 60 | 心跳间隔（秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:53</span> |
+| `ypbin.mqtt.max-inflight` | `integer` | 10 | 最大在途（未确认）消息数，QoS1/2 高吞吐时调大。注意不可设为 0（会阻塞所有 QoS≥1 发布）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:68</span> |
+| `ypbin.mqtt.max-reconnect-delay` | `integer` | 30000 | 自动重连的最大间隔（毫秒），指数退避的上限<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:65</span> |
+| `ypbin.mqtt.password` | `string` | — | 密码<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：MqttProperties.java:47</span> |
+| `ypbin.mqtt.persistence-dir` | `string` | — | 消息持久化目录。配置后用文件持久化（进程重启后 QoS1/2 未确认消息不丢）， 为空则用内存持久化（重启丢失）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:74</span> |
+| `ypbin.mqtt.url` | `string` | — | Broker 地址，如 tcp&#58;//127.0.0.1:1883<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:38</span> |
+| `ypbin.mqtt.username` | `string` | — | 用户名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:44</span> |
 | `ypbin.sms.enabled` | `boolean` | true | 条件开关：ypbin.sms.enabled=true 时装配 SmsAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SmsAutoConfiguration.java:39</span> |
 | `ypbin.sse.enabled` | `boolean` | false | 是否启用 SSE 实时推送。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:35</span> |
 | `ypbin.sse.heartbeat-interval-seconds` | `long` | 30 | 心跳间隔（秒），默认 30。定期向连接发送 : ping 注释帧，保活中间代理并尽早暴露死连接 （发送失败即回收）。0 表示关闭心跳。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:62</span> |
@@ -488,21 +488,21 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 |---|---|---|---|
 | `ypbin.security.client-enabled` | `boolean` | true | 是否启用客户端校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:53</span> |
 | `ypbin.security.clients` | `list<LoginClient>` | — | 配置文件客户端列表；业务方提供 LoginClientProvider 后可由数据库接管<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:59</span> |
-| `ypbin.security.clients[].active-timeout` | `long` | — | Token 活跃超时（秒），为空时使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:56</span> |
-| `ypbin.security.clients[].auth-types` | `set<String>` | new LinkedHashSet&lt;&gt;() | 支持的认证方式，如 ACCOUNT、PHONE、EMAIL、SOCIAL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:50</span> |
-| `ypbin.security.clients[].client-id` | `string` | — | 客户端 ID，如 web-admin、app、miniapp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:41</span> |
-| `ypbin.security.clients[].client-secret` | `string` | — | 客户端密钥，浏览器端可为空，服务端/开放平台场景可启用<br>可选值：—<br><strong>注意</strong>：不要提交明文密钥；使用环境变量或密钥管理服务。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：LoginClient.java:44</span> |
-| `ypbin.security.clients[].client-type` | `string` | "WEB" | 客户端类型，如 WEB、APP、MINI、API<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:47</span> |
-| `ypbin.security.clients[].concurrent` | `boolean` | — | 是否允许同一账号多端同时登录，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:59</span> |
-| `ypbin.security.clients[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:83</span> |
-| `ypbin.security.clients[].lasting-cookie` | `boolean` | — | 是否持久 Cookie，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:77</span> |
-| `ypbin.security.clients[].max-login-count` | `integer` | — | 同一账号最大登录数量，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:65</span> |
-| `ypbin.security.clients[].overflow-logout-mode` | `saLogoutMode` | — | 超出最大登录数量时的下线方式，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:74</span> |
-| `ypbin.security.clients[].replaced-login-exit-mode` | `saReplacedLoginExitMode` | — | 并发关闭时新旧设备谁放弃会话，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:71</span> |
-| `ypbin.security.clients[].replaced-range` | `saReplacedRange` | — | 顶人下线范围，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:68</span> |
-| `ypbin.security.clients[].share` | `boolean` | — | 多端登录时是否共享同一 token，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:62</span> |
-| `ypbin.security.clients[].timeout` | `long` | — | Token 有效期（秒），为空时使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:53</span> |
-| `ypbin.security.clients[].write-header` | `boolean` | — | 是否登录后写入响应头，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:80</span> |
+| `ypbin.security.clients[].active-timeout` | `long` | — | Token 活跃超时（秒），为空时使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:58</span> |
+| `ypbin.security.clients[].auth-types` | `set<String>` | new LinkedHashSet&lt;&gt;() | 支持的认证方式，如 ACCOUNT、PHONE、EMAIL、SOCIAL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:52</span> |
+| `ypbin.security.clients[].client-id` | `string` | — | 客户端 ID，如 web-admin、app、miniapp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:43</span> |
+| `ypbin.security.clients[].client-secret` | `string` | — | 客户端密钥，浏览器端可为空，服务端/开放平台场景可启用<br>可选值：—<br><strong>注意</strong>：不要提交明文密钥；使用环境变量或密钥管理服务。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：LoginClient.java:46</span> |
+| `ypbin.security.clients[].client-type` | `string` | "WEB" | 客户端类型，如 WEB、APP、MINI、API<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:49</span> |
+| `ypbin.security.clients[].concurrent` | `boolean` | — | 是否允许同一账号多端同时登录，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:61</span> |
+| `ypbin.security.clients[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:85</span> |
+| `ypbin.security.clients[].lasting-cookie` | `boolean` | — | 是否持久 Cookie，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:79</span> |
+| `ypbin.security.clients[].max-login-count` | `integer` | — | 同一账号最大登录数量，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:67</span> |
+| `ypbin.security.clients[].overflow-logout-mode` | `saLogoutMode` | — | 超出最大登录数量时的下线方式，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:76</span> |
+| `ypbin.security.clients[].replaced-login-exit-mode` | `saReplacedLoginExitMode` | — | 并发关闭时新旧设备谁放弃会话，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:73</span> |
+| `ypbin.security.clients[].replaced-range` | `saReplacedRange` | — | 顶人下线范围，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:70</span> |
+| `ypbin.security.clients[].share` | `boolean` | — | 多端登录时是否共享同一 token，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:64</span> |
+| `ypbin.security.clients[].timeout` | `long` | — | Token 有效期（秒），为空时使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:55</span> |
+| `ypbin.security.clients[].write-header` | `boolean` | — | 是否登录后写入响应头，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:82</span> |
 | `ypbin.security.default-client-id` | `string` | web-admin | 默认客户端 ID，登录请求未传 clientId 时使用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:56</span> |
 | `ypbin.security.enabled` | `boolean` | true | 是否启用安全模块。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:38</span> |
 | `ypbin.security.exclude-api-doc` | `boolean` | true | 检测到 SpringDoc 时是否自动放行 Swagger/文档相关路径。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:50</span> |
@@ -589,24 +589,24 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.storage.default-platform` | `string` | — | 默认存储平台标识<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:40</span> |
-| `ypbin.storage.enabled` | `boolean` | true | 是否启用存储模块，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:37</span> |
-| `ypbin.storage.local` | `list<StorageProperties$LocalConfig>` | — | 本地存储源列表<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:46</span> |
-| `ypbin.storage.max-file-size` | `long` | — | 单次上传默认最大字节数，默认 100MB；-1 表示不限制<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:43</span> |
-| `ypbin.storage.oss` | `list<StorageProperties$OssConfig>` | — | S3 兼容对象存储源列表<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:49</span> |
-| `ypbin.storage.local[].platform` | `string` | — | 平台标识（唯一键）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:98</span> |
-| `ypbin.storage.local[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:101</span> |
-| `ypbin.storage.local[].base-path` | `string` | — | 存储根目录<br>可选值：—<br><strong>注意</strong>：目录需限制操作系统权限，避免暴露敏感文件。<br><span class="cfg-src">来源：StorageProperties.java:104</span> |
-| `ypbin.storage.local[].domain` | `string` | "" | 访问域名前缀（拼接生成 URL）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:107</span> |
-| `ypbin.storage.oss[].platform` | `string` | — | 平台标识（唯一键）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:151</span> |
-| `ypbin.storage.oss[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:154</span> |
-| `ypbin.storage.oss[].endpoint` | `string` | — | 服务端点<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:157</span> |
-| `ypbin.storage.oss[].region` | `string` | "us-east-1" | 区域<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:160</span> |
-| `ypbin.storage.oss[].access-key` | `string` | — | 访问密钥 ID<br>可选值：—<br><strong>注意</strong>：通过环境变量或密钥管理服务注入。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：StorageProperties.java:163</span> |
-| `ypbin.storage.oss[].secret-key` | `string` | — | 访问密钥<br>可选值：—<br><strong>注意</strong>：禁止写入仓库或日志。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：StorageProperties.java:166</span> |
-| `ypbin.storage.oss[].bucket` | `string` | — | 桶名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:169</span> |
-| `ypbin.storage.oss[].path-style-access` | `boolean` | true | 是否使用 path-style 访问（MinIO 等需开启）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:172</span> |
-| `ypbin.storage.oss[].domain` | `string` | "" | 访问域名前缀（自定义 CDN 域名，为空则由客户端生成）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:175</span> |
+| `ypbin.storage.default-platform` | `string` | — | 默认存储平台标识<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:43</span> |
+| `ypbin.storage.enabled` | `boolean` | true | 是否启用存储模块，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:40</span> |
+| `ypbin.storage.local` | `list<StorageProperties$LocalConfig>` | — | 本地存储源列表<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:49</span> |
+| `ypbin.storage.max-file-size` | `long` | — | 单次上传默认最大字节数，默认 100MB；-1 表示不限制<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:46</span> |
+| `ypbin.storage.oss` | `list<StorageProperties$OssConfig>` | — | S3 兼容对象存储源列表<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:52</span> |
+| `ypbin.storage.local[].platform` | `string` | — | 平台标识（唯一键）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:104</span> |
+| `ypbin.storage.local[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:107</span> |
+| `ypbin.storage.local[].base-path` | `string` | — | 存储根目录<br>可选值：—<br><strong>注意</strong>：目录需限制操作系统权限，避免暴露敏感文件。<br><span class="cfg-src">来源：StorageProperties.java:110</span> |
+| `ypbin.storage.local[].domain` | `string` | "" | 访问域名前缀（拼接生成 URL）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:113</span> |
+| `ypbin.storage.oss[].platform` | `string` | — | 平台标识（唯一键）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:160</span> |
+| `ypbin.storage.oss[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:163</span> |
+| `ypbin.storage.oss[].endpoint` | `string` | — | 服务端点<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:166</span> |
+| `ypbin.storage.oss[].region` | `string` | "us-east-1" | 区域<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:169</span> |
+| `ypbin.storage.oss[].access-key` | `string` | — | 访问密钥 ID<br>可选值：—<br><strong>注意</strong>：通过环境变量或密钥管理服务注入。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：StorageProperties.java:172</span> |
+| `ypbin.storage.oss[].secret-key` | `string` | — | 访问密钥<br>可选值：—<br><strong>注意</strong>：禁止写入仓库或日志。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：StorageProperties.java:175</span> |
+| `ypbin.storage.oss[].bucket` | `string` | — | 桶名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:178</span> |
+| `ypbin.storage.oss[].path-style-access` | `boolean` | true | 是否使用 path-style 访问（MinIO 等需开启）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:181</span> |
+| `ypbin.storage.oss[].domain` | `string` | "" | 访问域名前缀（自定义 CDN 域名，为空则由客户端生成）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:184</span> |
 | `spring.servlet.multipart.max-file-size` | `dataSize` | — | Servlet 单文件上传上限；应与 ypbin.storage.max-file-size 协同。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:579</span> |
 | `spring.servlet.multipart.max-request-size` | `dataSize` | — | Servlet 单请求 multipart 总大小上限。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:579</span> |
 
