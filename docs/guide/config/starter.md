@@ -561,11 +561,11 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.sign.skip-param-names` | `list<String>` | — | 排除参与签名的参数名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:57</span> |
 | `ypbin.sign.skip-path` | `list<String>` | — | GLOBAL 模式下排除的路径（Ant 风格）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:54</span> |
 | `ypbin.sign.timeout` | `long` | 60 | 签名有效期（秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:45</span> |
-| `ypbin.sign.apps[].access-key` | `string` | — | Access Key（访问密钥，公开标识）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:135</span> |
-| `ypbin.sign.apps[].secret-key` | `string` | — | Secret Key（私有密钥，参与签名，不下发）<br>可选值：—<br><strong>注意</strong>：必须保密，建议加密存储并支持轮换。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:137</span> |
-| `ypbin.sign.apps[].app-name` | `string` | — | 应用名称<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:139</span> |
-| `ypbin.sign.apps[].expire-time` | `localDateTime` | — | 失效时间，为空表示永不过期<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:141</span> |
-| `ypbin.sign.apps[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:143</span> |
+| `ypbin.sign.apps[].access-key` | `string` | — | Access Key（访问密钥，公开标识）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:137</span> |
+| `ypbin.sign.apps[].secret-key` | `string` | — | Secret Key（私有密钥，参与签名，不下发）<br>可选值：—<br><strong>注意</strong>：必须保密，建议加密存储并支持轮换。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:139</span> |
+| `ypbin.sign.apps[].app-name` | `string` | — | 应用名称<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:141</span> |
+| `ypbin.sign.apps[].expire-time` | `localDateTime` | — | 失效时间，为空表示永不过期<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:143</span> |
+| `ypbin.sign.apps[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:145</span> |
 
 </div>
 
