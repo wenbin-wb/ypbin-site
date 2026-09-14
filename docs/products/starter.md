@@ -59,6 +59,25 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
 
 完整示例、配置项与生产注意事项见 [快速开始](/guide/starter/) 与 [配置参考](/guide/config/starter)。
 
+## 工程治理与质量门禁
+
+能自动拦住的，绝不靠人工自觉。下面每道门禁都在 CI 强制执行，也都能在本地复现：
+
+| 门禁 | 拦住什么 | 本地命令 |
+| --- | --- | --- |
+| 架构约束测试（ArchUnit，35 项） | 分层依赖倒置、`@Transactional` 漏写 `rollbackFor`、字段注入、`printStackTrace`、内联全限定类名、Lombok `@Data` 越界 | `mvn -pl ypbin-starter-architecture-tests test` |
+| 空值语义静态检查（NullAway，全部 33 个模块） | 可能为 null 却按非空使用、漏判空的参数、契约与实现不一致 | `mvn -Pnullaway -pl 模块名 clean compile` |
+| 依赖版本收敛（enforcer） | 同一依赖解析出多个版本（Maven 会静默按声明顺序择一，不报错） | `mvn -Pdep-convergence validate` |
+| 集成测试体系（真机优先 → 容器回退 → 条件跳过） | 只在真实中间件下暴露的问题（缓存序列化、注册中心、跨服务调用） | `mvn -Pit verify` |
+| 配置元数据漂移 | 配置项增删改后参考文档未同步（清单由构建产物生成，不手工维护） | `node tools/export-config-metadata.mjs --check` |
+| 代码风格与 license 头 | 格式不一致、缺少 license | `mvn com.diffplug.spotless:spotless-maven-plugin:apply` |
+
+发布前用 `tools/preflight.sh` 一次跑全五道硬门禁（全量构建含架构测试、空值语义、依赖收敛、集成测试、
+配置元数据），任一门禁不通过即中止；Docker 不可用时脚本**显式失败**，而不是静默跳过集成测试。
+新增模块用 `node tools/rollout-nullaway.mjs 模块名` 一键纳入空值检查（CI 自动发现参与模块，无需改 CI 文件）。
+供应链侧由 Dependabot 每周检查依赖与 GitHub Actions，**同族依赖强制同批升级**（框架、测试栈、
+静态分析工具链、前端生态），避免版本错配；需要 SBOM 时执行 `mvn -Psbom` 生成 CycloneDX 清单。
+
 ## 版本与状态
 
 <VersionScope version="稳定版 v@STARTER_VERSION@ · 历史稳定版 1.3.0" status="stable" />
@@ -77,4 +96,4 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
 - [配置参考（自动生成）](/guide/config/starter)
 - [服务端骨架：ypbin-admin](/products/admin)
 
-<SourceCitation source="ypbin-starter/pom.xml 与 CHANGELOG.md" verified-at="2026-09-09" />
+<SourceCitation source="ypbin-starter/pom.xml、CHANGELOG.md 与 .github/workflows/ci.yml" verified-at="2026-09-14" />

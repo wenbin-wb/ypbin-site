@@ -37,6 +37,26 @@ Modules are grouped by dependency direction: an upper layer may depend on lower 
 
 Every module is a real Maven artifact: importing it triggers auto-configuration under the `ypbin.*` prefix, and its precise capability set is defined by the corresponding release source and its documentation. The layered map with per-module manuals is available in the [Docs center](/en/guide), and each layer is expanded into its own module pages in the [Starter module overview](/guide/starter/modules/) (Chinese docs available).
 
+## Engineering governance
+
+Every rule that can be checked automatically is enforced in CI, and each check can be reproduced locally:
+
+| Gate | What it prevents | Local command |
+| --- | --- | --- |
+| Architecture tests (ArchUnit, 35 rules) | Inverted layer dependencies, `@Transactional` without `rollbackFor`, field injection, `printStackTrace`, inline fully-qualified names, Lombok `@Data` misuse | `mvn -pl ypbin-starter-architecture-tests test` |
+| Null-safety analysis (NullAway, all 33 modules) | Values that may be null used as non-null, unchecked nullable parameters, contract/implementation mismatch | `mvn -Pnullaway -pl module clean compile` |
+| Dependency version convergence (enforcer) | The same dependency resolved at several versions (Maven silently picks one) | `mvn -Pdep-convergence validate` |
+| Integration test harness | Failures that appear only against real middleware (cache serialization, registry, cross-service calls) | `mvn -Pit verify` |
+| Configuration metadata drift | Configuration keys changed without regenerating the reference | `node tools/export-config-metadata.mjs --check` |
+| Formatting and license headers | Inconsistent style, missing license | `mvn com.diffplug.spotless:spotless-maven-plugin:apply` |
+
+`tools/preflight.sh` runs all five hard gates before a release and fails explicitly when Docker is unavailable
+instead of silently skipping integration tests. New modules join null-safety analysis with
+`node tools/rollout-nullaway.mjs module`, and CI discovers participants automatically. Dependencies and
+GitHub Actions are checked weekly with grouped upgrades, so packages that must move together are never bumped
+one at a time; `mvn -Psbom` produces a CycloneDX SBOM when one is required. Gate definitions referenced here
+live in the repository CI workflow and the preflight script.
+
 ## Quick start
 
 1. Import the BOM and pick the modules the current business needs — a copy-ready snippet with the current stable version lives in the [Starter quick start](/guide/starter/) (Chinese docs available).
