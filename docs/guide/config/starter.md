@@ -22,13 +22,13 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.ai.enabled` | `boolean` | true | 是否启用 AI 模块，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiProperties.java:32</span> |
 | `ypbin.ai.memory.type` | `aiMemoryProperties$Type` | in-memory | 记忆存储类型。 in-memory — 默认，重启后丢失，适合演示 jdbc — 持久化到 MySQL，需要 spring-ai-starter-model-chat-memory-repository-jdbc<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiMemoryProperties.java:38</span> |
 | `ypbin.ai.memory.window-size` | `integer` | 20 | 记忆窗口大小（每次请求携带的历史消息条数），默认 20<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiMemoryProperties.java:41</span> |
-| `ypbin.ai.rag.client-timeout` | `duration` | 60s | 动态构建 embedding 客户端时的传输层超时（连接 + 读写），默认 60s<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:57</span> |
-| `ypbin.ai.rag.enabled` | `boolean` | false | 是否启用 RAG，默认关闭（需要向量库才有意义）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:33</span> |
-| `ypbin.ai.rag.max-context-length` | `integer` | 8000 | 最大 context 长度（字符数），防止超出模型上下文窗口<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:42</span> |
-| `ypbin.ai.rag.persist-debounce-ms` | `long` | 0 | 向量库落盘防抖间隔（毫秒）；0（默认）= 每次变更立即写透。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:54</span> |
-| `ypbin.ai.rag.similarity-threshold` | `double` | 0.7 | 相似度阈值，低于此值的片段不纳入 context，默认 0.7<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:39</span> |
-| `ypbin.ai.rag.simple-store-path` | `string` | — | SimpleVectorStore 序列化文件路径；配置后重启不丢向量（自动加载/保存）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:45</span> |
-| `ypbin.ai.rag.top-k` | `integer` | 5 | 检索最近 TopK 片段，默认 5<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:36</span> |
+| `ypbin.ai.rag.client-timeout` | `duration` | 60s | 动态构建 embedding 客户端时的传输层超时（连接 + 读写），默认 60s<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:60</span> |
+| `ypbin.ai.rag.enabled` | `boolean` | false | 是否启用 RAG，默认关闭（需要向量库才有意义）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:36</span> |
+| `ypbin.ai.rag.max-context-length` | `integer` | 8000 | 最大 context 长度（字符数），防止超出模型上下文窗口<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:45</span> |
+| `ypbin.ai.rag.persist-debounce-ms` | `long` | 0 | 向量库落盘防抖间隔（毫秒）；0（默认）= 每次变更立即写透。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:57</span> |
+| `ypbin.ai.rag.similarity-threshold` | `double` | 0.7 | 相似度阈值，低于此值的片段不纳入 context，默认 0.7<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:42</span> |
+| `ypbin.ai.rag.simple-store-path` | `string` | — | SimpleVectorStore 序列化文件路径；配置后重启不丢向量（自动加载/保存）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:48</span> |
+| `ypbin.ai.rag.top-k` | `integer` | 5 | 检索最近 TopK 片段，默认 5<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：AiRagProperties.java:39</span> |
 
 </div>
 
@@ -391,10 +391,10 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.license.allow-startup-without-license` | `boolean` | false | 无授权文件时是否允许启动。<br>可选值：—<br><strong>注意</strong>：开启后无授权也可启动，但受保护能力仍不可用；必须确保保护注解覆盖完整。<br><span class="cfg-src">来源：LicenseProperties.java:55</span> |
-| `ypbin.license.enabled` | `boolean` | true | 是否启用授权校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LicenseProperties.java:34</span> |
-| `ypbin.license.fingerprint-enabled` | `boolean` | true | 是否启用机器指纹绑定校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LicenseProperties.java:46</span> |
-| `ypbin.license.location` | `string` | ./license.dat | 授权文件路径：默认文件存储实现从此读取授权串<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LicenseProperties.java:43</span> |
+| `ypbin.license.allow-startup-without-license` | `boolean` | false | 无授权文件时是否允许启动。<br>可选值：—<br><strong>注意</strong>：开启后无授权也可启动，但受保护能力仍不可用；必须确保保护注解覆盖完整。<br><span class="cfg-src">来源：LicenseProperties.java:58</span> |
+| `ypbin.license.enabled` | `boolean` | true | 是否启用授权校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LicenseProperties.java:37</span> |
+| `ypbin.license.fingerprint-enabled` | `boolean` | true | 是否启用机器指纹绑定校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LicenseProperties.java:49</span> |
+| `ypbin.license.location` | `string` | ./license.dat | 授权文件路径：默认文件存储实现从此读取授权串<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LicenseProperties.java:46</span> |
 | `ypbin.license.online.access-key` | `string` | — | 开放应用 Access Key（公开标识，与签发端应用管理注册的应用一致）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。 |
 | `ypbin.license.online.base-url` | `string` | — | 联机校验服务根地址（如 http&#58;//license-admin:8080）；为空则不装配联机校验<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.license.online.cache-seconds` | `long` | 3600 | 联机校验缓存窗口（秒）：最近一次服务端 明确返回有效 后，窗口内不再重复联机校验， 避免 @LicenseCheck(online=true) 每次方法调用都发 HTTP。吊销感知延迟 ≤ 缓存窗口， 默认 1 小时。<br>可选值：—<br><strong>注意</strong>：— |
@@ -404,8 +404,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.license.online.failure-policy` | `remoteFailurePolicy` | fail-open-with-warning | 联机服务无法明确裁决时的处理策略<br>可选值：—<br><strong>注意</strong>：FAIL&#95;OPEN&#95;WITH&#95;WARNING 会在联机服务异常时临时放行，必须配套监控告警。 |
 | `ypbin.license.online.secret-key` | `string` | — | 开放应用 Secret Key（私有密钥，参与请求签名，不下发）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。 |
 | `ypbin.license.online.timeout` | `duration` | 5s | 单次联机校验超时时间<br>可选值：—<br><strong>注意</strong>：— |
-| `ypbin.license.public-key` | `string` | — | SM2 公钥（Base64）：运行端仅需公钥用于验签，私钥仅在供应方签发端持有<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：LicenseProperties.java:37</span> |
-| `ypbin.license.secret-key` | `string` | — | SM4 密钥（Base64，16 字节）：授权文件对称加解密密钥<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：LicenseProperties.java:40</span> |
+| `ypbin.license.public-key` | `string` | — | SM2 公钥（Base64）：运行端仅需公钥用于验签，私钥仅在供应方签发端持有<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：LicenseProperties.java:40</span> |
+| `ypbin.license.secret-key` | `string` | — | SM4 密钥（Base64，16 字节）：授权文件对称加解密密钥<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：LicenseProperties.java:43</span> |
 
 </div>
 
