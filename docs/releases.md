@@ -15,6 +15,48 @@ description: ypbin 三个产品的版本状态与 ypbin-starter 版本历史。
 
 ## ypbin-starter 版本历史
 
+### v3.1.0 — 2026-09-14
+
+**工程治理与安全加固**：空值语义静态检查覆盖全部模块，日志注入与静态扫描告警清零。共 39 个模块（37 个发布模块 + 2 个不发布模块）。
+
+**新增能力**
+
+- **日志注入加固**：新增 `LogSanitizer`，把用户可控值（URL、请求头、查询参数、文件名、AccessKey 等）写入日志前统一替换换行/制表/控制字符并限制长度，避免攻击者用换行在日志里伪造日志行、污染审计与告警；已应用于 16 处上报点。
+- **工程治理文档化**：README 与文档站新增「工程治理与质量门禁」章节，列出每道门禁拦什么、本地怎么复现；新增 `SECURITY.md`（私密上报渠道 + 已声明为「有意设计」的安全边界）。
+
+**变更**
+
+- **空值语义静态检查（NullAway + Error Prone）覆盖全部 33 个含主源码模块**，累计修复 300+ 处：框架填充字段按类抑制并写明原因，真实可空契约同步到接口/实现/getter，懒初始化持有器改为「可空字段 + 局部变量双重检查」。
+- **依赖与工具链**：Testcontainers 2.0.5（模块改名 + 包迁移 + `MySQLContainer` 去泛型）、Error Prone 2.50.0、NullAway 0.14.1、ArchUnit 1.5.0；GitHub Actions 升级到 setup-java v5、setup-node v7、codeql-action v4。
+- **Dependabot 同族分组**：Java 侧新增 `analysis` 组（Error Prone + NullAway + JSpecify 必须同批升级）；前端侧为 `@tiptap/*`、Vue 运行时与编译器、VitePress 建组，避免「只升其中一个导致版本错配」。
+- **跨平台一致性**：补充 `.gitattributes` 与 `.editorconfig`（统一 LF 与缩进）。
+
+**安全**
+
+- **代码扫描告警清零**：starter 的 CodeQL 告警由 76 条降至 0，其中包含真实问题修复（如用户可控时间戳的算术溢出可能绕过有效期校验、登录 ID 解析的未捕获异常、暴露内部集合等）；对判定为误报或有意设计的告警逐条写明理由后关闭。
+
+### v3.0.0 — 2026-09-13
+
+**平台基线跃迁**：JDK 21 + Spring Boot 4.1 + Jackson 3（运行时不再含 Jackson 2）。共 36 个模块。
+
+**⚠️ 破坏性变更与迁移**
+
+- **租户隔离改为 fail-closed**：新增 `ypbin.tenant.fail-on-missing-tenant`（默认 `true`），既无显式绑定也无 `TenantProvider` 返回值时抛业务异常而非静默查空。
+- **网关鉴权放行范围收窄**：默认 `exclude-paths` 不再包含 `/actuator/**`，仅保留健康检查与 API 文档路径。
+- **Feign fallback 不再回传底层异常文案**，避免泄露主机/端口/类名等内部细节。
+- **Sa-Token 会话序列化切至 Jackson 3**：存量 Redis 会话可能无法反序列化，升级后需重新登录。
+
+**新增能力**
+
+- **项目生成器**：`tools/ypbin-init.mjs` + 四档预设（纯 API / 单体 / 微服务 / 任务进程），生成即含启动类、示例接口、单测与 README。
+- **测试基座 `ypbin-starter-test`**：容器优先/外部实例优先/条件跳过三态自适配，配 `@EnabledIfRedisAvailable` 等条件注解。
+- **供应链合规**：`-Psbom` 生成 CycloneDX SBOM；四仓统一 Dependabot。
+- **网关身份头签名**：可信来源令牌 + `require-trusted-source` 快速失败。
+
+**安全**
+
+- 身份头透传来源校验、链路 ID 防日志注入（`RequestIdUtils`）、灰度版本白名单、License 快查时钟回拨检测。
+
 ### v2.2.1 — 2026-09-07
 
 **微服务 SSE 修复**：SSE 订阅/换票端点用户解析兼容网关身份头形态。共 36 个模块。

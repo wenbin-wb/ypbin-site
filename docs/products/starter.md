@@ -80,11 +80,12 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
 
 ## 版本与状态
 
-<VersionScope version="稳定版 v@STARTER_VERSION@ · 历史稳定版 1.3.0" status="stable" />
+<VersionScope version="稳定版 v@STARTER_VERSION@ · 上一稳定版 3.0.0 · 历史稳定版 1.3.0" status="stable" />
 
 | 通道 | 版本 | 基线 | 状态 |
 | --- | --- | --- | --- |
 | 稳定版 | v@STARTER_VERSION@ | Java 21 · Spring Boot 4.1.0 | 已发布 Maven Central，建议生产接入 |
+| 上一稳定版 | v3.0.0 | Java 21 · Spring Boot 4.1.0 | 与 3.1.0 同基线；建议升级以获得空值检查、日志注入加固与依赖刷新 |
 | 历史稳定版 | v1.3.0 | Java 17 · Spring Boot 3.5 | 仍可接入，不再获得新能力 |
 
 发布历史与兼容性见 [发布状态](/releases) 与 [兼容性说明](/guide/compatibility)。

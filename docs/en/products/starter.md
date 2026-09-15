@@ -11,7 +11,7 @@ ypbin-starter is a capability collection for Spring Boot. Cross-cutting concerns
 
 ## Verified scope
 
-- Java baseline is **21**; earlier stable lines (1.3.0 and before) ran on Java 17 with Spring Boot 3.5.
+- Java baseline is **21**. The previous stable line (3.0.0) shares that baseline; earlier lines (1.3.0 and before) ran on Java 17 with Spring Boot 3.5.
 - Current runtime baseline: **Spring Boot 4.1.x**.
 - Licensed under **Apache License 2.0** and published to **Maven Central**.
 - Current stable version and the full release history are tracked on the [Release status](/en/releases) page.

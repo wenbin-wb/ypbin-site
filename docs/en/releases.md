@@ -17,6 +17,8 @@ description: Version status of the three ypbin products and the ypbin-starter re
 
 | Version | Date | Highlights |
 | --- | --- | --- |
+| v3.1.0 | 2026-09-14 | Engineering governance and hardening: null-safety analysis covers every module, log-injection guard added, CodeQL alerts reduced to zero; dependency baseline refreshed (Testcontainers 2.0, Error Prone 2.50, NullAway 0.14) |
+| v3.0.0 | 2026-09-13 | Platform baseline: JDK 21 + Spring Boot 4.1 + Jackson 3 (Jackson 2 removed from the runtime); tenant isolation fails closed, gateway auth exclusions narrowed, Feign timeouts injected by default, project generator and test harness added |
 | v2.2.1 | 2026-09-07 | SSE subscription/`userId` resolution accepts the gateway identity-header form — the microservice downstream real-time push can subscribe again |
 | v2.2.0 | 2026-09-05 | Centralized scheduling: XXL-JOB executor wiring added, business jobs move from the built-in scheduler to the XXL-JOB center |
 | v2.1.1 | 2026-09-04 | Microservice fixes: Jackson 3 timestamp alignment, unified `FeignResponses` parsing, WebFlux gateway assembly fix, release pipeline fix |
