@@ -163,7 +163,7 @@ aiChatService.clearMemory(conversationId);
 
 ## Token 用量与成本监控
 
-实现 `AiUsageListener` SPI 接口并注入 Spring 容器，即可在每次 AI 对话完成时接收 Token 消耗指标与响应时延，实现零侵入审计与计费：
+实现 `AiUsageListener` SPI 接口并注入 Spring 容器，即可接收每次 AI 对话调用的用量、响应时延与终局结果，实现零侵入审计与计费：
 
 ```java
 @Component
@@ -171,9 +171,42 @@ public class SysAiUsageListener implements AiUsageListener {
 
     @Override
     public void onUsage(AiUsageInfo usage) {
-        log.info("模型: {}, 会话: {}, 耗时: {}ms, 消耗 Tokens: {}", 
+        // 失败/取消同样会回调，先按 outcome 分流，再决定是否计费
+        if (usage.outcome() != AiUsageOutcome.SUCCESS) {
+            log.warn("模型: {}, 会话: {}, 结果: {}, 耗时: {}ms, 原因: {}",
+                usage.model(), usage.conversationId(), usage.outcome(),
+                usage.durationMs(), usage.errorMessage());
+            return;
+        }
+        log.info("模型: {}, 会话: {}, 耗时: {}ms, 消耗 Tokens: {}",
             usage.model(), usage.conversationId(), usage.durationMs(), usage.totalTokens());
     }
 }
 ```
+
+**触发契约**：`chat` / `chatStream` / `chatWithKnowledge` / `chatWithSystemPrompt` 四个方法在一次调用（流式为一次订阅）中**恰好回调一次**，由 `AiUsageInfo#outcome()` 区分三类终局：
+
+| `AiUsageOutcome` | 触发场景 | `errorMessage` |
+|---|---|---|
+| `SUCCESS` | 正常完成（流式 `onComplete`） | `null` |
+| `FAILURE` | 上游异常或超时（流式以 `onError` 终止）；超时按失败上报，不是取消 | 失败原因摘要 |
+| `CANCELLED` | 调用方取消（SSE 客户端断开、下游 `dispose()`，流式以 `onCancel` 终止） | `null` |
+
+失败与取消都会回调，因此「有请求但无用量记录」不再是黑洞。实现抛出的异常由 starter 捕获并 `log.error` 记录完整堆栈，**不影响对话主流式输出**，也不会改变主流程的成功/失败语义，故实现方应保证幂等且快速返回。上游未回报模型名时 `usage.model()` 为占位标识 `unknown`。
+
+> **Token 字段可空，`null` 绝不折算成 0**：`promptTokens` / `generationTokens` / `totalTokens` 均为可空 `Long`，`null` 表示**上游未回报用量**——落库请存 NULL、看板与计费按「未知」处理，**不得当作 0 计费或统计**。上游未返回 usage 时框架给的是 `0`，与「真实 0 token」用任何判据都不可区分，因此 starter 一律把 0（或负数）上报为 `null`，绝不以 0 冒充真实值。是否拿到上游真实用量可用 `AiUsageInfo#usageReported()` 判断。
+
+> **流式用量只在最后一个分片回报，且取决于 `include-usage`**：用量通常只在流式的**最后一个分片**返回。Spring AI 仅在宿主**未配置** `spring.ai.openai.chat.options.stream-options.*` 时才默认请求 `stream_options.include_usage=true`；一旦配置了该组中的任一键，**必须显式补上 `include-usage: true`**，否则上游不回传用量，回调里的三个 token 字段全为 `null`。**生效范围**：该组属性只在宿主自行装配 yml 模型（容器内存在 `ChatModel`/`ChatClient` Bean，starter 直接复用）时生效；**模型配置表驱动**的主路径由 starter 自建客户端且只设置模型名、不读取 `spring.ai.*`，此时 `streamOptions` 为空、框架默认已请求 `include_usage=true`，无需该 yaml。
+
+```yaml
+spring:
+  ai:
+    openai:
+      chat:
+        options:
+          stream-options:
+            include-usage: true
+```
+
+> **已知边界**：RAG 检索与文档入库调用的 **embedding** token 目前没有埋点，`AiUsageListener` 只覆盖对话（chat）用量。
 
