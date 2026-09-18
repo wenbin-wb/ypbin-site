@@ -133,14 +133,19 @@ system 服务的 `/internal/**` 端点仅供 auth/ai 经 `ISystemClient` Feign *
 GET   /internal/permissions?userId=       → string[]（用户权限码）
 GET   /internal/role-codes?userId=        → string[]（用户角色码）
 GET   /internal/routes?userId=            → RouteResp[]（登录后动态菜单）
-GET   /internal/user-by-username?username= → SysUser（登录用）
-GET   /internal/user-by-phone?phone=      → SysUser（手机验证码登录用）
-GET   /internal/search-users?keyword=     → SysUser[]（最多 10 条）
+GET   /internal/user-by-username?username= → SysUserDto（登录用）
+GET   /internal/user-by-id?userId=        → SysUserDto（匿名链路，忽略租户过滤）
+GET   /internal/user-by-phone?phone=      → SysUserDto（手机验证码登录用）
+GET   /internal/search-users?keyword=     → SysUserDto[]（最多 10 条）
 GET   /internal/config-by-key?configKey=  → ConfigValue（敏感键脱敏）
 POST  /internal/verify-password?userId=&rawPassword= → boolean（按用户频控）
 GET   /internal/social-auth-config?source= → SocialAuthConfig（含 ClientSecret，仅内部传递）
 GET   /internal/social-auth-configs       → SocialAuthConfig[]（仅已启用平台）
+GET   /internal/social-binding?platform=&openId= → SysUserSocialDto
+GET   /internal/social-bindings?userId=   → SysUserSocialDto[]
 ```
+
+- 用户与第三方绑定类返回值是**只读视图** `SysUserDto` / `SysUserSocialDto`：字段与实体**逐一同名**，但**不含 `password` / `accessToken`**。服务间契约刻意不暴露持久化实体——实体继承 `BaseEntity`（MyBatis-Plus），暴露即迫使 auth/ai 这类**无数据源**的调用方传递依赖 `ypbin-starter-data`（详见仓库 SKILL「auth/ai 不直连共享库」）。
 
 - 调用方须携带请求头 `X-Internal-Token`，值与共享配置 `ypbin.internal.token` 一致（三服务共享，见 [部署文档](/guide/admin/deployment)）；Feign 拦截器自动携带。
 - system 本地守卫仅拦截 `/internal/**` 校验该头：**未配置凭证即 fail-closed 拒绝**（`code=401`）；外部经网关转发到 `/system/internal/**` 的请求因缺该头同样被拒。
