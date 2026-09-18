@@ -74,14 +74,14 @@ TenantContext.executeIgnore(() -> ...);          // 代码块方式
 
 ### 3. AI 模型密钥加密密钥
 
-`AI_MODEL_SECRET_KEY` 用于加解密库内已存的模型 API Key，**必须显式提供且长期保持不变**（换值后旧密文无法解密）：
+`AI_MODEL_SECRET_KEY` 用于加解密库内已存的模型 API Key，**必须长期保持不变**（换值后旧密文无法解密）：
 
 ```bash
-openssl rand -base64 32
+openssl rand -hex 16
 ```
 
 ::: tip 部署脚本已不再内置默认值
-`deploy/install.sh` 原先会给 `AI_MODEL_SECRET_KEY` 兜一个公开已知的默认值，**该默认值已移除**；未提供时脚本直接终止并提示生成命令。注意本项**不做随机生成**：分支部署会各自生成新 `.env`，随机值会让存量密文永久不可解密。
+`deploy/install.sh` 原先会给 `AI_MODEL_SECRET_KEY` 兜一个公开已知的默认值，**该默认值已移除**。当前行为：**首次全新部署**（`deploy/.env` 不存在）未显式提供时自动随机生成并写入 `.env`（脚本会醒目提示保存）；**复用旧 `.env`**（存量密文可能存在）时不做补生成——缺失或长度非法即终止，须沿用旧值或显式传入，否则分支/重复部署各自生成新 `.env` 会让存量密文永久不可解密。
 :::
 
 ### 4. 网关 actuator 放行范围收窄

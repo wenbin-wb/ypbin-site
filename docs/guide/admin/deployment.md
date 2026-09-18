@@ -85,7 +85,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/d
 
 ### 凭据与 .env
 
-- **一键随机生成**：首次运行 install.sh 生成 `deploy/.env`（`chmod 600`），自动随机生成 `MYSQL_ROOT_PASSWORD`、`NACOS_AUTH_TOKEN`（Base64 且解码后 ≥32 字节）、`NACOS_AUTH_IDENTITY_KEY/VALUE`、`REDIS_PASSWORD`（Docker 模式 16 字节 hex）、`INTERNAL_TOKEN`（64 位 hex，`/internal/**` 服务间 Feign 守卫共享凭证）、`AI_MODEL_SECRET_KEY`。
+- **一键随机生成**：首次运行 install.sh 生成 `deploy/.env`（`chmod 600`），自动随机生成 `MYSQL_ROOT_PASSWORD`、`AI_MODEL_SECRET_KEY`、`NACOS_AUTH_TOKEN`（Base64 且解码后 ≥32 字节）、`NACOS_AUTH_IDENTITY_KEY/VALUE`、`REDIS_PASSWORD`（Docker 模式 16 字节 hex）、`INTERNAL_TOKEN`（64 位 hex，`/internal/**` 服务间 Feign 守卫共享凭证）。
+  - ⚠️ `AI_MODEL_SECRET_KEY` 仅**首次全新部署**自动生成：它加密库内已存的模型 API Key，**必须长期保持不变**——换值或丢失后已保存的模型密钥永久无法解密。生成后请抄写妥善保存；复用旧 `.env` 或旧密文已存在时，须沿用旧值（脚本不会在复用场景补生成，缺失即报错）。多分支部署若需共用同一套密文，请显式传相同的 `AI_MODEL_SECRET_KEY=...`。
 - **幂等补键**：`.env` 已存在时复用并载入，不覆盖原凭据；旧部署升级（缺新增键，如 `NACOS_AUTH_*`/`INTERNAL_TOKEN`/`REDIS_PASSWORD`）重跑 install.sh 会自动**补生成缺失键**（`env_key_backfill`），无需手工编辑。
 - **Nacos 占位符导入机制**：`deploy/nacos/*.yaml` 不提交任何真实凭据——`ypbin-common.yaml` 以 `${MYSQL_ROOT_PASSWORD}` / `${REDIS_PASSWORD}` / `${INTERNAL_TOKEN}` 占位，install.sh 在导入 Nacos 前用 `.env` 实际值替换（`REDIS_PASSWORD` 为空即 NO_DOCKER 用外部无认证 Redis 时删除 `password` 行；`INTERNAL_TOKEN` 无条件替换，缺失或为空时 system 服务 `/internal/**` 守卫按 fail-closed 拒绝）。Nacos 共享配置还显式开启 `ypbin.security.identity.enabled=true`（微服务身份头，starter 2.2.2 起默认关闭，需显式开启才能让网关签发的身份头在下游生效）。
 - **compose 强校验**：`docker-compose.yml` 对 `NACOS_AUTH_TOKEN`/`NACOS_AUTH_IDENTITY_*`/`REDIS_PASSWORD` 使用 `:?` 强制校验，缺失即启动报错，杜绝默认值兜底。
@@ -132,7 +133,7 @@ scp -r apps/web-antd/dist/* root@<服务器IP>:/opt/ypbin/main/ypbin-admin/admin
 - **网关不再默认放行 `/actuator/**`**：默认只放行 `health` / `info`。若需经网关访问其它 actuator 端点（如 `metrics`），须在 `ypbin-gateway.yaml` 的 `ypbin.gateway.auth.exclude-paths` 中显式声明。
 - **Feign 超时默认生效**：连接 5s / 读取 10s（原先未显式配置，使用库默认读取 60s）。若存在耗时超过 10s 的服务间调用，需在 Nacos 配置中放宽 `spring.cloud.openfeign.client.config.default.read-timeout`。
 - **网关身份头签名已默认启用**：由 `GATEWAY_SIGN_TOKEN` 驱动，网关签发 `X-Gateway-Signed`，auth/system/ai 校验来源；system/ai 的 Nacos 配置为 `require-trusted-source: true`，**密钥缺失即拒绝启动**。
-- **AI 模型密钥加密密钥改为必填**：`AI_MODEL_SECRET_KEY`（16/24/32 字节）不再有内置默认值，install.sh 未拿到该值会直接终止。它**必须长期保持不变**——换值后库内已存的模型 API Key 无法解密。
+- **AI 模型密钥加密密钥**：`AI_MODEL_SECRET_KEY`（16/24/32 字节）不再有内置默认值。install.sh **首次全新部署自动随机生成**并写入 `deploy/.env`（请妥善保存）；复用旧 `.env` 时须沿用旧值，缺失或长度非法即终止。它**必须长期保持不变**——换值后库内已存的模型 API Key 无法解密。
 
 ### 重新部署顺序（重要）
 

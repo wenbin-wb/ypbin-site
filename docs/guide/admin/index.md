@@ -58,7 +58,7 @@ admin 主分支（`main`）为**微服务形态**，包含 common、gateway、au
 3. 初始化平台管理员：微服务版首登后立即修改种子口令，单体版经 Bootstrap 创建后关闭开关；
 4. 重新生成 License 签发密钥和开放应用密钥；
 5. 配置真实 HTTPS CORS 来源、邮件、短信和存储源；
-6. 启用 AI 对话时注入 `AI_MODEL_SECRET_KEY`（API Key 加密密钥），并在模型配置页维护模型；反向代理需关闭 SSE 缓冲（见 [Admin AI 对话能力](/guide/admin/ai)）；
+6. 启用 AI 对话时确保 `AI_MODEL_SECRET_KEY`（API Key 加密密钥）已就位：install.sh 首次全新部署自动生成并写入 `deploy/.env`，请妥善保存；复用旧 `.env` 时必须沿用旧值。在模型配置页维护模型；反向代理需关闭 SSE 缓冲（见 [Admin AI 对话能力](/guide/admin/ai)）；
 7. 审核租户忽略表、签名防重放、任务锁与 SSE 多节点策略；
 8. 执行 Flyway 备份、回滚预案和启动后接口检查。
 

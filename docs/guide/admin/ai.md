@@ -25,7 +25,7 @@ ypbin-admin 集成了 AI 对话（模型配置表驱动，OpenAI 兼容接口）
 | `ypbin.ai.memory.type` | jdbc | 会话记忆持久化（重启不丢），依赖 `SPRING_AI_CHAT_MEMORY` 表（V5 迁移自动创建） |
 | `ypbin.ai.memory.window-size` | 10 | 记忆窗口 |
 | `ypbin.ai.rag.enabled` | false | RAG 总开关 |
-| `ypbin.ai.model-config.secret-key` | ${AI_MODEL_SECRET_KEY:} | API Key 加密密钥（16/24/32 字节）；**生产必须注入 `AI_MODEL_SECRET_KEY` 环境变量**，未配置时使用内置开发密钥并告警 |
+| `ypbin.ai.model-config.secret-key` | ${AI_MODEL_SECRET_KEY:} | API Key 加密密钥（16/24/32 字节）；**未配置则 AI 服务拒绝启动**（无内置默认密钥）。生产由 `AI_MODEL_SECRET_KEY` 注入：install.sh 首次全新部署自动生成并写入 `deploy/.env`，请妥善保存且长期保持不变 |
 
 模型地址/密钥/型号不写在 yml，全部在 **AI 模型配置** 页维护（`ai_model_config` 表），API Key 加密落库、接口仅返回脱敏掩码。
 
