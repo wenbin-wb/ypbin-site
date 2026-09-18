@@ -19,7 +19,7 @@ description: 从 ypbin-starter 2.x 升级到 3.0.0 的必改项、行为变更�
 | 租户隔离 | `ypbin.tenant.fail-on-missing-tenant` 默认 `true` | 无租户上下文的路径补 `@TenantIgnore` |
 | Feign 身份头来源 | `ypbin.cloud.feign.require-trusted-source: true` 且未配密钥 | 配 `ypbin.cloud.feign.trusted-source-token` |
 | 网关签名 | 下游要求签名标记，网关未签发 | 网关配同一个 `trusted-source-token` |
-| AI 模型密钥 | `AI_MODEL_SECRET_KEY` 未配置 | 显式提供 16/24/32 字节密钥 |
+| AI 模型密钥 | `AI_MODEL_SECRET_KEY` 未配置 | 首次全新部署自动生成并写入 `deploy/.env`（须妥善保存）；复用旧 `.env` 时显式提供/沿用 16/24/32 字节密钥 |
 :::
 
 ## 一、依赖升级
