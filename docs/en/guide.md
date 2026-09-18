@@ -19,7 +19,7 @@ Each module ships as its own Maven artifact; import it and it auto-configures un
 
 | Layer | Modules |
 |------|------|
-| Foundation (L1) | [core](/guide/starter/modules/core) · [web](/guide/starter/modules/web) · [data](/guide/starter/modules/data) · [json](/guide/starter/modules/json) · [cache](/guide/starter/modules/cache) · [security](/guide/starter/modules/security) · [log](/guide/starter/modules/log) · [tools](/guide/starter/modules/tools) · [i18n](/guide/starter/modules/i18n) · [api-doc](/guide/starter/modules/api-doc) · [storage](/guide/starter/modules/storage) |
+| Foundation (L1) | [core](/guide/starter/modules/core) · [web](/guide/starter/modules/web) · [data](/guide/starter/modules/data) · [json](/guide/starter/modules/json) · [cache](/guide/starter/modules/cache) · [security](/guide/starter/modules/security) · [log](/guide/starter/modules/log) · [tracking](/guide/starter/modules/tracking) · [tools](/guide/starter/modules/tools) · [i18n](/guide/starter/modules/i18n) · [api-doc](/guide/starter/modules/api-doc) · [storage](/guide/starter/modules/storage) |
 | Data and security enhancements | [excel](/guide/starter/modules/excel) · [captcha](/guide/starter/modules/captcha) · [api-crypto](/guide/starter/modules/api-crypto) · [sign](/guide/starter/modules/sign) · [sensitive-words](/guide/starter/modules/sensitive-words) · [license](/guide/starter/modules/license) |
 | Messaging and platform | [messaging](/guide/starter/modules/messaging) · [async](/guide/starter/modules/async) · [job](/guide/starter/modules/job) · [xxljob](/guide/starter/modules/xxljob) · [social](/guide/starter/modules/social) |
 | AI | [ai](/guide/starter/modules/ai) — Spring AI conversation, memory and optional RAG, driven by a model-configuration table |
