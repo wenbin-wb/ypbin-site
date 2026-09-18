@@ -146,6 +146,7 @@ export default defineConfig({
               { text: 'cache 缓存', link: '/guide/starter/modules/cache' },
               { text: 'security 认证授权', link: '/guide/starter/modules/security' },
               { text: 'log 操作日志', link: '/guide/starter/modules/log' },
+              { text: 'tracking 埋点', link: '/guide/starter/modules/tracking' },
               { text: 'tools 常用工具', link: '/guide/starter/modules/tools' },
               { text: 'i18n 国际化', link: '/guide/starter/modules/i18n' },
               { text: 'api-doc API 文档', link: '/guide/starter/modules/api-doc' },

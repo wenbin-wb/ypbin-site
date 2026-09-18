@@ -22,7 +22,7 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
 
 | 分层 | 包含模块 | 定位 |
 | --- | --- | --- |
-| 基础能力 L1 | `core` · `web` · `data` · `json` · `cache` · `security` · `log` · `tools` · `i18n` · `api-doc` · `storage` | 不依赖 Spring Cloud，单体即可用（11 个） |
+| 基础能力 L1 | `core` · `web` · `data` · `json` · `cache` · `security` · `log` · `tracking` · `tools` · `i18n` · `api-doc` · `storage` | 不依赖 Spring Cloud，单体即可用（12 个） |
 | 数据与安全增强 | `excel` · `captcha` · `api-crypto` · `sign` · `sensitive-words` · `license` | 常见数据与安全能力（6 个） |
 | 消息与平台 | `messaging` · `async` · `job` · `xxljob` · `social` | 站内信/短信推送、异步、定时任务与第三方登录（5 个） |
 | 智能能力 | `ai` | Spring AI 对话、多轮记忆与 RAG（1 个） |
@@ -31,6 +31,10 @@ ypbin-starter 是面向 Spring Boot 的系统级基础能力集合，覆盖 Web�
 | 聚合与版本 | `dependencies` · `bom` · `app-web` · `app-cloud` | 版本统一与起步聚合（4 个） |
 
 分层设计说明见 [Starter 核心机制](/guide/starter/concepts)，每层可展开为独立模块使用页：[Starter 模块文档](/guide/starter/modules/)。
+
+### 事件目录分层：base 通用事件 + 宿主业务事件，运行时合并
+
+以 `tracking`（埋点）模块为例，事件目录分两层：**base** 是 starter 内置的平台通用事件（web 行为、API 调用、错误、性能、认证），**project** 是宿主项目自己维护、随宿主 jar 打包的业务事件。运行时由 `classpath*:` 读入两份后合并，**同一事件码以 project 为准**，覆盖必定逐字段打印差异并在目录上留下可编程标注；**未提供 project 文件的宿主就是纯 base，零破坏**。于是别的项目要加事件不必改 starter，也不必自行维护整份目录——这正是 starter 能被多个宿主引用的前提。详见 [tracking 模块手册](/guide/starter/modules/tracking)。
 
 ## 快速接入
 

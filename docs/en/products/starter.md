@@ -27,7 +27,7 @@ Modules are grouped by dependency direction: an upper layer may depend on lower 
 
 | Layer | Modules | Role |
 | --- | --- | --- |
-| Foundation (L1) | `core` · `web` · `data` · `json` · `cache` · `security` · `log` · `tools` · `i18n` · `api-doc` · `storage` | No Spring Cloud dependency; usable in a monolith (11) |
+| Foundation (L1) | `core` · `web` · `data` · `json` · `cache` · `security` · `log` · `tracking` · `tools` · `i18n` · `api-doc` · `storage` | No Spring Cloud dependency; usable in a monolith (12) |
 | Data and security enhancements | `excel` · `captcha` · `api-crypto` · `sign` · `sensitive-words` · `license` | Common data and security capabilities (6) |
 | Messaging and platform | `messaging` · `async` · `job` · `xxljob` · `social` | In-site messages/SMS push, async execution, scheduling and social sign-in (5) |
 | Intelligence | `ai` | Spring AI conversation, multi-turn memory and optional RAG (1) |
@@ -36,6 +36,10 @@ Modules are grouped by dependency direction: an upper layer may depend on lower 
 | Aggregation and versions | `dependencies` · `bom` · `app-web` · `app-cloud` | Unified dependency versions and out-of-the-box starter aggregations (4) |
 
 Every module is a real Maven artifact: importing it triggers auto-configuration under the `ypbin.*` prefix, and its precise capability set is defined by the corresponding release source and its documentation. The layered map with per-module manuals is available in the [Docs center](/en/guide), and each layer is expanded into its own module pages in the [Starter module overview](/guide/starter/modules/) (Chinese docs available).
+
+### Layered event catalog: platform events plus host business events, merged at runtime
+
+The `tracking` module is the reference case. Its event catalog has two layers: **base** ships with the starter and holds platform-wide events (web behaviour, API calls, errors, performance, authentication); **project** lives in the host repository, is packaged into the host jar, and holds that host's own business events. At runtime both resources are read through `classpath*:` and merged — **the project definition wins for a shared event code**, every override is reported field by field and left visible as a programmatic marker, and **a host without a project catalog is simply base-only, with no breakage**. A project can therefore add events without patching the starter, and without maintaining the whole catalog itself — which is exactly what lets one starter serve several hosts. See the [tracking module manual](/guide/starter/modules/tracking) (Chinese deep manual; this site's deep guides are maintained in Chinese and kept aligned with each release's source).
 
 ## Engineering governance
 
