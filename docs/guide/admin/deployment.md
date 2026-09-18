@@ -34,17 +34,21 @@ description: 微服务版（main）一键部署、单体版（boot）部署、�
 
 ```bash
 # 0. 仓库源自动探测（默认 GitHub，3s 快超时不可达时自动降级 Gitee 同名镜像，均不可达需显式 YPBIN_REPO=...）
-#    国内服务器直接走 Gitee 入口（需先在 Gitee 建 ypbin-admin/starter/admin-ui 镜像并开启自动同步）：
-# bash <(curl -fsSL https://gitee.com/wenbin_wb/ypbin-admin/raw/main/deploy/install.sh)
 
-# 1. 默认部署主分支（main）
+# 1. 默认部署主分支（main）——GitHub 源
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh)
 
-# 2. 部署指定特性分支（例如 feature/miniapp-backend）
+# 2. Gitee 一键部署（国内服务器直连；需先在 Gitee 建 ypbin-admin/starter/admin-ui 同名镜像并开启自动同步）
+bash <(curl -fsSL https://gitee.com/wenbin_wb/ypbin-admin/raw/main/deploy/install.sh)
+
+# 3. 部署指定特性分支（例如 feature/miniapp-backend）
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh) -b feature/miniapp-backend
 
-# 3. 全自动静默部署（跳过交互确认，CI/CD 适用）
+# 4. 全自动静默部署（跳过交互确认，CI/CD 适用）
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/main/deploy/install.sh) -b feature/miniapp-backend -y
+
+# 5. Gitee 源指定分支 + 静默部署（国内服务器 CI/CD 适用）
+bash <(curl -fsSL https://gitee.com/wenbin_wb/ypbin-admin/raw/main/deploy/install.sh) -b feature/miniapp-backend -y
 ```
 
 
@@ -162,7 +166,11 @@ docker compose -f deploy/docker-compose.yml up -d --force-recreate ypbin-auth yp
 如需单体部署，使用 boot 分支脚本：
 
 ```bash
+# GitHub 源
 bash <(curl -fsSL https://raw.githubusercontent.com/wenbin-wb/ypbin-admin/boot/deploy/install.sh)
+
+# Gitee 源（国内服务器直连）
+bash <(curl -fsSL https://gitee.com/wenbin_wb/ypbin-admin/raw/boot/deploy/install.sh)
 ```
 
 - 默认部署目录：`/opt/ypbin/boot`
