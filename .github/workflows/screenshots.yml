@@ -77,6 +77,8 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PASSWORD: root123456
           REDIS_HOST: 127.0.0.1
+          # 与下面截图步骤共用同一口令（由上一句写入 $GITHUB_ENV）
+          ADMIN_BOOTSTRAP_PASSWORD: ${{ env.YPBIN_SCREENSHOT_PASSWORD }}
         run: |
           mvn -B -f sources/ypbin-admin/ypbin-admin-server/pom.xml spring-boot:run > admin.log 2>&1 &
           for i in {1..60}; do curl -fsS http://127.0.0.1:8080/auth/social/platforms && break; sleep 2; done
@@ -85,6 +87,12 @@ jobs:
           pnpm --dir sources/ypbin-admin-ui install --frozen-lockfile
           pnpm --dir sources/ypbin-admin-ui -F @vben/web-antd run dev -- --host 0.0.0.0 > admin-ui.log 2>&1 &
           for i in {1..60}; do curl -fsS http://localhost:5666/auth/login && break; sleep 2; done
+      - name: 生成本次作业专用的管理员口令
+        run: |
+          # 作业内一次性实例的口令：每轮随机生成，因此仓库里不再存在任何固定口令
+          # （历史上曾有一个硬编码兜底值，已移除；若它同时是任何真实实例的口令，请轮换）
+          echo "YPBIN_SCREENSHOT_PASSWORD=Ci$(openssl rand -hex 16)Aa1" >> "$GITHUB_ENV"
+
       - name: Install capture dependencies
         run: pnpm install --frozen-lockfile
       - name: Record immutable source identity

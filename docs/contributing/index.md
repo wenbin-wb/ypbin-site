@@ -31,6 +31,10 @@ pnpm screenshots:validate
 
 三个产品的采集契约位于 `tests/fixtures/screenshots/`。admin-ui 已在真实 admin 后端、真实动态菜单和开发种子数据上完成 6 个场景采集并人工核验；原始 PNG、优化 WebP、源码提交、工作区指纹和逐文件 SHA-256 记录在 `docs/public/screenshots/admin-ui/manifest.json`。后续重采必须运行 `pnpm screenshots:capture`，不得手工替换图片绕过哈希门禁。
 
+> ⚠️ **重采需要显式提供管理员口令**：`YPBIN_SCREENSHOT_PASSWORD=<要截图实例的管理员口令> pnpm screenshots:capture`
+> （另可用 `YPBIN_SCREENSHOT_USERNAME`、`YPBIN_ADMIN_UI_URL` 覆盖默认值）。
+> 脚本**不再内置任何默认口令**——凭据进仓库等于泄露，CI 里由工作流每轮随机生成一次性实例口令。
+
 ## 安全内容
 
 示例凭据必须明确标注只用于本地开发。开发种子账号口令以各部署脚本随机生成/初始化流程为准（仓库内不提交真实口令）并明确标注只用于本地；演示 AK/SK 不得用于生产环境；截图进入站点前必须清除令牌、个人数据与内部地址。
