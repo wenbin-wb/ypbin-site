@@ -1,0 +1,10 @@
+# CodeQL 扫描范围配置
+#
+# 与 ypbin-admin-ui 的口径一致：只扫源码，不扫产物与依赖——
+# 否则「打包产物」的告警会混进本项目的安全面板，掩盖真实问题。
+name: "ypbin-site CodeQL 配置"
+paths-ignore:
+  - "**/node_modules/**"
+  - "docs/.vitepress/dist/**"
+  - "docs/.vitepress/cache/**"
+  - "**/coverage/**"
