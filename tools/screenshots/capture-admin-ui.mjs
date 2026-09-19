@@ -9,7 +9,16 @@ const outputDir = resolve(root, 'docs/public/screenshots/admin-ui')
 const baseUrl = process.env.YPBIN_ADMIN_UI_URL ?? 'http://localhost:5666'
 const allowedHostname = new URL(baseUrl).hostname
 const username = process.env.YPBIN_SCREENSHOT_USERNAME ?? 'admin'
-const password = process.env.YPBIN_SCREENSHOT_PASSWORD ?? 'pt5aQ5E6t8dkVkMp'
+// 口令**不设默认值**：此前这里有一个硬编码兜底（截图用演示实例的口令），
+// 那等于把凭据写进仓库（本仓已转 public，历史里仍可见）——见下方注释与 README 的用法说明。
+const password = process.env.YPBIN_SCREENSHOT_PASSWORD
+if (!password) {
+  console.error(
+    '[screenshots] 缺少环境变量 YPBIN_SCREENSHOT_PASSWORD：请用要截图的那个 admin 实例的管理员口令运行，' +
+      '例如 `YPBIN_SCREENSHOT_PASSWORD=*** pnpm screenshots:capture`。本脚本不再提供默认口令。'
+  )
+  process.exit(1)
+}
 const sourceRef = process.env.YPBIN_ADMIN_UI_REF ?? '543cb63e6140735b6ab1eb8425b24af1dac2923c'
 const workingTreeHash = process.env.YPBIN_ADMIN_UI_DIFF_SHA256 ?? '9546dce52275068a1a699f7e364c65d80d6660351cdab4122f854f53c4244473'
 
