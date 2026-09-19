@@ -6,7 +6,9 @@ const scanRoots = ['docs', 'README.md']
 const extensions = new Set(['.md', '.vue', '.ts', '.css', '.html', '.svg'])
 const violations = []
 const rules = [
-  { name: '外部字体或 CDN', pattern: /(?:fonts\.(?:googleapis|gstatic)\.com|cdn\.jsdelivr\.net|unpkg\.com)/i, referenceAllowed: true },
+  // 域名必须带边界：否则 `evil-googleapis.com` / `unpkg.com.attacker.net` 也会命中，
+  // 让这条内容检查失真（CodeQL js/regex/missing-regexp-anchor 亦对此报警）
+  { name: '外部字体或 CDN', pattern: /(?:^|[^a-z0-9.-])(?:fonts\.(?:googleapis|gstatic)\.com|cdn\.jsdelivr\.net|unpkg\.com)(?![a-z0-9.-])/i, referenceAllowed: true },
   { name: '禁止的 UI 依赖', pattern: /(?:@vben\/|tailwindcss|pinia|ant-design-vue)/i, referenceAllowed: true },
   { name: '未经证实的 SLA', pattern: /(?:99\.9+%\s*(?:SLA|可用性)|企业级 SLA|零停机保证)/i },
   { name: '未经证实的客户或规模指标', pattern: /(?:服务超过\s*\d+\s*(?:客户|企业)|已有\s*\d+\s*(?:客户|企业)|每秒处理\s*\d+)/i },
