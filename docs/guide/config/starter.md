@@ -5,7 +5,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 # Starter 配置参考
 
-本页由 starter 构建产物中的 configuration-metadata 生成，覆盖 **357** 个配置项，其中 `ypbin.*` 317 项、宿主标准配置 40 项。默认值以源码为准。表格支持左右滚动。
+本页由 starter 构建产物中的 configuration-metadata 生成，覆盖 **373** 个配置项，其中 `ypbin.*` 333 项、宿主标准配置 40 项。默认值以源码为准。表格支持左右滚动。
 
 ## ypbin-starter-ai
 
@@ -374,6 +374,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 |---|---|---|---|
 | `ypbin.json.date-format` | `string` | yyyy-MM-dd | 日期格式<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：JacksonProperties.java:44</span> |
 | `ypbin.json.date-time-format` | `string` | yyyy-MM-dd HH:mm:ss | 日期时间格式<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：JacksonProperties.java:41</span> |
+| `ypbin.json.dict.max-size` | `integer` | 10000 | 缓存容量上限（不同字典类型数），默认 1 万。超出时先清理过期条目，仍满则淘汰最早到期的一条， 保证新字典类型仍可缓存。设为 0 或负数表示关闭字典缓存（每次读取都回源）。<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.json.dict.ttl-seconds` | `long` | 300 | 字典缓存有效期（秒），默认 5 分钟。多实例部署下，单个实例的字典文案最长陈旧时间即为该值 （refresh 只清当前 JVM 缓存）。设为 0 或负数表示关闭字典缓存（每次读取都回源）， 与 ref-text.ttl-seconds 的 0 值语义一致；本模块不提供「永不过期」开关，需要长缓存请给一个大值。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.json.enabled` | `boolean` | true | 是否启用统一 Jackson 定制，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：JacksonProperties.java:32</span> |
 | `ypbin.json.ref-text.auto-resolve` | `boolean` | true | 是否自动预加载（拦截响应体在序列化前批量翻译，业务无需手动 preload），默认开启<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.json.ref-text.max-size` | `integer` | 10000 | 缓存容量上限（条），超出触发清理，仍满则不再写入，默认 1 万<br>可选值：—<br><strong>注意</strong>：— |
@@ -486,8 +488,9 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.security.client-enabled` | `boolean` | true | 是否启用客户端校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:53</span> |
-| `ypbin.security.clients` | `list<LoginClient>` | — | 配置文件客户端列表；业务方提供 LoginClientProvider 后可由数据库接管<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:59</span> |
+| `ypbin.security.annotation-check` | `boolean` | true | 是否启用方法级注解鉴权（@SaCheckPermission / @SaCheckRole / @SaCheckLogin 等 Sa-Token 注解），默认开启。<br>可选值：—<br><strong>注意</strong>：关闭注解鉴权会让 @SaCheckPermission/@SaCheckRole/@SaCheckLogin 变成装饰性的（微服务下游尤其危险：任何已登录用户都能调用带权限码的写端点）；仅在宿主自行实现方法级鉴权时才应关闭。<br><span class="cfg-src">来源：SecurityProperties.java:59</span> |
+| `ypbin.security.client-enabled` | `boolean` | true | 是否启用客户端校验，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:71</span> |
+| `ypbin.security.clients` | `list<LoginClient>` | — | 配置文件客户端列表；业务方提供 LoginClientProvider 后可由数据库接管<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:77</span> |
 | `ypbin.security.clients[].active-timeout` | `long` | — | Token 活跃超时（秒），为空时使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:58</span> |
 | `ypbin.security.clients[].auth-types` | `set<String>` | new LinkedHashSet&lt;&gt;() | 支持的认证方式，如 ACCOUNT、PHONE、EMAIL、SOCIAL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:52</span> |
 | `ypbin.security.clients[].client-id` | `string` | — | 客户端 ID，如 web-admin、app、miniapp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:43</span> |
@@ -503,14 +506,14 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.security.clients[].share` | `boolean` | — | 多端登录时是否共享同一 token，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:64</span> |
 | `ypbin.security.clients[].timeout` | `long` | — | Token 有效期（秒），为空时使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:55</span> |
 | `ypbin.security.clients[].write-header` | `boolean` | — | 是否登录后写入响应头，空则使用 Sa-Token 全局配置<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LoginClient.java:82</span> |
-| `ypbin.security.default-client-id` | `string` | web-admin | 默认客户端 ID，登录请求未传 clientId 时使用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:56</span> |
+| `ypbin.security.default-client-id` | `string` | web-admin | 默认客户端 ID，登录请求未传 clientId 时使用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:74</span> |
 | `ypbin.security.enabled` | `boolean` | true | 是否启用安全模块。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:38</span> |
-| `ypbin.security.exclude-api-doc` | `boolean` | true | 检测到 SpringDoc 时是否自动放行 Swagger/文档相关路径。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:50</span> |
-| `ypbin.security.excludes` | `list<String>` | — | 放行路径（无需登录即可访问），支持 Ant 风格<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:47</span> |
-| `ypbin.security.identity.enabled` | `boolean` | — | 条件开关：ypbin.security.identity.enabled=true 时装配 IdentityAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：IdentityAutoConfiguration.java:42</span> |
-| `ypbin.security.includes` | `list<String>` | — | 拦截路径，默认拦截全部<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:44</span> |
-| `ypbin.security.interceptor` | `boolean` | true | 是否注册全局登录校验拦截器（SaInterceptor）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:41</span> |
-| `ypbin.security.password` | `passwordPolicy` | — | 密码安全策略；业务方提供 PasswordPolicyProvider 后可由配置中心/数据库接管<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SecurityProperties.java:62</span> |
+| `ypbin.security.exclude-api-doc` | `boolean` | true | 检测到 SpringDoc 时是否自动放行 Swagger/文档相关路径。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:68</span> |
+| `ypbin.security.excludes` | `list<String>` | — | 放行路径（无需登录即可访问），支持 Ant 风格<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:65</span> |
+| `ypbin.security.identity.enabled` | `boolean` | — | 条件开关：ypbin.security.identity.enabled=true 时装配 SecurityAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：仅当服务位于可信网关之后、且网关负责清洗外部 X-User-Id/X-Roles 等头并签发内部身份头时才可开启；服务可被外部直接访问时开启等于信任伪造身份。 / 开启后本服务不再依赖 Sa-Token 会话：token 活跃度冻结与自动续期不生效（token 生命周期由网关侧承担），@SaCheckSafe 等依赖会话的校验一律拒绝。<br><span class="cfg-src">来源：SecurityAutoConfiguration.java:247</span> |
+| `ypbin.security.includes` | `list<String>` | — | 拦截路径，默认拦截全部<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:62</span> |
+| `ypbin.security.interceptor` | `boolean` | true | 是否执行全局「登录态」校验（StpUtil.checkLogin）。与 annotation-check 相互独立：本项只管登录态，方法级注解鉴权由 annotation-check 控制。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:47</span> |
+| `ypbin.security.password` | `passwordPolicy` | — | 密码安全策略；业务方提供 PasswordPolicyProvider 后可由配置中心/数据库接管<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SecurityProperties.java:80</span> |
 | `ypbin.security.password.allow-contain-username` | `boolean` | false | 是否允许密码包含用户名（含反序）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:58</span> |
 | `ypbin.security.password.error-lock-count` | `int` | 5 | 登录错误锁定阈值，0 表示不锁定<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:61</span> |
 | `ypbin.security.password.expiration-days` | `int` | 0 | 密码有效期（天），0 表示永不过期<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:67</span> |
@@ -626,6 +629,30 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.tools.rate-limit.distributed` | `boolean` | true | 限流存储是否优先使用 Redis 分布式实现（存在 StringRedisTemplate 时生效），否则使用内存兜底。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.tools.rate-limit.enabled` | `boolean` | true | 是否启用限流切面 @RateLimit。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.tools.rate-limit.trust-forwarded` | `boolean` | false | byIp 限流是否信任转发头（X-Forwarded-For/X-Real-IP 等）解析客户端 IP。默认 false：只取真实对端地址（request.getRemoteAddr()），防伪造转发头绕过限流；确经可信反向代理清洗转发头时置 true。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:35</span> |
+
+</div>
+
+
+## ypbin-starter-tracking
+
+
+<div class="table-scroll">
+
+| 配置项 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| `ypbin.tracking.anonymize-ip` | `boolean` | true | 是否对客户端 IP 做截断脱敏（IPv4 保留 /24、IPv6 保留 /64），默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:78</span> |
+| `ypbin.tracking.app-id` | `string` |  | 应用标识；请求体未提供 appId 时使用，仍为空则该维度不写<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:75</span> |
+| `ypbin.tracking.batch-size` | `integer` | 200 | 单批落库条数<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:52</span> |
+| `ypbin.tracking.enabled` | `boolean` | false | 是否启用埋点能力（装配 TrackEventSink 等内核 Bean），默认关闭<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:35</span> |
+| `ypbin.tracking.flush-interval-ms` | `long` | 1000 | 定时刷新间隔（毫秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:55</span> |
+| `ypbin.tracking.ingest-enabled` | `boolean` | false | 是否启用采集端点，默认关闭。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:43</span> |
+| `ypbin.tracking.max-events-per-request` | `integer` | 50 | 单个请求允许携带的最大事件数，超出部分拒绝并计数<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:61</span> |
+| `ypbin.tracking.max-payload-bytes` | `integer` | 8192 | 单个事件属性的最大字节数（UTF-8），超出即拒绝该事件<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:64</span> |
+| `ypbin.tracking.max-request-bytes` | `integer` | 262144 | 单个请求体最大字节数，超出即整体拒绝。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:72</span> |
+| `ypbin.tracking.path` | `string` | /tracking/ingest | 采集端点路径（网关前带服务短名，如 /system/tracking/ingest）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:46</span> |
+| `ypbin.tracking.queue-capacity` | `integer` | 10000 | 有界队列容量，满即丢弃新事件并计数（严禁无界队列）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:49</span> |
+| `ypbin.tracking.sink-retry-backoff-ms` | `long` | 100 | 落点写入失败后、重试前的退避毫秒数；重试一次仍失败即整批丢弃并计数（不无限重试）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:58</span> |
+| `ypbin.tracking.trust-forwarded` | `boolean` | false | 记录客户端 IP 时是否信任反向代理注入的转发头（X-Forwarded-For / X-Real-IP），默认不信任。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：TrackingProperties.java:86</span> |
 
 </div>
 

@@ -61,7 +61,7 @@ admin 侧不重造这些能力；发现 starter 缺能力或不好用时，反�
 
 | 扩展点接口 | 模块 | 作用 | admin 实现要点 |
 |---|---|---|---|
-| `PermissionProvider` | security | 返回用户权限码/角色码，适配 Sa-Token 注解鉴权 | 查用户-角色-菜单返回权限码；不实现则 `@SaCheckPermission` 永远无权限 |
+| `PermissionProvider` | security | 返回用户权限码/角色码，适配 Sa-Token 注解鉴权 | 查用户-角色-菜单返回权限码；不实现则 `@SaCheckPermission` 永远无权限。下游服务没有 Sa-Token 会话时必须同时开启 `ypbin.security.identity.enabled=true`（身份头模式），注解鉴权才会以身份头为账号来源 |
 | `TenantProvider` | extension-tenant | 返回当前租户 ID（仅启用多租户时） | 从登录上下文/请求头取租户 ID |
 | `DataScopeHandler` | extension-datapermission | 返回数据范围 SQL 片段（仅启用数据权限时） | 按当前用户数据范围拼 SQL；不提供则该能力整体不装配 |
 
