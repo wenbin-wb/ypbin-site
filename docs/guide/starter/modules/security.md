@@ -7,18 +7,21 @@ description: 认证授权 模块能力说明与配置参考。
 
 基于 Sa-Token 封装：
 
-- **全局登录拦截**：Servlet Web 环境下自动注册 `SaInterceptor` 做全局登录校验，无需自己写 `WebMvcConfigurer`。默认拦截 `/**`，放行 `ypbin.security.excludes`；检测到 api-doc 时自动放行 Swagger/`doc.html`/`v3/api-docs`/`webjars` 等文档路径。
+- **全局拦截器**：Servlet Web 环境下自动注册一个 `SaInterceptor`，**做什么由两个开关决定**（见下）。默认拦截 `/**`，放行 `ypbin.security.excludes`；检测到 api-doc 时自动放行 Swagger/`doc.html`/`v3/api-docs`/`webjars` 等文档路径。
 
 ```yaml
 ypbin:
   security:
-    interceptor: true            # 是否注册全局登录拦截器（默认开）
+    interceptor: true            # 是否执行全局「登录态」校验（默认开）
+    annotation-check: true       # 是否执行方法级注解鉴权（@SaCheckPermission 等，默认开）
     includes: ["/**"]            # 拦截路径
     excludes: ["/login", "/captcha"]   # 放行路径（无需登录）
     exclude-api-doc: true        # 有 SpringDoc 时自动放行文档路径（默认开）
 ```
 
-拦截器只校验「已登录」；细粒度权限/角色用方法上的 `@SaCheckPermission` 等注解。业务方提供自定义 `WebMvcConfigurer` 或设 `interceptor: false` 即可覆盖/停用。
+**登录校验与注解鉴权是两个独立开关**：`interceptor` 只管 `StpUtil.checkLogin()`，`annotation-check` 只管方法上的 `@SaCheckPermission` / `@SaCheckRole` / `@SaCheckLogin`。**微服务下游服务**（没有 Sa-Token 会话、身份来自网关注入的身份头）应配 `interceptor: false` 而保留 `annotation-check: true`（默认）——这样既不会因登录校验必然失败而 401，注解鉴权又真的生效；两者都设为 `false` 时不注册任何拦截器。
+
+> **升级提示**：在更早的版本里这两件事共用一个开关，下游关掉登录校验会把注解鉴权一起关掉（权限码变成装饰性的）。若你的服务此前配的是 `interceptor: false`，升级后注解鉴权会**开始生效**——请确认已开启 `ypbin.security.identity.enabled=true`（或单体模式有会话）且权限数据已配齐，否则原本「能调用」的端点会开始返回 401/403。
 
 - `LoginHelper`：`login(userId)` / `getUserId()` / `logout()`，统一以 `Long` 用户 ID 进出。
 - `UserContext` + `LoginUser`：当前登录用户门面，登录时 `setLoginUser` 存会话，任意层 `getLoginUser`/`getUserId`/`getUsername`/`getTenantId`/`getClientId`/`getClientType`/`getAuthType` 读取。
@@ -227,6 +230,7 @@ OnlineUserHelper.record(ip, browser, os);   // 可选：记录终端信息供在
 - `IdentityHeaderFilter`：Servlet 服务装配，解析身份头构建 `LoginUser` 写入 `IdentityContext`，请求结束清理。开关 `ypbin.security.identity.enabled`（**默认关闭**——安全默认：仅当服务位于可信网关之后、且网关负责清洗外部头并签发内部身份头时显式开启，避免外部伪造 `X-User-Id` 直达业务服务被当作已认证用户）。
 - 畸形头容错：`Long` 型身份头（userId/tenantId/deptId）解析失败按"该字段缺失"处理，仅记 debug、不中断请求。
 - `IdentityContext`：当前用户上下文（ThreadLocal），提供 `getUserId()`/`getUsername()`/`getTenantId()`/`isLogin()`（均返回 `Optional`）。
+- `IdentityStpLogic`：`identity.enabled=true` 时把身份头接进 Sa-Token 的账号解析（当前请求身份的 token 值即账号标识，不访问 token 存储），使 `@SaCheckPermission` 等**注解鉴权在没有 Sa-Token 会话的下游服务里也能正确判定**；权限数据仍由宿主的 `PermissionProvider` 提供，平台超管约定的 `*:*:*` 会被归一为 Sa-Token 官方通配符 `*`。该模式的能力边界：按 token 反查的 API 只认与当前请求身份一致的 token；无活跃续期（`renewTimeout` 在有身份无会话时抛异常）；`@SaCheckSafe` 一律拒绝（fail-closed）；`logout` 不影响登录态。
 
 ```yaml
 ypbin:

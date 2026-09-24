@@ -619,7 +619,7 @@ POST /system/open-api/demo   → 标注 @ApiSign，需通过签名校验，返�
 
 - **权限码**：即菜单表中 `auth_code` 字段（如 `system:user:list`）
 - 用户 → 角色 → 菜单（auth_code），多条角色取并集
-- 超级管理员（角色标识=super）有通配权限 `*:*:*`，跳过所有权限校验
+- 超级管理员（角色标识=super）的权限码集合含通配码 `*:*:*`（`AdminConstants.ALL_PERMISSION`）：starter 会把它归一为 Sa-Token 官方通配符 `*`，从而通过任意权限码的校验（`*:*:*` 本身只匹配「含两个及以上冒号」的权限码，不能直接当官方通配符使用）
 - 每个系统管理页面都有对应的 list/add/edit/delete 四个按钮级权限码
 - 前端用权限码控制按钮显隐
 
