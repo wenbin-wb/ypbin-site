@@ -586,6 +586,67 @@ GET /system/open/license/verify?licenseId=xxx&fingerprint=xxx  → LicenseRemote
 POST /system/open-api/demo   → 标注 @ApiSign，需通过签名校验，返回 { "echo": <请求体>, "message": "开放 API 签名校验通过" }
 ```
 
+### 9.3 第三方签名对接教程（5 分钟调通）
+
+> 本节已在开发环境实测走通（建应用 → 签名调通 → 删应用），命令复制即用。
+> 接口签名与 IoT 的开放 API Key 是两套东西：前者是平台级应用 AK/SK（无租户无配额），
+> 后者是租户级 Key（作用域 + 限流），不要混用。
+
+**第 1 步：申请应用（拿 ak/sk）**
+
+管理台 → 授权管理 → 应用管理 → 新增（`POST /system/app`，需登录）：
+
+```json
+{ "appName": "erp-prod", "enabled": 1 }
+```
+
+响应只给一次明文，后续列表不再回显：
+
+```json
+{ "code": 200, "data": { "accessKey": "24f053a5…", "secretKey": "7f2c…（仅此一次）" } }
+```
+
+记下 `secretKey`，丢了只能重置（`PUT /system/app/{id}/reset-secret`），没有找回入口。
+
+**第 2 步：拼四件套（Query 参数）**
+
+| 参数 | 含义 | 规则 |
+|---|---|---|
+| `accessKey` | 应用公开标识 | 原样 |
+| `timestamp` | 秒级时间戳 | 与服务端差值 ±60 秒内（未来方向只容忍 5 秒时钟偏移） |
+| `nonce` | 随机串 | 每次不同，重复即判重放 |
+| `sign` | 签名（大写十六进制） | 见第 3 步；**不参与**自身计算 |
+
+**第 3 步：算签名**
+
+1. 收集参数：Query 全量 + JSON Body **顶层标量字段**（嵌套对象序列化后参与；`sign` 本身及空值跳过）；
+2. 按 key 字典序排，`percent-encode(key)=percent-encode(value)`，`&` 连接成规范串；
+3. `HMAC-SHA256(规范串, secretKey)` → hex **转大写**（默认算法；MD5 仅兼容老调用方）。
+
+```python
+import hashlib, hmac, time, secrets, urllib.parse
+
+secret = "<secretKey>"
+params = {"accessKey": "<accessKey>", "timestamp": str(int(time.time())),
+          "nonce": secrets.token_hex(8), "hello": "world"}
+canon = "&".join(f"{urllib.parse.quote(k, safe='')}={urllib.parse.quote(v, safe='')}"
+                   for k, v in sorted(params.items()) if v)
+sign = hmac.new(secret.encode(), canon.encode(), hashlib.sha256).hexdigest().upper()
+# POST /system/open-api/demo?accessKey=…&timestamp=…&nonce=…&sign=<sign>，Body {"hello":"world"}
+# 期望：{ "code": 200, "data": { "echo": {"hello":"world"}, "message": "开放 API 签名校验通过" } }
+```
+
+**第 4 步：排障对照表**
+
+| 现象 | 原因 | 怎么办 |
+|---|---|---|
+| 缺参数/应用禁用/过期 | `accessKey` 不对、应用停用 | 核对应用状态与有效期 |
+| 时间戳格式错误/超时 | 秒/毫秒搞混、时钟差超 60 秒 | 用秒级，对时 |
+| nonce 重复 | 同一串发了两次 | 每次重新生成 |
+| 签名对不上 | 规范串口径差（排序/编码/大小写/BODY 字段漏了） | 逐项对照第 3 步；先用无 Body 的 GET 类接口调通再加 Body |
+
+**用完清理**：测试应用调通后删除（`DELETE /system/app/{id}`），别留在库里吃灰。
+
 ## 10. 前端路由结构（GET /menu/all）
 
 返回 `RouteRecord[]`，结构如下：
