@@ -8,14 +8,25 @@ updates:
     open-pull-requests-limit: 10
     groups:
       # 开发工具链整体一组（含 typescript / vue-tsc / vitepress 构建链），保证同批升级
+      # 只收 minor/patch：主版本单独开 PR —— 一个不兼容的主版本不得拖红整组（PR #29 实测）
       dev-tooling:
         dependency-type: development
+        update-types:
+          - minor
+          - patch
       # 站点运行时生态同版本升级
       vue:
         patterns:
           - "vue"
           - "@vue/*"
           - "vitepress"
+    ignore:
+      # typescript 主版本暂缓：vue-tsc（latest 3.3.12）以 typescript/lib/tsc 子路径加载编译器，
+      # 而 typescript 7.0.2 的 exports 已不含该子路径 ⇒ pnpm typecheck 必然报
+      # ERR_PACKAGE_PATH_NOT_EXPORTED（PR #29 实测）。上游支持 TS 7 后删除本条，详见 #30。
+      - dependency-name: "typescript"
+        update-types:
+          - version-update:semver-major
     labels:
       - dependencies
 
