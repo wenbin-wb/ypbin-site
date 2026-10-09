@@ -19,7 +19,7 @@ jobs:
         with:
           repository: wenbin-wb/ypbin-starter
           path: ypbin-starter
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.18.0
       - name: 校验元数据副本与上游一致
@@ -35,7 +35,7 @@ jobs:
         with:
           version: 11.16.0
           run_install: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.18.0
           cache: pnpm
