@@ -5,7 +5,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 # Starter 配置参考
 
-本页由 starter 构建产物中的 configuration-metadata 生成，覆盖 **373** 个配置项，其中 `ypbin.*` 333 项、宿主标准配置 40 项。默认值以源码为准。表格支持左右滚动。
+本页由 starter 构建产物中的 configuration-metadata 生成，覆盖 **397** 个配置项，其中 `ypbin.*` 357 项、宿主标准配置 40 项。默认值以源码为准。表格支持左右滚动。
 
 ## ypbin-starter-ai
 
@@ -176,6 +176,17 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.gateway.enabled` | `boolean` | true | 是否启用网关增强，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewayProperties.java:34</span> |
 | `ypbin.gateway.header-sanitize.enabled` | `boolean` | true | 是否清洗客户端传入的身份类请求头，默认开启<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.gateway.header-sanitize.headers` | `list<String>` | — | 客户端不可直接传入、需由可信网关签发的请求头<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.gateway.rate-limit.default-qps` | `integer` | 10 | 默认 QPS 配额。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:63</span> |
+| `ypbin.gateway.rate-limit.default-quota` | `integer` | 100000 | 默认日配额（0 = 不限）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:66</span> |
+| `ypbin.gateway.rate-limit.enabled` | `boolean` | false | 是否启用（默认关闭：新过滤器不得在业务方不知情时激活）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:39</span> |
+| `ypbin.gateway.rate-limit.key-attribute` | `string` | rate-limit.key | 维度键的 attribute 名（如 API Key 场景放 accessKeyId）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:45</span> |
+| `ypbin.gateway.rate-limit.order` | `integer` | — | 过滤器顺序（默认与既有鉴权链衔接：清洗 &lt; 签发 &lt; 鉴权 &lt; 限流）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:69</span> |
+| `ypbin.gateway.rate-limit.path-prefixes` | `list<String>` | — | 生效路径前缀（任一命中即限流；为空 = 全路径，危险，须显式配置）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:42</span> |
+| `ypbin.gateway.rate-limit.qps-attribute` | `string` | rate-limit.qps | QPS 配额的 attribute 名（缺席用默认）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:48</span> |
+| `ypbin.gateway.rate-limit.qps-key-prefix` | `string` | ypbin:ratelimit:qps: | QPS 计数 Redis key 前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:54</span> |
+| `ypbin.gateway.rate-limit.quota-attribute` | `string` | rate-limit.quota | 日配额的 attribute 名（缺席用默认）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:51</span> |
+| `ypbin.gateway.rate-limit.quota-key-prefix` | `string` | ypbin:ratelimit:quota: | 日配额计数 Redis key 前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:57</span> |
+| `ypbin.gateway.rate-limit.window-seconds` | `integer` | 1 | 限流窗口秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:60</span> |
 | `ypbin.gateway.request-id-header` | `string` | X-Request-Id | 请求 ID 请求头名称<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewayProperties.java:37</span> |
 | `ypbin.gateway.route.nacos.data-id` | `string` | gateway-routes.json | Nacos 配置 Data ID<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosRouteProperties.java:35</span> |
 | `ypbin.gateway.route.nacos.enabled` | `boolean` | false | 是否启用 Nacos 动态路由，默认关闭<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosRouteProperties.java:32</span> |
@@ -510,9 +521,15 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.security.enabled` | `boolean` | true | 是否启用安全模块。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:38</span> |
 | `ypbin.security.exclude-api-doc` | `boolean` | true | 检测到 SpringDoc 时是否自动放行 Swagger/文档相关路径。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:68</span> |
 | `ypbin.security.excludes` | `list<String>` | — | 放行路径（无需登录即可访问），支持 Ant 风格<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:65</span> |
-| `ypbin.security.identity.enabled` | `boolean` | — | 条件开关：ypbin.security.identity.enabled=true 时装配 SecurityAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：仅当服务位于可信网关之后、且网关负责清洗外部 X-User-Id/X-Roles 等头并签发内部身份头时才可开启；服务可被外部直接访问时开启等于信任伪造身份。 / 开启后本服务不再依赖 Sa-Token 会话：token 活跃度冻结与自动续期不生效（token 生命周期由网关侧承担），@SaCheckSafe 等依赖会话的校验一律拒绝。<br><span class="cfg-src">来源：SecurityAutoConfiguration.java:247</span> |
+| `ypbin.security.identity.enabled` | `boolean` | false | 是否启用身份头模式（网关签发身份头、下游以身份头为登录态），默认关闭<br>可选值：—<br><strong>注意</strong>：仅当服务位于可信网关之后、且网关负责清洗外部 X-User-Id/X-Roles 等头并签发内部身份头时才可开启；服务可被外部直接访问时开启等于信任伪造身份。 / 开启后本服务不再依赖 Sa-Token 会话：token 活跃度冻结与自动续期不生效（token 生命周期由网关侧承担），@SaCheckSafe 等依赖会话的校验一律拒绝。<br><span class="cfg-src">来源：IdentityProperties.java:38</span> |
+| `ypbin.security.identity.trusted-source-header` | `string` | — | 身份头来源标记头名（由可信网关在清洗外部身份头后签发）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：IdentityProperties.java:46</span> |
+| `ypbin.security.identity.trusted-source-token` | `string` |  | 身份头来源标记期望值。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：IdentityProperties.java:54</span> |
 | `ypbin.security.includes` | `list<String>` | — | 拦截路径，默认拦截全部<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:62</span> |
 | `ypbin.security.interceptor` | `boolean` | true | 是否执行全局「登录态」校验（StpUtil.checkLogin）。与 annotation-check 相互独立：本项只管登录态，方法级注解鉴权由 annotation-check 控制。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:47</span> |
+| `ypbin.security.management.base-path` | `string` | /actuator | 管理端点基路径，需与 management.endpoints.web.base-path 一致（Spring Boot 默认 /actuator）。守卫只对该路径下的端点做权限校验。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:52</span> |
+| `ypbin.security.management.guard-enabled` | `boolean` | false | 是否启用管理端点权限守卫，默认关闭（显式开启，避免破坏未配置宿主）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:46</span> |
+| `ypbin.security.management.public-paths` | `list<String>` | — | 放行的公开端点（相对 #basePath 的路径，支持 Ant 风格），默认放行 health/info——这两个端点是有意公开的（可用性探针），不得误伤。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:58</span> |
+| `ypbin.security.management.required-permission` | `string` |  | 访问其余管理端点所需的权限码（宿主权限体系中的码，经 PermissionProvider 校验）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:65</span> |
 | `ypbin.security.password` | `passwordPolicy` | — | 密码安全策略；业务方提供 PasswordPolicyProvider 后可由配置中心/数据库接管<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SecurityProperties.java:80</span> |
 | `ypbin.security.password.allow-contain-username` | `boolean` | false | 是否允许密码包含用户名（含反序）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:58</span> |
 | `ypbin.security.password.error-lock-count` | `int` | 5 | 登录错误锁定阈值，0 表示不锁定<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:61</span> |
@@ -557,18 +574,25 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
 | `ypbin.sign.algorithm` | `signAlgorithm` | hmac-sha256 | 签名算法，默认 HMAC-SHA256<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:42</span> |
-| `ypbin.sign.apps` | `list<SignProperties$AppInfo>` | — | 应用列表<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:51</span> |
+| `ypbin.sign.apps` | `list<SignProperties$AppInfo>` | — | 应用列表<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:79</span> |
 | `ypbin.sign.enabled` | `boolean` | false | 是否启用签名校验<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:36</span> |
 | `ypbin.sign.mode` | `signProperties$Mode` | annotation | 校验模式：ANNOTATION（仅 @ApiSign 接口）或 GLOBAL（全局拦截，按 skip-path 排除）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:39</span> |
 | `ypbin.sign.replay-protect` | `boolean` | true | 是否启用 nonce 防重放<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:48</span> |
-| `ypbin.sign.skip-param-names` | `list<String>` | — | 排除参与签名的参数名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:57</span> |
-| `ypbin.sign.skip-path` | `list<String>` | — | GLOBAL 模式下排除的路径（Ant 风格）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:54</span> |
+| `ypbin.sign.sign-mode` | `signProperties$SignMode` | required | 签名校验模式：REQUIRED（默认，必须带齐四件套）或 OPTIONAL（灰度期，四件套全无则放行）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:69</span> |
+| `ypbin.sign.skip-param-names` | `list<String>` | — | 排除参与签名的参数名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:85</span> |
+| `ypbin.sign.skip-path` | `list<String>` | — | GLOBAL 模式下排除的路径（Ant 风格）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:82</span> |
 | `ypbin.sign.timeout` | `long` | 60 | 签名有效期（秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:45</span> |
-| `ypbin.sign.apps[].access-key` | `string` | — | Access Key（访问密钥，公开标识）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:137</span> |
-| `ypbin.sign.apps[].secret-key` | `string` | — | Secret Key（私有密钥，参与签名，不下发）<br>可选值：—<br><strong>注意</strong>：必须保密，建议加密存储并支持轮换。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:139</span> |
-| `ypbin.sign.apps[].app-name` | `string` | — | 应用名称<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:141</span> |
-| `ypbin.sign.apps[].expire-time` | `localDateTime` | — | 失效时间，为空表示永不过期<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:143</span> |
-| `ypbin.sign.apps[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:145</span> |
+| `ypbin.sign.trust-forwarded-header` | `boolean` | false | 是否信任 X-Forwarded-For 头作为来源地址（IP 白名单用）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:76</span> |
+| `ypbin.sign.apps[].access-key` | `string` | — | Access Key（访问密钥，公开标识）<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:192</span> |
+| `ypbin.sign.apps[].secret-key` | `string` | — | Secret Key（私有密钥，参与签名，不下发）<br>可选值：—<br><strong>注意</strong>：必须保密，建议加密存储并支持轮换。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：SignProperties.java:194</span> |
+| `ypbin.sign.apps[].app-name` | `string` | — | 应用名称<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:196</span> |
+| `ypbin.sign.apps[].expire-time` | `localDateTime` | — | 失效时间，为空表示永不过期<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:198</span> |
+| `ypbin.sign.apps[].enabled` | `boolean` | true | 是否启用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:200</span> |
+| `ypbin.sign.apps[].tenant-id` | `long` | — | 所属租户 ID（可选；为空表示不做租户校验）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:202</span> |
+| `ypbin.sign.apps[].scopes` | `list<String>` | new ArrayList&lt;&gt;() | 作用域集合（可选；为空表示不限制）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:204</span> |
+| `ypbin.sign.apps[].rate-limit-qps` | `integer` | — | 应用级 QPS 配额（空或 &lt;=0 表示不限）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:206</span> |
+| `ypbin.sign.apps[].daily-quota` | `integer` | — | 应用级日调用配额（空或 &lt;=0 表示不限）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:208</span> |
+| `ypbin.sign.apps[].ip-whitelist` | `string` | — | 来源 IP 白名单（CIDR 逗号分隔；空表示不限来源）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SignProperties.java:210</span> |
 
 </div>
 
