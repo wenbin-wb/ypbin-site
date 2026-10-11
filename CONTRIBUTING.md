@@ -34,5 +34,5 @@ pnpm check      # 全链路校验（配置生成 + 截图清单 + 类型检查 +
 ## 5. 发起 Pull Request
 
 1. 从 `main` 拉取最新代码，新建分支
-2. 按 [PR 模板](.github/pull_request_template.md) 填写
+2. 按 [PR 模板](.github/PULL_REQUEST_TEMPLATE.md) 填写
 3. 确保 CI（`pnpm check`）通过
