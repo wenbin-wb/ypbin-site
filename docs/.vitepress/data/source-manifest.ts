@@ -21,7 +21,7 @@ export interface RoadmapItem {
 }
 
 export const sourceManifest = {
-  verifiedAt: '2026-09-13',
+  verifiedAt: '2026-10-12',
   // 版本号统一取自 releases.json（发布流水线自动更新），避免与文档注入源两处漂移
   stableStarterVersion: releases.starter,
   roadmap: [
@@ -36,9 +36,9 @@ export const sourceManifest = {
       description: '面向 Spring Boot 的系统级基础能力集合。',
       version: releases.starter,
       status: 'stable',
-      runtime: 'Java 21 · Spring Boot 4.1.0',
-      scaleLabel: '39 模块 · 603 Java 源文件 · 182 测试',
-      facts: [`稳定版 v${releases.starter} 已发布`, '39 个 Maven 模块（37 常规 + 2 开发专用：架构约束测试与 JMH 性能基线）', 'Apache-2.0 开源协议']
+      runtime: 'Java 21 · Spring Boot 4.1.1',
+      scaleLabel: '41 模块 · 729 Java 源文件 · 1044 测试',
+      facts: [`稳定版 v${releases.starter} 已发布`, '41 个 Maven 模块（39 常规 + 2 开发专用：架构约束测试与 JMH 性能基线）', 'Apache-2.0 开源协议']
     },
     {
       id: 'admin',
