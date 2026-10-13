@@ -1,5 +1,22 @@
 name: Capture product screenshots
 
+# 依赖顺序（改本文件前先读；顺序错会导致“口令为空/服务未就绪/流水线假绿”）：
+#   1. setup-node / pnpm / checkout
+#   2. 生成本次作业一次性口令，写入 $GITHUB_ENV：
+#        YPBIN_SCREENSHOT_PASSWORD（capture-admin-ui.mjs 消费）
+#        ADMIN_BOOTSTRAP_PASSWORD（Start admin 消费）
+#   3. Install starter snapshot
+#   4. Start admin（继承 ADMIN_BOOTSTRAP_PASSWORD）
+#   5. Start admin UI
+#   6. Install capture dependencies / Record immutable source identity
+#   7. Capture verified screenshots
+#   8. Validate hashes
+#   9. Assert capture/validate outcomes（防未来 if/continue-on-error 造成假绿）
+#  10. upload-artifact
+#
+# ⚠️ 口令生成必须在 Start admin 之前；Capture 与 Validate 不允许被静默跳过。
+#    当前没有 continue-on-error；两者失败都会让 job 红，另加 outcome 断言兜底。
+
 on:
   workflow_dispatch:
     inputs:
@@ -70,6 +87,16 @@ jobs:
         with:
           node-version: 22.18.0
           cache: pnpm
+      - name: Generate one-shot admin bootstrap password
+        run: |
+          set -euo pipefail
+          # 只在本次作业内使用的一次性口令；不回显口令值，只打印长度。
+          # 必须同时写入两个变量：admin 后端读 ADMIN_BOOTSTRAP_PASSWORD，截图脚本读 YPBIN_SCREENSHOT_PASSWORD。
+          PASSWORD="Ci$(openssl rand -hex 16)Aa1"
+          printf 'YPBIN_SCREENSHOT_PASSWORD=%s\n' "$PASSWORD" >> "$GITHUB_ENV"
+          printf 'ADMIN_BOOTSTRAP_PASSWORD=%s\n' "$PASSWORD" >> "$GITHUB_ENV"
+          echo "Generated one-shot admin bootstrap password: length=${#PASSWORD} (value not printed)"
+          unset PASSWORD
       - name: Install starter snapshot
         run: mvn -B -f sources/ypbin-starter/pom.xml -DskipTests install
       - name: Start admin
@@ -77,8 +104,8 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PASSWORD: root123456
           REDIS_HOST: 127.0.0.1
-          # 与下面截图步骤共用同一口令（由上一句写入 $GITHUB_ENV）
-          ADMIN_BOOTSTRAP_PASSWORD: ${{ env.YPBIN_SCREENSHOT_PASSWORD }}
+          # ADMIN_BOOTSTRAP_PASSWORD 由前面 “Generate one-shot admin bootstrap password”
+          # 写入 $GITHUB_ENV，本步骤直接继承；不要再用 ${{ env.* }} 取值（容易受上下文/顺序影响）。
         run: |
           mvn -B -f sources/ypbin-admin/ypbin-admin-server/pom.xml spring-boot:run > admin.log 2>&1 &
           for i in {1..60}; do curl -fsS http://127.0.0.1:8080/auth/social/platforms && break; sleep 2; done
@@ -87,12 +114,6 @@ jobs:
           pnpm --dir sources/ypbin-admin-ui install --frozen-lockfile
           pnpm --dir sources/ypbin-admin-ui -F @vben/web-antd run dev -- --host 0.0.0.0 > admin-ui.log 2>&1 &
           for i in {1..60}; do curl -fsS http://localhost:5666/auth/login && break; sleep 2; done
-      - name: 生成本次作业专用的管理员口令
-        run: |
-          # 作业内一次性实例的口令：每轮随机生成，因此仓库里不再存在任何固定口令
-          # （历史上曾有一个硬编码兜底值，已移除；若它同时是任何真实实例的口令，请轮换）
-          echo "YPBIN_SCREENSHOT_PASSWORD=Ci$(openssl rand -hex 16)Aa1" >> "$GITHUB_ENV"
-
       - name: Install capture dependencies
         run: pnpm install --frozen-lockfile
       - name: Record immutable source identity
@@ -100,11 +121,25 @@ jobs:
           echo "YPBIN_ADMIN_UI_REF=$(git -C sources/ypbin-admin-ui rev-parse HEAD)" >> "$GITHUB_ENV"
           echo "YPBIN_ADMIN_UI_DIFF_SHA256=$(git -C sources/ypbin-admin-ui diff --binary | sha256sum | cut -d' ' -f1)" >> "$GITHUB_ENV"
       - name: Capture verified screenshots
+        id: capture
+        if: success()
         env:
           YPBIN_ADMIN_UI_URL: http://localhost:5666
         run: pnpm screenshots:capture
       - name: Validate hashes
+        id: validate
+        if: success()
         run: pnpm screenshots:validate
+      - name: Assert capture and validation succeeded
+        if: always()
+        run: |
+          set -euo pipefail
+          echo "capture.outcome=${{ steps.capture.outcome }}"
+          echo "validate.outcome=${{ steps.validate.outcome }}"
+          if [ "${{ steps.capture.outcome }}" != "success" ] || [ "${{ steps.validate.outcome }}" != "success" ]; then
+            echo "::error::截图采集或 manifest 校验未成功；本次运行不得视为通过"
+            exit 1
+          fi
       - uses: actions/upload-artifact@v6
         with:
           name: ypbin-product-screenshots
