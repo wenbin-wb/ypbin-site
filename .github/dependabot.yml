@@ -21,9 +21,10 @@ updates:
           - "@vue/*"
           - "vitepress"
     ignore:
-      # typescript 主版本暂缓：vue-tsc（latest 3.3.12）以 typescript/lib/tsc 子路径加载编译器，
+      # typescript 主版本暂缓：vue-tsc（latest 3.3.13）以 typescript/lib/tsc 子路径加载编译器，
       # 而 typescript 7.0.2 的 exports 已不含该子路径 ⇒ pnpm typecheck 必然报
-      # ERR_PACKAGE_PATH_NOT_EXPORTED（PR #29 实测）。上游支持 TS 7 后删除本条，详见 #30。
+      # ERR_PACKAGE_PATH_NOT_EXPORTED（PR #29 实测；2026-10-18 对 3.3.13 复核仍成立）。
+      # 上游支持 TS 7 后删除本条，详见 #30。
       - dependency-name: "typescript"
         update-types:
           - version-update:semver-major
