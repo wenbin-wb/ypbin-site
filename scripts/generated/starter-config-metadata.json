@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T02:41:59.934Z",
+  "generatedAt": "2026-10-18T13:52:12.349Z",
   "sourceRoot": "ypbin-starter",
   "methodology": [
     "扫描各模块 target/classes/META-INF/spring-configuration-metadata.json（spring-boot-configuration-processor 产物）",
@@ -13,9 +13,9 @@
   "summary": {
     "moduleCount": 41,
     "modulesWithConfigCount": 31,
-    "customPropertyCount": 357,
+    "customPropertyCount": 382,
     "standardHostPropertyCount": 40,
-    "totalEntryCount": 397,
+    "totalEntryCount": 422,
     "modulesWithoutMetadata": 11
   },
   "prefixIndex": [
@@ -27,6 +27,7 @@
     "ypbin.cache",
     "ypbin.captcha",
     "ypbin.cloud",
+    "ypbin.core",
     "ypbin.data",
     "ypbin.data-permission",
     "ypbin.gateway",
@@ -34,6 +35,7 @@
     "ypbin.job",
     "ypbin.json",
     "ypbin.license",
+    "ypbin.lock",
     "ypbin.log",
     "ypbin.mail",
     "ypbin.mqtt",
@@ -1693,7 +1695,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 32
+              "line": 41
             }
           ],
           "default": false,
@@ -1703,7 +1705,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 32
+              "line": 41
             }
           ],
           "group": "ypbin.cache",
@@ -1727,7 +1729,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 41
+              "line": 50
             }
           ],
           "default": true,
@@ -1739,7 +1741,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 41
+              "line": 50
             }
           ],
           "group": "ypbin.cache",
@@ -1761,7 +1763,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 44
+              "line": 53
             }
           ],
           "default": "ypbin:cache:invalidation",
@@ -1771,7 +1773,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 44
+              "line": 53
             }
           ],
           "group": "ypbin.cache",
@@ -1793,7 +1795,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 38
+              "line": 47
             }
           ],
           "default": 300,
@@ -1803,7 +1805,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 38
+              "line": 47
             }
           ],
           "group": "ypbin.cache",
@@ -1825,7 +1827,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 35
+              "line": 44
             }
           ],
           "default": 10000,
@@ -1835,7 +1837,39 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
-              "line": 35
+              "line": 44
+            }
+          ],
+          "group": "ypbin.cache",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-cache",
+          "key": "ypbin.cache.multi-level.metrics-cache-name",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "multi-level",
+          "required": false,
+          "requiredWhen": null,
+          "description": "多级缓存运行时指标的 cache 标签值，默认 #DEFAULT_METRICS_CACHE_NAME。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
+              "line": 67
+            }
+          ],
+          "default": "multi-level",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cache/src/main/java/cn/ypbin/starter/cache/multilevel/MultiLevelCacheProperties.java",
+              "line": 67
             }
           ],
           "group": "ypbin.cache",
@@ -2022,7 +2056,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 44
+              "line": 51
             }
           ],
           "default": true,
@@ -2032,7 +2066,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 44
+              "line": 51
             }
           ],
           "group": "ypbin.cloud",
@@ -2054,7 +2088,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 34
+              "line": 41
             }
           ],
           "default": true,
@@ -2064,7 +2098,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 34
+              "line": 41
             }
           ],
           "group": "ypbin.cloud",
@@ -2086,7 +2120,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 37
+              "line": 44
             }
           ],
           "default": true,
@@ -2096,7 +2130,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 37
+              "line": 44
             }
           ],
           "group": "ypbin.cloud",
@@ -2120,7 +2154,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 63
+              "line": 70
             }
           ],
           "default": null,
@@ -2132,7 +2166,71 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 63
+              "line": 70
+            }
+          ],
+          "group": "ypbin.cloud",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-cloud-core",
+          "key": "ypbin.cloud.feign.internal-token",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "",
+          "required": false,
+          "requiredWhen": null,
+          "description": "内部调用凭证（密钥），默认空即不注入；真实凭据，绝不进入日志、异常消息或 toString。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
+              "line": 94
+            }
+          ],
+          "default": "",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
+              "line": 94
+            }
+          ],
+          "group": "ypbin.cloud",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-cloud-core",
+          "key": "ypbin.cloud.feign.internal-token-header",
+          "type": "java.lang.String",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "内部调用凭证请求头名，默认 X-Internal-Token（必须与 security 守卫侧逐字一致，见常量注释）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
+              "line": 91
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
+              "line": 91
             }
           ],
           "group": "ypbin.cloud",
@@ -2154,7 +2252,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 51
+              "line": 58
             }
           ],
           "default": null,
@@ -2164,7 +2262,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 51
+              "line": 58
             }
           ],
           "group": "ypbin.cloud",
@@ -2186,7 +2284,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 81
+              "line": 88
             }
           ],
           "default": false,
@@ -2196,7 +2294,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 81
+              "line": 88
             }
           ],
           "group": "ypbin.cloud",
@@ -2218,7 +2316,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 67
+              "line": 74
             }
           ],
           "default": "X-Gateway-Signed",
@@ -2228,7 +2326,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 67
+              "line": 74
             }
           ],
           "group": "ypbin.cloud",
@@ -2252,7 +2350,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 73
+              "line": 80
             }
           ],
           "default": "",
@@ -2264,7 +2362,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-core/src/main/java/cn/ypbin/starter/cloud/autoconfigure/FeignProperties.java",
-              "line": 73
+              "line": 80
             }
           ],
           "group": "ypbin.cloud",
@@ -2608,6 +2706,102 @@
         },
         {
           "module": "ypbin-starter-cloud-gateway",
+          "key": "ypbin.gateway.internal-path-block.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用内部端点路径阻断，默认 true（安全默认：内部端点不应经网关对外暴露）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/filter/InternalPathBlockProperties.java",
+              "line": 85
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/filter/InternalPathBlockProperties.java",
+              "line": 85
+            }
+          ],
+          "group": "ypbin.gateway",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-cloud-gateway",
+          "key": "ypbin.gateway.internal-path-block.not-found-status",
+          "type": "java.lang.Integer",
+          "defaultDefined": true,
+          "defaultValue": 404,
+          "required": false,
+          "requiredWhen": null,
+          "description": "命中时写回的 HTTP 状态码，默认 404（用 404 而非 403，避免暴露内部端点存在性）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/filter/InternalPathBlockProperties.java",
+              "line": 91
+            }
+          ],
+          "default": 404,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/filter/InternalPathBlockProperties.java",
+              "line": 91
+            }
+          ],
+          "group": "ypbin.gateway",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-cloud-gateway",
+          "key": "ypbin.gateway.internal-path-block.path-patterns",
+          "type": "java.util.List<java.lang.String>",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "生效路径模式清单，默认任意层级前缀下的 /internal/**（含顶层）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/filter/InternalPathBlockProperties.java",
+              "line": 88
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/filter/InternalPathBlockProperties.java",
+              "line": 88
+            }
+          ],
+          "group": "ypbin.gateway",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-cloud-gateway",
           "key": "ypbin.gateway.rate-limit.default-qps",
           "type": "java.lang.Integer",
           "defaultDefined": true,
@@ -2622,7 +2816,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 63
+              "line": 66
             }
           ],
           "default": 10,
@@ -2632,7 +2826,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 63
+              "line": 66
             }
           ],
           "group": "ypbin.gateway",
@@ -2654,7 +2848,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 66
+              "line": 69
             }
           ],
           "default": 100000,
@@ -2664,7 +2858,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 66
+              "line": 69
             }
           ],
           "group": "ypbin.gateway",
@@ -2686,7 +2880,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 39
+              "line": 42
             }
           ],
           "default": false,
@@ -2696,7 +2890,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 39
+              "line": 42
             }
           ],
           "group": "ypbin.gateway",
@@ -2718,7 +2912,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 45
+              "line": 48
             }
           ],
           "default": "rate-limit.key",
@@ -2728,7 +2922,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 45
+              "line": 48
             }
           ],
           "group": "ypbin.gateway",
@@ -2750,7 +2944,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 69
+              "line": 72
             }
           ],
           "default": null,
@@ -2760,7 +2954,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 69
+              "line": 72
             }
           ],
           "group": "ypbin.gateway",
@@ -2782,7 +2976,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 42
+              "line": 45
             }
           ],
           "default": null,
@@ -2792,7 +2986,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 42
+              "line": 45
             }
           ],
           "group": "ypbin.gateway",
@@ -2814,7 +3008,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 48
+              "line": 51
             }
           ],
           "default": "rate-limit.qps",
@@ -2824,7 +3018,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 48
+              "line": 51
             }
           ],
           "group": "ypbin.gateway",
@@ -2846,7 +3040,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 54
+              "line": 57
             }
           ],
           "default": "ypbin:ratelimit:qps:",
@@ -2856,7 +3050,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 54
+              "line": 57
             }
           ],
           "group": "ypbin.gateway",
@@ -2878,7 +3072,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 51
+              "line": 54
             }
           ],
           "default": "rate-limit.quota",
@@ -2888,7 +3082,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 51
+              "line": 54
             }
           ],
           "group": "ypbin.gateway",
@@ -2910,7 +3104,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 57
+              "line": 60
             }
           ],
           "default": "ypbin:ratelimit:quota:",
@@ -2920,7 +3114,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 57
+              "line": 60
             }
           ],
           "group": "ypbin.gateway",
@@ -2942,7 +3136,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 60
+              "line": 63
             }
           ],
           "default": 1,
@@ -2952,7 +3146,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-cloud-gateway/src/main/java/cn/ypbin/starter/gateway/ratelimit/RateLimitProperties.java",
-              "line": 60
+              "line": 63
             }
           ],
           "group": "ypbin.gateway",
@@ -3264,7 +3458,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1641
+              "line": 2155
             }
           ],
           "default": null,
@@ -3274,7 +3468,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1641
+              "line": 2155
             }
           ]
         }
@@ -4356,7 +4550,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1558
+              "line": 2062
             }
           ],
           "default": null,
@@ -4366,7 +4560,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1558
+              "line": 2062
             }
           ]
         },
@@ -4386,7 +4580,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1558
+              "line": 2062
             }
           ],
           "default": null,
@@ -4396,7 +4590,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1558
+              "line": 2062
             }
           ]
         },
@@ -4698,7 +4892,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1734
+              "line": 2251
             }
           ],
           "default": null,
@@ -4708,7 +4902,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1734
+              "line": 2251
             }
           ]
         },
@@ -4730,7 +4924,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1763
+              "line": 2251
             }
           ],
           "default": null,
@@ -4742,7 +4936,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1763
+              "line": 2251
             }
           ]
         },
@@ -4762,7 +4956,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1766
+              "line": 2251
             }
           ],
           "default": null,
@@ -4772,7 +4966,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1766
+              "line": 2251
             }
           ]
         }
@@ -4862,7 +5056,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1793
+              "line": 2305
             }
           ],
           "default": null,
@@ -4872,7 +5066,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1793
+              "line": 2305
             }
           ]
         },
@@ -4892,7 +5086,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1795
+              "line": 2305
             }
           ],
           "default": null,
@@ -4902,7 +5096,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1795
+              "line": 2305
             }
           ]
         }
@@ -4976,6 +5170,38 @@
         },
         {
           "module": "ypbin-starter-core",
+          "key": "ypbin.core.diagnostics.startup-summary-enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "应用就绪时是否打印单行「已激活 starter 模块」自省清单。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-core/src/main/java/cn/ypbin/starter/core/diagnostic/StarterDiagnosticsProperties.java",
+              "line": 38
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-core/src/main/java/cn/ypbin/starter/core/diagnostic/StarterDiagnosticsProperties.java",
+              "line": 38
+            }
+          ],
+          "group": "ypbin.core",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-core",
           "key": "ypbin.resilience.enabled",
           "type": "java.lang.Boolean",
           "defaultDefined": true,
@@ -5021,6 +5247,46 @@
       "configurationProperties": [
         {
           "module": "ypbin-starter-data",
+          "key": "ypbin.data.base-enum.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用「实现 BaseEnum 的枚举按 value 落库/回填」，默认开启。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [],
+          "group": "ypbin.data",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-data",
+          "key": "ypbin.data.base-enum.scan-packages",
+          "type": "java.util.Set<java.lang.String>",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "扫描 BaseEnum 枚举实现的根包，默认 cn.ypbin。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [],
+          "group": "ypbin.data",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-data",
           "key": "ypbin.data.db-type",
           "type": "com.baomidou.mybatisplus.annotation.DbType",
           "defaultDefined": true,
@@ -5035,7 +5301,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 37
+              "line": 39
             }
           ],
           "default": "mysql",
@@ -5045,7 +5311,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 37
+              "line": 39
             }
           ],
           "group": "ypbin.data",
@@ -5067,7 +5333,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 34
+              "line": 36
             }
           ],
           "default": true,
@@ -5077,7 +5343,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 34
+              "line": 36
             }
           ],
           "group": "ypbin.data",
@@ -5123,7 +5389,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 40
+              "line": 42
             }
           ],
           "default": 500,
@@ -5133,7 +5399,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 40
+              "line": 42
             }
           ],
           "group": "ypbin.data",
@@ -5155,7 +5421,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 43
+              "line": 45
             }
           ],
           "default": false,
@@ -5165,7 +5431,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-data/src/main/java/cn/ypbin/starter/data/autoconfigure/DataProperties.java",
-              "line": 43
+              "line": 45
             }
           ],
           "group": "ypbin.data",
@@ -5309,7 +5575,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 86
+              "line": 158
             }
           ],
           "default": null,
@@ -5319,7 +5585,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 86
+              "line": 158
             }
           ]
         }
@@ -5610,7 +5876,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1375
+              "line": 1857
             }
           ],
           "default": "messages",
@@ -5620,7 +5886,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1375
+              "line": 1857
             }
           ]
         }
@@ -5729,6 +5995,26 @@
     },
     "ypbin-starter-json": {
       "configurationProperties": [
+        {
+          "module": "ypbin-starter-json",
+          "key": "ypbin.json.base-enum.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用「实现 BaseEnum 的枚举按 value 序列化/反序列化」，默认开启。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [],
+          "group": "ypbin.json",
+          "deprecation": null
+        },
         {
           "module": "ypbin-starter-json",
           "key": "ypbin.json.date-format",
@@ -6584,7 +6870,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 70
+              "line": 78
             }
           ],
           "default": "UTF-8",
@@ -6594,7 +6880,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 70
+              "line": 78
             }
           ],
           "group": "ypbin.mail",
@@ -6652,7 +6938,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 54
+              "line": 62
             }
           ],
           "default": null,
@@ -6662,7 +6948,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 54
+              "line": 62
             }
           ],
           "group": "ypbin.mail",
@@ -6684,7 +6970,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 58
+              "line": 66
             }
           ],
           "default": null,
@@ -6694,7 +6980,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 58
+              "line": 66
             }
           ],
           "group": "ypbin.mail",
@@ -6716,7 +7002,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 41
+              "line": 49
             }
           ],
           "default": null,
@@ -6726,7 +7012,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 41
+              "line": 49
             }
           ],
           "group": "ypbin.mail",
@@ -6751,7 +7037,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 50
+              "line": 58
             }
           ],
           "default": null,
@@ -6764,7 +7050,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 50
+              "line": 58
             }
           ],
           "group": "ypbin.mail",
@@ -6786,7 +7072,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 44
+              "line": 52
             }
           ],
           "default": 465,
@@ -6796,7 +7082,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 44
+              "line": 52
             }
           ],
           "group": "ypbin.mail",
@@ -6818,7 +7104,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 61
+              "line": 69
             }
           ],
           "default": "smtp",
@@ -6828,7 +7114,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 61
+              "line": 69
             }
           ],
           "group": "ypbin.mail",
@@ -6850,7 +7136,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 64
+              "line": 72
             }
           ],
           "default": true,
@@ -6860,7 +7146,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 64
+              "line": 72
             }
           ],
           "group": "ypbin.mail",
@@ -6882,7 +7168,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 67
+              "line": 75
             }
           ],
           "default": false,
@@ -6892,7 +7178,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 67
+              "line": 75
             }
           ],
           "group": "ypbin.mail",
@@ -6914,7 +7200,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 73
+              "line": 81
             }
           ],
           "default": 10000,
@@ -6924,7 +7210,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 73
+              "line": 81
             }
           ],
           "group": "ypbin.mail",
@@ -6946,7 +7232,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 47
+              "line": 55
             }
           ],
           "default": null,
@@ -6956,7 +7242,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/mail/MailConfig.java",
-              "line": 47
+              "line": 55
             }
           ],
           "group": "ypbin.mail",
@@ -7456,6 +7742,70 @@
         },
         {
           "module": "ypbin-starter-messaging",
+          "key": "ypbin.sse.fanout-channel",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "ypbin:sse:fanout",
+          "required": false,
+          "requiredWhen": null,
+          "description": "跨实例扇出的 Redis Pub/Sub 频道名。多个应用共用同一 Redis 实例时必须改成本应用专属频道名（建议含应用标识），否则会互相收到并不属于自己的扇出帧。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/sse/SseProperties.java",
+              "line": 77
+            }
+          ],
+          "default": "ypbin:sse:fanout",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/sse/SseProperties.java",
+              "line": 77
+            }
+          ],
+          "group": "ypbin.sse",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-messaging",
+          "key": "ypbin.sse.fanout-enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用 Redis Pub/Sub 跨实例扇出（仅在类路径与容器都存在 StringRedisTemplate 时生效）。关闭即退化为纯单实例投递：连接注册表在内存，其它实例收不到本实例的推送。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/sse/SseProperties.java",
+              "line": 69
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-messaging/src/main/java/cn/ypbin/starter/messaging/sse/SseProperties.java",
+              "line": 69
+            }
+          ],
+          "group": "ypbin.sse",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-messaging",
           "key": "ypbin.sse.heartbeat-interval-seconds",
           "type": "java.lang.Long",
           "defaultDefined": true,
@@ -7922,7 +8272,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1173
+              "line": 1555
             }
           ],
           "default": null,
@@ -7932,7 +8282,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 1173
+              "line": 1555
             }
           ]
         }
@@ -8822,6 +9172,166 @@
         },
         {
           "module": "ypbin-starter-security",
+          "key": "ypbin.security.internal-token.envelope-path-patterns",
+          "type": "java.util.List<java.lang.String>",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "ENVELOPE 语义的生效路径（Ant 风格），默认 /internal/**；显式置空即不注册该语义。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 85
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 85
+            }
+          ],
+          "group": "ypbin.security",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-security",
+          "key": "ypbin.security.internal-token.guard-enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": false,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用内部调用凭证守卫，默认关闭（显式开启，避免破坏未配置宿主）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 69
+            }
+          ],
+          "default": false,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 69
+            }
+          ],
+          "group": "ypbin.security",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-security",
+          "key": "ypbin.security.internal-token.header-name",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "X-Internal-Token",
+          "required": false,
+          "requiredWhen": null,
+          "description": "凭证请求头名，默认 {@value #DEFAULT_HEADER_NAME}（改动需与携带侧同步）",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 80
+            }
+          ],
+          "default": "X-Internal-Token",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 80
+            }
+          ],
+          "group": "ypbin.security",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-security",
+          "key": "ypbin.security.internal-token.raw401-path-patterns",
+          "type": "java.util.List<java.lang.String>",
+          "defaultDefined": false,
+          "defaultValue": null,
+          "required": false,
+          "requiredWhen": null,
+          "description": "RAW_401 语义的生效路径（Servlet 风格，如 /internal/mqtt/*），默认空即不注册该语义。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 92
+            }
+          ],
+          "default": null,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 92
+            }
+          ],
+          "group": "ypbin.security",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-security",
+          "key": "ypbin.security.internal-token.token",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "",
+          "required": false,
+          "requiredWhen": null,
+          "description": "内部调用凭证（密钥，各服务共享同一值，部署时经环境变量注入，不落库）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 77
+            }
+          ],
+          "default": "",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-security/src/main/java/cn/ypbin/starter/security/internal/InternalTokenProperties.java",
+              "line": 77
+            }
+          ],
+          "group": "ypbin.security",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-security",
           "key": "ypbin.security.management.base-path",
           "type": "java.lang.String",
           "defaultDefined": true,
@@ -9506,7 +10016,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 345
+              "line": 375
             }
           ],
           "default": 2592000,
@@ -9516,7 +10026,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 345
+              "line": 375
             }
           ]
         },
@@ -9536,7 +10046,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 346
+              "line": 375
             }
           ],
           "default": 1800,
@@ -9546,7 +10056,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 346
+              "line": 375
             }
           ]
         },
@@ -9566,7 +10076,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 347
+              "line": 375
             }
           ],
           "default": true,
@@ -9576,7 +10086,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 347
+              "line": 375
             }
           ]
         }
@@ -10975,7 +11485,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 579
+              "line": 759
             }
           ],
           "default": null,
@@ -10985,7 +11495,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 579
+              "line": 759
             }
           ]
         },
@@ -11005,7 +11515,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 579
+              "line": 759
             }
           ],
           "default": null,
@@ -11015,7 +11525,7 @@
             {
               "kind": "spring-standard-or-third-party",
               "path": "docs/MODULES.md",
-              "line": 579
+              "line": 759
             }
           ]
         }
@@ -11023,6 +11533,198 @@
     },
     "ypbin-starter-tools": {
       "configurationProperties": [
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.lock.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用租约锁（长任务分布式互斥）。关闭后退回「每个副本都执行」，仅单实例部署可关。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 43
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 43
+            }
+          ],
+          "group": "ypbin.lock",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.lock.fail-open",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "锁存储不可用时是否继续执行任务。true（默认）=fail-open，多副本可能重复执行；false=fail-closed，存储异常直接上抛。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 60
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 60
+            }
+          ],
+          "group": "ypbin.lock",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.lock.key-prefix",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "ypbin:lease-lock:",
+          "required": false,
+          "requiredWhen": null,
+          "description": "租约锁键前缀（所有任务锁键都带它，便于在 Redis 里识别与控制）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 46
+            }
+          ],
+          "default": "ypbin:lease-lock:",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 46
+            }
+          ],
+          "group": "ypbin.lock",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.lock.metric-prefix",
+          "type": "java.lang.String",
+          "defaultDefined": true,
+          "defaultValue": "ypbin.lock",
+          "required": false,
+          "requiredWhen": null,
+          "description": "租约锁指标名前缀（skipped/unavailable/renew.failed 三个计数器挂在其下）；库不把宿主应用域名写死进指标名。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 68
+            }
+          ],
+          "default": "ypbin.lock",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 68
+            }
+          ],
+          "group": "ypbin.lock",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.lock.renew-interval",
+          "type": "java.time.Duration",
+          "defaultDefined": true,
+          "defaultValue": "20s",
+          "required": false,
+          "requiredWhen": null,
+          "description": "续期间隔（必须小于 ttl，否则锁会在第一次续期之前过期，多副本下并发执行）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 52
+            }
+          ],
+          "default": "20s",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 52
+            }
+          ],
+          "group": "ypbin.lock",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-tools",
+          "key": "ypbin.lock.ttl",
+          "type": "java.time.Duration",
+          "defaultDefined": true,
+          "defaultValue": "60s",
+          "required": false,
+          "requiredWhen": null,
+          "description": "租约时长（持锁实例崩溃后，最坏这么久别的实例才能接管）。必须大于 renew-interval。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块还需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 49
+            }
+          ],
+          "default": "60s",
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-tools/src/main/java/cn/ypbin/starter/tools/lock/LeaseLockProperties.java",
+              "line": 49
+            }
+          ],
+          "group": "ypbin.lock",
+          "deprecation": null
+        },
         {
           "module": "ypbin-starter-tools",
           "key": "ypbin.tools.idempotent.distributed",
@@ -11839,6 +12541,42 @@
         },
         {
           "module": "ypbin-starter-web",
+          "key": "ypbin.web.base-enum.enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": "true",
+          "required": false,
+          "requiredWhen": null,
+          "description": "条件开关：ypbin.web.base-enum.enabled=true 时装配 WebAutoConfiguration。",
+          "allowedValues": [
+            "true"
+          ],
+          "enablement": "需显式满足该条件（WebAutoConfiguration）。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-web/src/main/java/cn/ypbin/starter/web/autoconfigure/WebAutoConfiguration.java",
+              "line": 89
+            }
+          ],
+          "default": "true",
+          "values": [
+            "true"
+          ],
+          "notes": [],
+          "source": [
+            {
+              "kind": "conditional-on-property",
+              "path": "ypbin-starter-web/src/main/java/cn/ypbin/starter/web/autoconfigure/WebAutoConfiguration.java",
+              "line": 89
+            }
+          ],
+          "group": "ypbin.web",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-web",
           "key": "ypbin.web.cors.allow-credentials",
           "type": "java.lang.Boolean",
           "defaultDefined": true,
@@ -12267,25 +13005,31 @@
           "defaultValue": "",
           "required": false,
           "requiredWhen": null,
-          "description": "执行器通讯 Token（与 admin 端保持一致，为空则不做校验）",
+          "description": "执行器通讯 Token。",
           "allowedValues": [],
           "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
-          "safetyNotes": [],
+          "safetyNotes": [
+            "3.5.0 起为执行器（AppName）维度且不可为空，须与调度中心 admin 中该 appname 的 access_token 一致。",
+            "admin 与执行器必须同版本成对升级到 3.5.0，否则注册/调度在运行期失败。"
+          ],
           "sources": [
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 46
+              "line": 59
             }
           ],
           "default": "",
           "values": [],
-          "notes": [],
+          "notes": [
+            "3.5.0 起为执行器（AppName）维度且不可为空，须与调度中心 admin 中该 appname 的 access_token 一致。",
+            "admin 与执行器必须同版本成对升级到 3.5.0，否则注册/调度在运行期失败。"
+          ],
           "source": [
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 46
+              "line": 59
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12307,7 +13051,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 52
+              "line": 65
             }
           ],
           "default": null,
@@ -12317,7 +13061,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 52
+              "line": 65
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12341,7 +13085,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 43
+              "line": 50
             }
           ],
           "default": null,
@@ -12353,7 +13097,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 43
+              "line": 50
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12377,7 +13121,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 49
+              "line": 62
             }
           ],
           "default": null,
@@ -12389,7 +13133,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 49
+              "line": 62
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12411,7 +13155,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 40
+              "line": 47
             }
           ],
           "default": false,
@@ -12421,7 +13165,39 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 40
+              "line": 47
+            }
+          ],
+          "group": "ypbin.xxl-job",
+          "deprecation": null
+        },
+        {
+          "module": "ypbin-starter-xxljob",
+          "key": "ypbin.xxl-job.glue-enabled",
+          "type": "java.lang.Boolean",
+          "defaultDefined": true,
+          "defaultValue": true,
+          "required": false,
+          "requiredWhen": null,
+          "description": "是否启用 GLUE（非 BEAN）模式任务（3.5.0 新增，执行器维度；默认 true）。",
+          "allowedValues": [],
+          "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
+          "safetyNotes": [],
+          "sources": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 89
+            }
+          ],
+          "default": true,
+          "values": [],
+          "notes": [],
+          "source": [
+            {
+              "kind": "java-property",
+              "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
+              "line": 89
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12443,7 +13219,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 55
+              "line": 68
             }
           ],
           "default": null,
@@ -12453,7 +13229,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 55
+              "line": 68
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12467,7 +13243,7 @@
           "defaultValue": null,
           "required": false,
           "requiredWhen": null,
-          "description": "执行器日志保存路径（为空使用默认临时目录）",
+          "description": "执行器日志保存路径。",
           "allowedValues": [],
           "enablement": "绑定后由对应模块读取；模块需满足类路径和自动装配条件。",
           "safetyNotes": [],
@@ -12475,7 +13251,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 61
+              "line": 79
             }
           ],
           "default": null,
@@ -12485,7 +13261,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 61
+              "line": 79
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12507,7 +13283,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 64
+              "line": 82
             }
           ],
           "default": 30,
@@ -12517,7 +13293,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 64
+              "line": 82
             }
           ],
           "group": "ypbin.xxl-job",
@@ -12539,7 +13315,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 58
+              "line": 71
             }
           ],
           "default": 9999,
@@ -12549,7 +13325,7 @@
             {
               "kind": "java-property",
               "path": "ypbin-starter-xxljob/src/main/java/cn/ypbin/starter/xxljob/autoconfigure/XxlJobProperties.java",
-              "line": 58
+              "line": 71
             }
           ],
           "group": "ypbin.xxl-job",
