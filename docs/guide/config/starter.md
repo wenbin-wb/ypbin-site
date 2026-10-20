@@ -5,7 +5,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 # Starter 配置参考
 
-本页由 starter 构建产物中的 configuration-metadata 生成，覆盖 **397** 个配置项，其中 `ypbin.*` 357 项、宿主标准配置 40 项。默认值以源码为准。表格支持左右滚动。
+本页由 starter 构建产物中的 configuration-metadata 生成，覆盖 **423** 个配置项，其中 `ypbin.*` 383 项、宿主标准配置 40 项。默认值以源码为准。表格支持左右滚动。
 
 ## ypbin-starter-ai
 
@@ -110,11 +110,12 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
 | `ypbin.cache.enabled` | `boolean` | true | 是否启用缓存自动配置（定制 RedisTemplate 与 CacheService）。<br>可选值：—<br><strong>注意</strong>：— |
-| `ypbin.cache.multi-level.enabled` | `boolean` | false | 是否启用多级缓存（L1 Caffeine 本地 + L2 Redis），需类路径存在 Caffeine。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:32</span> |
-| `ypbin.cache.multi-level.invalidation-broadcast` | `boolean` | true | 是否开启跨实例失效广播（多副本部署需开启）。<br>可选值：—<br><strong>注意</strong>：多副本部署应开启跨实例失效广播；强一致数据不应依赖本地 L1。<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:41</span> |
-| `ypbin.cache.multi-level.invalidation-channel` | `string` | ypbin:cache:invalidation | 失效广播 Redis Pub/Sub 频道名。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:44</span> |
-| `ypbin.cache.multi-level.local-expire-seconds` | `long` | 300 | L1 本地缓存写后过期秒数（应小于 L2 TTL，作为最终一致兜底）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:38</span> |
-| `ypbin.cache.multi-level.local-max-size` | `long` | 10000 | L1 本地缓存最大条目数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:35</span> |
+| `ypbin.cache.multi-level.enabled` | `boolean` | false | 是否启用多级缓存（L1 Caffeine 本地 + L2 Redis），需类路径存在 Caffeine。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:41</span> |
+| `ypbin.cache.multi-level.invalidation-broadcast` | `boolean` | true | 是否开启跨实例失效广播（多副本部署需开启）。<br>可选值：—<br><strong>注意</strong>：多副本部署应开启跨实例失效广播；强一致数据不应依赖本地 L1。<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:50</span> |
+| `ypbin.cache.multi-level.invalidation-channel` | `string` | ypbin:cache:invalidation | 失效广播 Redis Pub/Sub 频道名。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:53</span> |
+| `ypbin.cache.multi-level.local-expire-seconds` | `long` | 300 | L1 本地缓存写后过期秒数（应小于 L2 TTL，作为最终一致兜底）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:47</span> |
+| `ypbin.cache.multi-level.local-max-size` | `long` | 10000 | L1 本地缓存最大条目数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:44</span> |
+| `ypbin.cache.multi-level.metrics-cache-name` | `string` | multi-level | 多级缓存运行时指标的 cache 标签值，默认 #DEFAULT&#95;METRICS&#95;CACHE&#95;NAME。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MultiLevelCacheProperties.java:67</span> |
 | `spring.data.redis.host` | `string` | localhost | Redis 主机；缓存、多级缓存和分布式存储使用。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：CacheAutoConfiguration.java:55</span> |
 | `spring.data.redis.port` | `integer` | 6379 | Redis 端口。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：CacheAutoConfiguration.java:55</span> |
 | `spring.data.redis.password` | `string` | — | Redis 密码。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：CacheAutoConfiguration.java:55</span> |
@@ -142,14 +143,16 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.cloud.feign.circuitbreaker-enabled` | `boolean` | true | 是否默认开启 OpenFeign circuitbreaker，默认开启。 开启时同时注入 resilience4j 默认熔断/超时参数（见 FeignDefaultsEnvironmentPostProcessor： TimeLimiter 10s、20 次滑动窗口、50% 失败率阈值等），业务可通过 resilience4j.&#42; 配置整体或逐项覆盖。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:44</span> |
-| `ypbin.cloud.feign.enabled` | `boolean` | true | 是否启用 Feign 增强（请求头透传等），默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:34</span> |
-| `ypbin.cloud.feign.error-decoder-enabled` | `boolean` | true | 是否启用统一错误解码，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:37</span> |
-| `ypbin.cloud.feign.identity-headers` | `list<String>` | — | 身份类请求头名单（大小写不敏感）。这些头只应由可信网关签发，故当配置了 #trustedSourceToken 时，仅当入站请求携带匹配的 #trustedSourceHeader 才会二次透传，避免直连服务伪造身份后经 Feign 调用放大越权。<br>可选值：—<br><strong>注意</strong>：未配置 trusted-source-token 时身份头不做来源校验直接透传（保持兼容），启动时会打印 WARN 提示。<br><span class="cfg-src">来源：FeignProperties.java:63</span> |
-| `ypbin.cloud.feign.propagate-headers` | `list<String>` | — | 需要透传到下游服务的请求头名单（大小写不敏感）。 默认透传认证、链路追踪与身份头（身份头由可信网关统一清洗/签发，二次 RPC 时保证 下游仍能识别调用者身份；若需自定义可在配置中覆盖）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:51</span> |
-| `ypbin.cloud.feign.require-trusted-source` | `boolean` | false | 是否要求必须配置可信来源标记，默认 false（仅启动告警）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:81</span> |
-| `ypbin.cloud.feign.trusted-source-header` | `string` | X-Gateway-Signed | 可信来源标记头名（由可信网关在清洗外部头后签发）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:67</span> |
-| `ypbin.cloud.feign.trusted-source-token` | `string` |  | 可信来源标记期望值； 为空表示不启用来源校验 （保持既有透传行为）。 生产环境建议在网关与各下游服务统一配置同一随机串后启用。<br>可选值：—<br><strong>注意</strong>：为空时身份头透传不做来源校验；服务可被外部直连时存在身份伪造放大风险，建议配置。<br><span class="cfg-src">来源：FeignProperties.java:73</span> |
+| `ypbin.cloud.feign.circuitbreaker-enabled` | `boolean` | true | 是否默认开启 OpenFeign circuitbreaker，默认开启。 开启时同时注入 resilience4j 默认熔断/超时参数（见 FeignDefaultsEnvironmentPostProcessor： TimeLimiter 10s、20 次滑动窗口、50% 失败率阈值等），业务可通过 resilience4j.&#42; 配置整体或逐项覆盖。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:51</span> |
+| `ypbin.cloud.feign.enabled` | `boolean` | true | 是否启用 Feign 增强（请求头透传等），默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:41</span> |
+| `ypbin.cloud.feign.error-decoder-enabled` | `boolean` | true | 是否启用统一错误解码，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:44</span> |
+| `ypbin.cloud.feign.identity-headers` | `list<String>` | — | 身份类请求头名单（大小写不敏感）。这些头只应由可信网关签发，故当配置了 #trustedSourceToken 时，仅当入站请求携带匹配的 #trustedSourceHeader 才会二次透传，避免直连服务伪造身份后经 Feign 调用放大越权。<br>可选值：—<br><strong>注意</strong>：未配置 trusted-source-token 时身份头不做来源校验直接透传（保持兼容），启动时会打印 WARN 提示。<br><span class="cfg-src">来源：FeignProperties.java:70</span> |
+| `ypbin.cloud.feign.internal-token` | `string` |  | 内部调用凭证（密钥），默认空即不注入；真实凭据，绝不进入日志、异常消息或 toString。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:94</span> |
+| `ypbin.cloud.feign.internal-token-header` | `string` | — | 内部调用凭证请求头名，默认 X-Internal-Token（必须与 security 守卫侧逐字一致，见常量注释）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:91</span> |
+| `ypbin.cloud.feign.propagate-headers` | `list<String>` | — | 需要透传到下游服务的请求头名单（大小写不敏感）。 默认透传认证、链路追踪与身份头（身份头由可信网关统一清洗/签发，二次 RPC 时保证 下游仍能识别调用者身份；若需自定义可在配置中覆盖）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:58</span> |
+| `ypbin.cloud.feign.require-trusted-source` | `boolean` | false | 是否要求必须配置可信来源标记，默认 false（仅启动告警）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:88</span> |
+| `ypbin.cloud.feign.trusted-source-header` | `string` | X-Gateway-Signed | 可信来源标记头名（由可信网关在清洗外部头后签发）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignProperties.java:74</span> |
+| `ypbin.cloud.feign.trusted-source-token` | `string` |  | 可信来源标记期望值； 为空表示不启用来源校验 （保持既有透传行为）。 生产环境建议在网关与各下游服务统一配置同一随机串后启用。<br>可选值：—<br><strong>注意</strong>：为空时身份头透传不做来源校验；服务可被外部直连时存在身份伪造放大风险，建议配置。<br><span class="cfg-src">来源：FeignProperties.java:80</span> |
 | `spring.cloud.openfeign.circuitbreaker.enabled` | `boolean` | true | Feign CircuitBreaker 标准开关；由 ypbin.cloud.feign.circuitbreaker-enabled 低优先级映射。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：FeignDefaultsEnvironmentPostProcessor.java:49</span> |
 
 </div>
@@ -176,17 +179,20 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.gateway.enabled` | `boolean` | true | 是否启用网关增强，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewayProperties.java:34</span> |
 | `ypbin.gateway.header-sanitize.enabled` | `boolean` | true | 是否清洗客户端传入的身份类请求头，默认开启<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.gateway.header-sanitize.headers` | `list<String>` | — | 客户端不可直接传入、需由可信网关签发的请求头<br>可选值：—<br><strong>注意</strong>：— |
-| `ypbin.gateway.rate-limit.default-qps` | `integer` | 10 | 默认 QPS 配额。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:63</span> |
-| `ypbin.gateway.rate-limit.default-quota` | `integer` | 100000 | 默认日配额（0 = 不限）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:66</span> |
-| `ypbin.gateway.rate-limit.enabled` | `boolean` | false | 是否启用（默认关闭：新过滤器不得在业务方不知情时激活）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:39</span> |
-| `ypbin.gateway.rate-limit.key-attribute` | `string` | rate-limit.key | 维度键的 attribute 名（如 API Key 场景放 accessKeyId）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:45</span> |
-| `ypbin.gateway.rate-limit.order` | `integer` | — | 过滤器顺序（默认与既有鉴权链衔接：清洗 &lt; 签发 &lt; 鉴权 &lt; 限流）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:69</span> |
-| `ypbin.gateway.rate-limit.path-prefixes` | `list<String>` | — | 生效路径前缀（任一命中即限流；为空 = 全路径，危险，须显式配置）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:42</span> |
-| `ypbin.gateway.rate-limit.qps-attribute` | `string` | rate-limit.qps | QPS 配额的 attribute 名（缺席用默认）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:48</span> |
-| `ypbin.gateway.rate-limit.qps-key-prefix` | `string` | ypbin:ratelimit:qps: | QPS 计数 Redis key 前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:54</span> |
-| `ypbin.gateway.rate-limit.quota-attribute` | `string` | rate-limit.quota | 日配额的 attribute 名（缺席用默认）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:51</span> |
-| `ypbin.gateway.rate-limit.quota-key-prefix` | `string` | ypbin:ratelimit:quota: | 日配额计数 Redis key 前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:57</span> |
-| `ypbin.gateway.rate-limit.window-seconds` | `integer` | 1 | 限流窗口秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:60</span> |
+| `ypbin.gateway.internal-path-block.enabled` | `boolean` | true | 是否启用内部端点路径阻断，默认 true（安全默认：内部端点不应经网关对外暴露）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalPathBlockProperties.java:85</span> |
+| `ypbin.gateway.internal-path-block.not-found-status` | `integer` | 404 | 命中时写回的 HTTP 状态码，默认 404（用 404 而非 403，避免暴露内部端点存在性）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalPathBlockProperties.java:91</span> |
+| `ypbin.gateway.internal-path-block.path-patterns` | `list<String>` | — | 生效路径模式清单，默认任意层级前缀下的 /internal/&#42;&#42;（含顶层）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalPathBlockProperties.java:88</span> |
+| `ypbin.gateway.rate-limit.default-qps` | `integer` | 10 | 默认 QPS 配额。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:66</span> |
+| `ypbin.gateway.rate-limit.default-quota` | `integer` | 100000 | 默认日配额（0 = 不限）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:69</span> |
+| `ypbin.gateway.rate-limit.enabled` | `boolean` | false | 是否启用（默认关闭：新过滤器不得在业务方不知情时激活）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:42</span> |
+| `ypbin.gateway.rate-limit.key-attribute` | `string` | rate-limit.key | 维度键的 attribute 名（如 API Key 场景放 accessKeyId）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:48</span> |
+| `ypbin.gateway.rate-limit.order` | `integer` | — | 过滤器顺序（默认与既有鉴权链衔接：清洗 &lt; 签发 &lt; 鉴权 &lt; 限流）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:72</span> |
+| `ypbin.gateway.rate-limit.path-prefixes` | `list<String>` | — | 生效路径前缀（任一命中即限流；为空 = 全路径，危险，须显式配置）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:45</span> |
+| `ypbin.gateway.rate-limit.qps-attribute` | `string` | rate-limit.qps | QPS 配额的 attribute 名（缺席用默认）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:51</span> |
+| `ypbin.gateway.rate-limit.qps-key-prefix` | `string` | ypbin:ratelimit:qps: | QPS 计数 Redis key 前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:57</span> |
+| `ypbin.gateway.rate-limit.quota-attribute` | `string` | rate-limit.quota | 日配额的 attribute 名（缺席用默认）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:54</span> |
+| `ypbin.gateway.rate-limit.quota-key-prefix` | `string` | ypbin:ratelimit:quota: | 日配额计数 Redis key 前缀。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:60</span> |
+| `ypbin.gateway.rate-limit.window-seconds` | `integer` | 1 | 限流窗口秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：RateLimitProperties.java:63</span> |
 | `ypbin.gateway.request-id-header` | `string` | X-Request-Id | 请求 ID 请求头名称<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewayProperties.java:37</span> |
 | `ypbin.gateway.route.nacos.data-id` | `string` | gateway-routes.json | Nacos 配置 Data ID<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosRouteProperties.java:35</span> |
 | `ypbin.gateway.route.nacos.enabled` | `boolean` | false | 是否启用 Nacos 动态路由，默认关闭<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosRouteProperties.java:32</span> |
@@ -196,7 +202,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.gateway.swagger.enabled` | `boolean` | false | 是否启用 Swagger 聚合，默认关闭<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewaySwaggerAggregationProperties.java:34</span> |
 | `ypbin.gateway.swagger.excluded-route-prefixes` | `list<String>` | — | 需要排除的路由 ID 前缀<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewaySwaggerAggregationProperties.java:43</span> |
 | `ypbin.gateway.swagger.group-name` | `string` | default | 下游服务分组名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：GatewaySwaggerAggregationProperties.java:40</span> |
-| `spring.cloud.gateway.routes[]` | `list<RouteDefinition>` | — | 静态网关路由列表；starter 不预设业务路由。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1641</span> |
+| `spring.cloud.gateway.routes[]` | `list<RouteDefinition>` | — | 静态网关路由列表；starter 不预设业务路由。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2202</span> |
 
 </div>
 
@@ -252,8 +258,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `spring.profiles.active` | `string` | — | 显式激活的环境 profile。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:50</span> |
 | `spring.profiles.default` | `string` | dev | 无 active profile 时的默认环境；可由 ypbin.cloud.nacos.default-profile 控制。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:52</span> |
 | `spring.config.import` | `string` | 自动生成 optional:nacos:... | ConfigData 导入列表；宿主显式配置时优先。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:46</span> |
-| `spring.cloud.nacos.discovery.server-addr` | `string` | — | Nacos 注册发现服务地址。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1558</span> |
-| `spring.cloud.nacos.config.server-addr` | `string` | — | Nacos 配置中心服务地址。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1558</span> |
+| `spring.cloud.nacos.discovery.server-addr` | `string` | — | Nacos 注册发现服务地址。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2109</span> |
+| `spring.cloud.nacos.config.server-addr` | `string` | — | Nacos 配置中心服务地址。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2109</span> |
 | `spring.cloud.nacos.config.import-check.enabled` | `boolean` | false | Nacos ConfigData import 检查开关。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:54</span> |
 | `nacos.logging.default.config.enabled` | `boolean` | false | 是否启用 Nacos 默认日志配置。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:70</span> |
 | `management.info.process.enabled` | `boolean` | true | 是否暴露 Actuator process info。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：NacosEnvironmentPostProcessor.java:72</span> |
@@ -274,9 +280,9 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.observability.enabled` | `boolean` | true | 是否启用可观测性（X-Request-Id 与 MDC 关联），默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ObservabilityProperties.java:32</span> |
 | `ypbin.observability.mdc-key` | `string` | requestId | 写入 MDC 的键名，日志 pattern 可引用<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ObservabilityProperties.java:38</span> |
 | `ypbin.observability.request-id-header` | `string` | X-Request-Id | 请求 ID 请求头名称，与网关 RequestId 保持一致<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ObservabilityProperties.java:35</span> |
-| `logging.pattern.level` | `string` | — | 日志级别 pattern；可引用 MDC requestId。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1734</span> |
-| `management.tracing.sampling.probability` | `double` | — | 分布式追踪采样概率，范围 0.0 到 1.0。<br>可选值：0.0..1.0<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1763</span> |
-| `management.otlp.tracing.endpoint` | `string` | — | OTLP trace 上报端点。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1766</span> |
+| `logging.pattern.level` | `string` | — | 日志级别 pattern；可引用 MDC requestId。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2298</span> |
+| `management.tracing.sampling.probability` | `double` | — | 分布式追踪采样概率，范围 0.0 到 1.0。<br>可选值：0.0..1.0<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2298</span> |
+| `management.otlp.tracing.endpoint` | `string` | — | OTLP trace 上报端点。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2298</span> |
 
 </div>
 
@@ -290,8 +296,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 |---|---|---|---|
 | `ypbin.cloud.sentinel.block-message` | `string` | 请求过于频繁，请稍后重试 | 被限流时的提示信息<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SentinelProperties.java:35</span> |
 | `ypbin.cloud.sentinel.enabled` | `boolean` | true | 是否启用被限流/降级时的统一 R 响应，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SentinelProperties.java:32</span> |
-| `spring.cloud.sentinel.transport.dashboard` | `string` | — | Sentinel Dashboard 地址。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1793</span> |
-| `spring.cloud.sentinel.datasource.<name>.nacos.*` | `object` | — | Sentinel Nacos 规则源：server-addr、data-id、group-id、rule-type。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1795</span> |
+| `spring.cloud.sentinel.transport.dashboard` | `string` | — | Sentinel Dashboard 地址。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2352</span> |
+| `spring.cloud.sentinel.datasource.<name>.nacos.*` | `object` | — | Sentinel Nacos 规则源：server-addr、data-id、group-id、rule-type。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:2352</span> |
 
 </div>
 
@@ -305,6 +311,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 |---|---|---|---|
 | `management.endpoint.ypbin.access` | `access` | unrestricted | Permitted level of access for the ypbin endpoint.<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StarterDiagnosticEndpoint.java:</span> |
 | `management.endpoint.ypbin.cache.time-to-live` | `duration` | 0ms | Maximum time that a response can be cached.<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StarterDiagnosticEndpoint.java:</span> |
+| `ypbin.core.diagnostics.startup-summary-enabled` | `boolean` | true | 应用就绪时是否打印单行「已激活 starter 模块」自省清单。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StarterDiagnosticsProperties.java:38</span> |
 | `ypbin.resilience.enabled` | `boolean` | true | 条件开关：ypbin.resilience.enabled=true 时装配 ResilienceAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：与所有 Spring AOP 能力一致：同类内部自调用不经过代理，弹性注解不生效，须跨 Bean 调用。<br><span class="cfg-src">来源：ResilienceAutoConfiguration.java:46</span> |
 
 </div>
@@ -317,16 +324,19 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.data.db-type` | `dbType` | mysql | 数据库类型，用于分页方言，默认 MySQL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:37</span> |
-| `ypbin.data.enabled` | `boolean` | true | 是否启用数据增强，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:34</span> |
+| `ypbin.data.base-enum.empty-scan-diagnostic` | `boolean` | true | 「零命中诊断」开关，默认开启。<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.data.base-enum.enabled` | `boolean` | true | 是否启用「实现 BaseEnum 的枚举按 value 落库/回填」，默认开启。<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.data.base-enum.scan-packages` | `set<String>` | — | 扫描 BaseEnum 枚举实现的根包，默认 cn.ypbin。<br>可选值：—<br><strong>注意</strong>：— |
+| `ypbin.data.db-type` | `dbType` | mysql | 数据库类型，用于分页方言，默认 MySQL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:39</span> |
+| `ypbin.data.enabled` | `boolean` | true | 是否启用数据增强，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:36</span> |
 | `ypbin.data.encrypt.key` | `string` | — | AES 密钥，长度需为 16/24/32 字节。配置后才装配默认字段加密器<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。 |
-| `ypbin.data.max-limit` | `long` | 500 | 单页最大条数限制，防止恶意超大分页，-1 表示不限制<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:40</span> |
-| `ypbin.data.overflow` | `boolean` | false | 溢出总页数后是否进行处理（跳回首页）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:43</span> |
+| `ypbin.data.max-limit` | `long` | 500 | 单页最大条数限制，防止恶意超大分页，-1 表示不限制<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:42</span> |
+| `ypbin.data.overflow` | `boolean` | false | 溢出总页数后是否进行处理（跳回首页）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataProperties.java:45</span> |
 | `spring.datasource.url` | `string` | — | JDBC 数据源连接地址；数据模块执行数据库访问时由宿主配置。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：pom.xml:1</span> |
 | `spring.datasource.username` | `string` | — | JDBC 数据库用户名。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：pom.xml:1</span> |
 | `spring.datasource.password` | `string` | — | JDBC 数据库密码。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：pom.xml:1</span> |
 | `mybatis-plus.global-config.banner` | `boolean` | false | 是否打印 MyBatis-Plus banner；starter 低优先级关闭。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：DataDefaultsEnvironmentPostProcessor.java:47</span> |
-| `mybatis-plus.global-config.db-config.id-type` | `idType` | — | 宿主需要覆盖默认雪花 ID 策略时配置。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:86</span> |
+| `mybatis-plus.global-config.db-config.id-type` | `idType` | — | 宿主需要覆盖默认雪花 ID 策略时配置。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:158</span> |
 
 </div>
 
@@ -357,7 +367,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.i18n.enabled` | `boolean` | true | 是否启用国际化，默认开启<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：I18nProperties.java:32</span> |
 | `ypbin.i18n.header-name` | `string` | Accept-Language | 从请求头取语言的头名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：I18nProperties.java:38</span> |
 | `ypbin.i18n.param-name` | `string` | lang | 从请求参数取语言的参数名（如 ?lang=en&#95;US）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：I18nProperties.java:35</span> |
-| `spring.messages.basename` | `string` | messages | 国际化资源 basename。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1375</span> |
+| `spring.messages.basename` | `string` | messages | 国际化资源 basename。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1904</span> |
 
 </div>
 
@@ -383,6 +393,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
+| `ypbin.json.base-enum.enabled` | `boolean` | true | 是否启用「实现 BaseEnum 的枚举按 value 序列化/反序列化」，默认开启。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.json.date-format` | `string` | yyyy-MM-dd | 日期格式<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：JacksonProperties.java:44</span> |
 | `ypbin.json.date-time-format` | `string` | yyyy-MM-dd HH:mm:ss | 日期时间格式<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：JacksonProperties.java:41</span> |
 | `ypbin.json.dict.max-size` | `integer` | 10000 | 缓存容量上限（不同字典类型数），默认 1 万。超出时先清理过期条目，仍满则淘汰最早到期的一条， 保证新字典类型仍可缓存。设为 0 或负数表示关闭字典缓存（每次读取都回源）。<br>可选值：—<br><strong>注意</strong>：— |
@@ -446,18 +457,18 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.mail.default-encoding` | `string` | UTF-8 | 编码<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:70</span> |
+| `ypbin.mail.default-encoding` | `string` | UTF-8 | 编码<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:78</span> |
 | `ypbin.mail.enabled` | `boolean` | true | 条件开关：ypbin.mail.enabled=true 时装配 MailAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailAutoConfiguration.java:45</span> |
-| `ypbin.mail.from` | `string` | — | 发件人邮箱，为空时取 #username<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:54</span> |
-| `ypbin.mail.from-name` | `string` | — | 发件人显示名，可空<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:58</span> |
-| `ypbin.mail.host` | `string` | — | SMTP 服务器地址<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:41</span> |
-| `ypbin.mail.password` | `string` | — | 密码/授权码<br>可选值：—<br><strong>注意</strong>：使用环境变量或密钥服务，禁止提交明文。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：MailConfig.java:50</span> |
-| `ypbin.mail.port` | `integer` | 465 | SMTP 端口<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:44</span> |
-| `ypbin.mail.protocol` | `string` | smtp | 协议，默认 smtp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:61</span> |
-| `ypbin.mail.ssl-enabled` | `boolean` | true | 是否启用 SSL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:64</span> |
-| `ypbin.mail.starttls-enabled` | `boolean` | false | 是否启用 STARTTLS<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:67</span> |
-| `ypbin.mail.timeout` | `integer` | 10000 | 连接/读取超时（毫秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:73</span> |
-| `ypbin.mail.username` | `string` | — | 账号<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:47</span> |
+| `ypbin.mail.from` | `string` | — | 发件人邮箱，为空时取 #username<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:62</span> |
+| `ypbin.mail.from-name` | `string` | — | 发件人显示名，可空<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:66</span> |
+| `ypbin.mail.host` | `string` | — | SMTP 服务器地址<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:49</span> |
+| `ypbin.mail.password` | `string` | — | 密码/授权码<br>可选值：—<br><strong>注意</strong>：使用环境变量或密钥服务，禁止提交明文。 / 敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：MailConfig.java:58</span> |
+| `ypbin.mail.port` | `integer` | 465 | SMTP 端口<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:52</span> |
+| `ypbin.mail.protocol` | `string` | smtp | 协议，默认 smtp<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:69</span> |
+| `ypbin.mail.ssl-enabled` | `boolean` | true | 是否启用 SSL<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:72</span> |
+| `ypbin.mail.starttls-enabled` | `boolean` | false | 是否启用 STARTTLS<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:75</span> |
+| `ypbin.mail.timeout` | `integer` | 10000 | 连接/读取超时（毫秒）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:81</span> |
+| `ypbin.mail.username` | `string` | — | 账号<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MailConfig.java:55</span> |
 | `ypbin.mqtt.automatic-reconnect` | `boolean` | true | 是否自动重连<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:62</span> |
 | `ypbin.mqtt.clean-session` | `boolean` | true | 是否清除会话（false 时 broker 保留会话与离线消息，配合 QoS≥1 实现可靠投递）<br>可选值：—<br><strong>注意</strong>：可靠投递需结合 clean-session=false、QoS 1/2、持久化目录和 Broker 会话策略。<br><span class="cfg-src">来源：MqttProperties.java:56</span> |
 | `ypbin.mqtt.client-id` | `string` | — | 客户端 ID（为空则自动生成）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:41</span> |
@@ -473,6 +484,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.mqtt.username` | `string` | — | 用户名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MqttProperties.java:44</span> |
 | `ypbin.sms.enabled` | `boolean` | true | 条件开关：ypbin.sms.enabled=true 时装配 SmsAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SmsAutoConfiguration.java:39</span> |
 | `ypbin.sse.enabled` | `boolean` | false | 是否启用 SSE 实时推送。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:35</span> |
+| `ypbin.sse.fanout-channel` | `string` | ypbin:sse:fanout | 跨实例扇出的 Redis Pub/Sub 频道名。多个应用共用同一 Redis 实例时必须改成本应用专属频道名（建议含应用标识），否则会互相收到并不属于自己的扇出帧。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:77</span> |
+| `ypbin.sse.fanout-enabled` | `boolean` | true | 是否启用 Redis Pub/Sub 跨实例扇出（仅在类路径与容器都存在 StringRedisTemplate 时生效）。关闭即退化为纯单实例投递：连接注册表在内存，其它实例收不到本实例的推送。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:69</span> |
 | `ypbin.sse.heartbeat-interval-seconds` | `long` | 30 | 心跳间隔（秒），默认 30。定期向连接发送 : ping 注释帧，保活中间代理并尽早暴露死连接 （发送失败即回收）。0 表示关闭心跳。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:62</span> |
 | `ypbin.sse.path` | `string` | /ypbin/sse/subscribe | 内置订阅端点路径。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:41</span> |
 | `ypbin.sse.register-endpoint` | `boolean` | true | 是否注册内置订阅端点（生产建议关闭并自建带鉴权的端点）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SseProperties.java:38</span> |
@@ -487,7 +500,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.websocket.heartbeat-client` | `long` | 10000 | 期望客户端心跳间隔（毫秒），0 表示不要求<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：WebSocketProperties.java:50</span> |
 | `ypbin.websocket.heartbeat-server` | `long` | 10000 | 服务端心跳发送间隔（毫秒），0 表示不发送。用于保活与探测半开连接<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：WebSocketProperties.java:47</span> |
 | `sms.is-print` | `boolean` | false | sms4j 是否仅打印短信而不真实发送；starter 默认关闭打印模式。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SmsDefaultsEnvironmentPostProcessor.java:47</span> |
-| `sms.blends.<config-id>.*` | `object` | — | sms4j 厂商配置：supplier、access-key-id、access-key-secret、signature、template-id 等。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1173</span> |
+| `sms.blends.<config-id>.*` | `object` | — | sms4j 厂商配置：supplier、access-key-id、access-key-secret、signature、template-id 等。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:1602</span> |
 
 </div>
 
@@ -526,6 +539,11 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.security.identity.trusted-source-token` | `string` |  | 身份头来源标记期望值。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：IdentityProperties.java:54</span> |
 | `ypbin.security.includes` | `list<String>` | — | 拦截路径，默认拦截全部<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:62</span> |
 | `ypbin.security.interceptor` | `boolean` | true | 是否执行全局「登录态」校验（StpUtil.checkLogin）。与 annotation-check 相互独立：本项只管登录态，方法级注解鉴权由 annotation-check 控制。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：SecurityProperties.java:47</span> |
+| `ypbin.security.internal-token.envelope-path-patterns` | `list<String>` | — | ENVELOPE 语义的生效路径（Ant 风格），默认 /internal/&#42;&#42;；显式置空即不注册该语义。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalTokenProperties.java:85</span> |
+| `ypbin.security.internal-token.guard-enabled` | `boolean` | false | 是否启用内部调用凭证守卫，默认关闭（显式开启，避免破坏未配置宿主）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalTokenProperties.java:69</span> |
+| `ypbin.security.internal-token.header-name` | `string` | X-Internal-Token | 凭证请求头名，默认 {@value #DEFAULT&#95;HEADER&#95;NAME}（改动需与携带侧同步）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalTokenProperties.java:80</span> |
+| `ypbin.security.internal-token.raw401-path-patterns` | `list<String>` | — | RAW&#95;401 语义的生效路径（Servlet 风格，如 /internal/mqtt/&#42;），默认空即不注册该语义。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalTokenProperties.java:92</span> |
+| `ypbin.security.internal-token.token` | `string` |  | 内部调用凭证（密钥，各服务共享同一值，部署时经环境变量注入，不落库）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：InternalTokenProperties.java:77</span> |
 | `ypbin.security.management.base-path` | `string` | /actuator | 管理端点基路径，需与 management.endpoints.web.base-path 一致（Spring Boot 默认 /actuator）。守卫只对该路径下的端点做权限校验。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:52</span> |
 | `ypbin.security.management.guard-enabled` | `boolean` | false | 是否启用管理端点权限守卫，默认关闭（显式开启，避免破坏未配置宿主）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:46</span> |
 | `ypbin.security.management.public-paths` | `list<String>` | — | 放行的公开端点（相对 #basePath 的路径，支持 Ant 风格），默认放行 health/info——这两个端点是有意公开的（可用性探针），不得误伤。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ManagementEndpointProperties.java:58</span> |
@@ -545,9 +563,9 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.security.password.require-symbol` | `boolean` | false | 是否必须包含特殊字符<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:55</span> |
 | `ypbin.security.password.require-uppercase` | `boolean` | false | 是否必须包含大写字母<br>可选值：—<br><strong>注意</strong>：敏感配置不得提交到版本库或打印到日志，生产环境应使用环境变量或密钥管理服务。<br><span class="cfg-src">来源：PasswordPolicy.java:49</span> |
 | `ypbin.security.platform.enabled` | `boolean` | true | 条件开关：ypbin.security.platform.enabled=true 时装配 PlatformAccessAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：PlatformAccessAutoConfiguration.java:35</span> |
-| `sa-token.timeout` | `long` | 2592000 | Sa-Token 固定有效期秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:345</span> |
-| `sa-token.active-timeout` | `long` | 1800 | Sa-Token 活跃超时秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:346</span> |
-| `sa-token.auto-renew` | `boolean` | true | 是否自动续签活跃 Token。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:347</span> |
+| `sa-token.timeout` | `long` | 2592000 | Sa-Token 固定有效期秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:410</span> |
+| `sa-token.active-timeout` | `long` | 1800 | Sa-Token 活跃超时秒数。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:410</span> |
+| `sa-token.auto-renew` | `boolean` | true | 是否自动续签活跃 Token。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:410</span> |
 
 </div>
 
@@ -634,8 +652,8 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.storage.oss[].bucket` | `string` | — | 桶名<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:178</span> |
 | `ypbin.storage.oss[].path-style-access` | `boolean` | true | 是否使用 path-style 访问（MinIO 等需开启）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:181</span> |
 | `ypbin.storage.oss[].domain` | `string` | "" | 访问域名前缀（自定义 CDN 域名，为空则由客户端生成）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：StorageProperties.java:184</span> |
-| `spring.servlet.multipart.max-file-size` | `dataSize` | — | Servlet 单文件上传上限；应与 ypbin.storage.max-file-size 协同。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:579</span> |
-| `spring.servlet.multipart.max-request-size` | `dataSize` | — | Servlet 单请求 multipart 总大小上限。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:579</span> |
+| `spring.servlet.multipart.max-file-size` | `dataSize` | — | Servlet 单文件上传上限；应与 ypbin.storage.max-file-size 协同。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:806</span> |
+| `spring.servlet.multipart.max-request-size` | `dataSize` | — | Servlet 单请求 multipart 总大小上限。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：MODULES.md:806</span> |
 
 </div>
 
@@ -647,6 +665,12 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
+| `ypbin.lock.enabled` | `boolean` | true | 是否启用租约锁（长任务分布式互斥）。关闭后退回「每个副本都执行」，仅单实例部署可关。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LeaseLockProperties.java:43</span> |
+| `ypbin.lock.fail-open` | `boolean` | true | 锁存储不可用时是否继续执行任务。true（默认）=fail-open，多副本可能重复执行；false=fail-closed，存储异常直接上抛。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LeaseLockProperties.java:60</span> |
+| `ypbin.lock.key-prefix` | `string` | ypbin:lease-lock: | 租约锁键前缀（所有任务锁键都带它，便于在 Redis 里识别与控制）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LeaseLockProperties.java:46</span> |
+| `ypbin.lock.metric-prefix` | `string` | ypbin.lock | 租约锁指标名前缀（skipped/unavailable/renew.failed 三个计数器挂在其下）；库不把宿主应用域名写死进指标名。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LeaseLockProperties.java:68</span> |
+| `ypbin.lock.renew-interval` | `duration` | 20s | 续期间隔（必须小于 ttl，否则锁会在第一次续期之前过期，多副本下并发执行）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LeaseLockProperties.java:52</span> |
+| `ypbin.lock.ttl` | `duration` | 60s | 租约时长（持锁实例崩溃后，最坏这么久别的实例才能接管）。必须大于 renew-interval。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：LeaseLockProperties.java:49</span> |
 | `ypbin.tools.idempotent.distributed` | `boolean` | true | 幂等存储是否优先使用 Redis 分布式实现（存在 StringRedisTemplate 时生效），否则使用内存兜底。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.tools.idempotent.enabled` | `boolean` | true | 是否启用幂等切面 @Idempotent。<br>可选值：—<br><strong>注意</strong>：— |
 | `ypbin.tools.lock.enabled` | `boolean` | true | 是否启用分布式锁切面 @DistributedLock。存在 Redis 时用分布式锁，否则退化为单机内存锁。<br>可选值：—<br><strong>注意</strong>：— |
@@ -696,6 +720,7 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 | `ypbin.web.api-version.resolver` | `apiVersionProperties$Resolver` | header | 版本解析方式：HEADER（默认）/ QUERY&#95;PARAM / PATH&#95;SEGMENT<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ApiVersionProperties.java:41</span> |
 | `ypbin.web.api-version.supported-versions` | `list<String>` | — | 显式支持的版本清单，为空表示自动探测（由已注册映射的 version 声明推导）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ApiVersionProperties.java:59</span> |
 | `ypbin.web.api-version.version-required` | `boolean` | false | 是否要求请求必须携带版本；false 时缺省使用 #defaultVersion<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：ApiVersionProperties.java:53</span> |
+| `ypbin.web.base-enum.enabled` | `boolean` | true | 条件开关：ypbin.web.base-enum.enabled=true 时装配 WebAutoConfiguration。<br>可选值：true<br><strong>注意</strong>：—<br><span class="cfg-src">来源：WebAutoConfiguration.java:89</span> |
 | `ypbin.web.cors.allow-credentials` | `boolean` | true | 是否允许携带凭证<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：CorsProperties.java:51</span> |
 | `ypbin.web.cors.allowed-headers` | `list<String>` | &#42; | 允许的请求头<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：CorsProperties.java:45</span> |
 | `ypbin.web.cors.allowed-methods` | `list<String>` | &#42; | 允许的请求方法<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：CorsProperties.java:42</span> |
@@ -720,15 +745,16 @@ description: ypbin-starter 全量配置项、默认值、启用条件与生产�
 
 | 配置项 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| `ypbin.xxl-job.access-token` | `string` |  | 执行器通讯 Token（与 admin 端保持一致，为空则不做校验）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:46</span> |
-| `ypbin.xxl-job.address` | `string` | — | 执行器注册地址（为空时自动注册本机 IP）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:52</span> |
-| `ypbin.xxl-job.admin-addresses` | `string` | — | 调度中心地址（多个逗号分隔），如 http&#58;//localhost:8080/xxl-job-admin<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:43</span> |
-| `ypbin.xxl-job.appname` | `string` | — | 执行器名称（AppName），admin 端按此注册与路由<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:49</span> |
-| `ypbin.xxl-job.enabled` | `boolean` | false | 是否启用 XXL-JOB 执行器<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:40</span> |
-| `ypbin.xxl-job.ip` | `string` | — | 执行器 IP（为空自动获取）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:55</span> |
-| `ypbin.xxl-job.log-path` | `string` | — | 执行器日志保存路径（为空使用默认临时目录）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:61</span> |
-| `ypbin.xxl-job.log-retention-days` | `integer` | 30 | 执行器日志保存天数（默认 30）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:64</span> |
-| `ypbin.xxl-job.port` | `integer` | 9999 | 执行器端口（执行器与 admin 通讯用，默认 9999）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:58</span> |
+| `ypbin.xxl-job.access-token` | `string` |  | 执行器通讯 Token。<br>可选值：—<br><strong>注意</strong>：3.5.0 起为执行器（AppName）维度且不可为空，须与调度中心 admin 中该 appname 的 access&#95;token 一致。 / admin 与执行器必须同版本成对升级到 3.5.0，否则注册/调度在运行期失败。<br><span class="cfg-src">来源：XxlJobProperties.java:59</span> |
+| `ypbin.xxl-job.address` | `string` | — | 执行器注册地址（为空时自动注册本机 IP）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:65</span> |
+| `ypbin.xxl-job.admin-addresses` | `string` | — | 调度中心地址（多个逗号分隔），如 http&#58;//localhost:8080/xxl-job-admin<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:50</span> |
+| `ypbin.xxl-job.appname` | `string` | — | 执行器名称（AppName），admin 端按此注册与路由<br>可选值：—<br><strong>注意</strong>：缺失时启动即抛错暴露，禁止静默降级<br><span class="cfg-src">来源：XxlJobProperties.java:62</span> |
+| `ypbin.xxl-job.enabled` | `boolean` | false | 是否启用 XXL-JOB 执行器<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:47</span> |
+| `ypbin.xxl-job.glue-enabled` | `boolean` | true | 是否启用 GLUE（非 BEAN）模式任务（3.5.0 新增，执行器维度；默认 true）。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:89</span> |
+| `ypbin.xxl-job.ip` | `string` | — | 执行器 IP（为空自动获取）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:68</span> |
+| `ypbin.xxl-job.log-path` | `string` | — | 执行器日志保存路径。<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:79</span> |
+| `ypbin.xxl-job.log-retention-days` | `integer` | 30 | 执行器日志保存天数（默认 30）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:82</span> |
+| `ypbin.xxl-job.port` | `integer` | 9999 | 执行器端口（执行器与 admin 通讯用，默认 9999）<br>可选值：—<br><strong>注意</strong>：—<br><span class="cfg-src">来源：XxlJobProperties.java:71</span> |
 
 </div>
 
