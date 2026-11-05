@@ -1,9 +1,9 @@
 {
-  "starter": "4.2.1",
+  "starter": "4.3.0",
   "starterStatus": "stable",
   "admin": "1.0.0-SNAPSHOT",
   "adminStatus": "development",
   "adminUi": "5.7.0",
   "adminUiStatus": "private",
-  "updatedAt": "2026-10-20"
+  "updatedAt": "2026-11-05"
 }
