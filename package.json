@@ -24,8 +24,13 @@
     "search:pagefind": "pnpm dlx pagefind@1.5.2 --site docs/.vitepress/dist"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@pagefind/default-ui": "1.6.0",
     "shiki": "4.5.0",
+=======
+    "@pagefind/default-ui": "1.5.2",
+    "shiki": "4.6.0",
+>>>>>>> db13a5c (chore(deps): bump shiki from 4.5.0 to 4.6.0)
     "vitepress": "1.6.4",
     "vue": "3.5.44"
   },
