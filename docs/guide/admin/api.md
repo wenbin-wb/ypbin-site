@@ -199,8 +199,9 @@ DELETE /system/user/{id}     → 删除用户
 | username | string | 登录账号 |
 | realName | string | 真实姓名 |
 | nickname | string | 昵称 |
+| userType | string | 用户类型：TENANT 后台用户 / MINIAPP 小程序用户 |
 | deptId | string(Long) | 部门 ID |
-| deptIdText | string | 部门名称（派生字段，@RefText 输出） |
+| deptIdName | string | 部门名称（派生字段，@RefText 输出） |
 | avatar | string | 头像 |
 | phone | string | 手机号（脱敏：138****8000） |
 | email | string | 邮箱（脱敏：z***@example.com） |
