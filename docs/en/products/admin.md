@@ -28,7 +28,7 @@ A single-app **`boot`** variant is maintained on a separate branch: `ypbin-admin
 
 Scheduled business tasks are dispatched centrally by XXL-JOB; every service registers its handlers with an `@XxlJob` executor (see the [XXL-JOB module](/guide/starter/modules/xxljob), Chinese docs available).
 
-Development baseline: Java 21 and Spring Boot 4.1.0, with starter versions supplied through the BOM.
+Development baseline: Java 21 and Spring Boot 4.1.x, with starter versions supplied through the BOM.
 
 ## Deployment shapes
 
